@@ -1,0 +1,62 @@
+# Accessibility CI - Hard block on WCAG violations
+#
+# This workflow enforces accessibility as a structural constraint,
+# not a late-stage checklist. Integration is blocked if:
+# - Any axe-core violation with impact "critical" or "serious"
+# - Missing language toggle functionality
+# - Contrast failures
+# - Missing alt text
+#
+# Evidence artifact for Skill Forge deliberation.
+
+name: Accessibility Check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  accessibility:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Build
+        run: npm run build
+
+      - name: Start preview server
+        run: npm run preview &
+        env:
+          CI: true
+
+      - name: Wait for server
+        run: npx wait-on http://localhost:4173/portfolio/ --timeout 30000
+
+      - name: Run accessibility tests
+        run: npx playwright test accessibility.spec.js --reporter=list
+        env:
+          CI: true
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: accessibility-results
+          path: |
+            playwright-report/
+            test-results/

@@ -1,0 +1,20 @@
+/* Base styles - minimal reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+  line-height: 1.5;
+  color: #1e293b;
+  background-color: #f8fafc;
+}
+
+/* Accessibility: Focus states */
+:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
