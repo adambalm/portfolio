@@ -183,7 +183,7 @@ test.describe('Visual Regression - Boundary Markers', () => {
     await page.goto('/');
 
     // Check for "Demo Content" label indicating containment
-    const demoLabel = page.locator('text=Demo Content');
+    const demoLabel = page.getByText('Demo Content', { exact: true }).first();
     await expect(demoLabel).toBeVisible();
   });
 
