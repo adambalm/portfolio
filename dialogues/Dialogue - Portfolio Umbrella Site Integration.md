@@ -524,3 +524,115 @@ Visible seams are features, not bugs. A reader should be able to see:
 3. Is the reframe from "coherent product" to "evidence exhibit with visible seams" aligned with your concern, or am I overcorrecting?
 
 4. Are we ready to close the Understanding Gate?
+
+5. ## IA Response — Turn 3  
+**Role:** Inspecting AI (ChatGPT)  
+**Protocol:** Lanesborough / Skill Forge  
+
+---
+
+## 1. Understanding Gate (UG)
+
+**Confirmed.**  
+Your confirmation establishes that my paraphrase accurately captured your intent, and your subsequent refinements are consistent with that intent rather than a revision of it.
+
+**UG Status:** **CLOSED**
+
+We are now demonstrably “talking about the same thing.”
+
+---
+
+## 2. Evaluation of Refinements (Not Yet Agreement)
+
+### Q1. Boundary markers and authority-laundering risk
+
+**Assessment:**  
+Your proposed boundary markers **substantially mitigate** the authority-laundering failure mode, but do not eliminate it entirely.
+
+**What is addressed:**
+- Provenance headers + epistemic status badges directly interrupt passive inference.
+- Explicit authorship labeling breaks the “polish = endorsement” shortcut.
+- Linking to source artifacts restores inspectability and reversibility.
+- Reframing the shell as a *boundary-exposing frame* rather than a neutral container is directionally correct.
+
+**Residual failure mode (still present):**
+- Readers may still infer *curatorial endorsement* even when epistemic status is marked, simply because **selection itself is judgment**.
+- This is not eliminable; it is intrinsic to curation. The only question is whether it is **acknowledged**.
+
+**Conclusion:**  
+The risk is now **surfaced and managed**, not silently laundered. That satisfies the concern as originally raised.
+
+---
+
+### Q2. Accessibility enforcement as structural constraint
+
+**Assessment:**  
+Yes—this satisfies the requirement.
+
+Specifically:
+- Accessibility criteria are embedded in **acceptance conditions**, not retroactive audits.
+- Failure modes are explicit, binary, and enforced at CI.
+- HO-only override requirement preserves human judgment while preventing casual erosion.
+
+**Status:** Concern resolved.
+
+---
+
+### Q3. Reframe to “evidence exhibit with visible seams”
+
+**Assessment:**  
+This aligns with the concern and does **not** overcorrect.
+
+Key reason:  
+You are not proposing chaos or fragmentation; you are proposing **legible discontinuity**—seams that explain *why* things differ.
+
+This reframing:
+- Preserves rigor
+- Demonstrates judgment
+- Matches the epistemic ambition of the portfolio better than product-style polish
+
+**Caveat (not objection):**
+- Visual containment must be consistent enough that seams read as *intentional*, not accidental.
+- This is an execution risk, not a conceptual flaw.
+
+---
+
+## 3. IA Position (Post-Refinement)
+
+### Understanding Gate  
+**CLOSED**
+
+### Agreement Gate  
+**NOT YET PROPOSED**
+
+**Reason:**  
+The conceptual concerns I raised have been answered at the level of *principle and enforcement*. What remains before a handshake is **confirmation in instantiation**, not further argument.
+
+Specifically, I would want to see (or have confirmed):
+
+- One concrete example of a demo rendered with:
+  - provenance header  
+  - epistemic badge  
+  - visible containment distinct from shell  
+- One CI rule wired such that an accessibility failure demonstrably blocks integration  
+
+Until at least one such instance exists (or is specified with comparable concreteness), agreement would be premature.
+
+**Position:**  
+☒ **Requesting refinement** (narrow, instantiation-level)  
+☐ Proposing handshake  
+☐ Escalating to HO  
+
+---
+
+## 4. Closing (Protocol-Conformant)
+
+- I am not introducing new concerns.
+- I am not reopening resolved ones.
+- I am not seeking closure ahead of evidence.
+
+The conceptual space is now well-defined.  
+The remaining work is to prove that the proposed constraints can survive contact with code.
+
+Awaiting GA response on instantiation evidence or confirmation of readiness to demonstrate it.
+
