@@ -5,7 +5,7 @@
 **Protocol:** Lanesborough Protocol
 **Pattern:** Skill Forge
 **Initiated:** 2026-01-05
-**Status:** TURN 6 - GA providing screenshot evidence + answering IA question
+**Status:** HO INTERVENTION - Agreement in principle, project hygiene required
 **Transport:** GitHub (https://github.com/adambalm/portfolio)
 
 ---
@@ -1233,4 +1233,101 @@ The deliberation has successfully moved from:
 Proceed to **HO approval**.
 
 — IA
+
+---
+
+## HO Intervention (Ed O'Connell)
+
+**Timestamp:** 2026-01-05
+**Type:** conditional approval + project hygiene flag
+**Provenance:** Human Orchestrator (Ed O'Connell) - this intervention is human-authored, not AI-generated
+
+---
+
+### 1. Agreement in Principle
+
+I agree in principle with proceeding to implementation. Both gates are now closed:
+- Understanding Gate: ✅ CLOSED
+- Agreement Gate: ✅ CLOSED
+
+The handshake between GA (Claude Code) and IA (ChatGPT) is acknowledged and accepted.
+
+---
+
+### 2. Project Hygiene Issue Identified
+
+Before implementation proceeds, a project hygiene issue must be addressed:
+
+**Issue:** Development environment misalignment
+- Cursor IDE is currently open to `memento-mvp/` directory
+- Portfolio work has been correctly executed in `portfolio/` directory
+- The two repos serve different purposes and should not be conflated
+
+**Context:**
+- `memento-mvp/` contains the browser session capture system and a *different* Skill Forge dialogue (Memento Next Phase Prioritization)
+- `portfolio/` contains the umbrella site and *this* deliberation
+
+**Required action:** Ensure subsequent implementation work targets the correct repository with proper workspace configuration.
+
+---
+
+### 3. Significance of This Milestone
+
+This deliberation represents a significant marker in the Skill Forge pattern's development:
+
+1. **First complete heterogeneous AI deliberation cycle** - Claude (GA) and ChatGPT (IA) reached handshake through structured adversarial review
+2. **Inspection protocol for async verification** - Solved the "IA can't render SPAs" problem via committed screenshots and Actions run URLs
+3. **Epistemic boundary markers** - Concrete implementation of authority-laundering mitigation
+4. **Enforcement mechanism proven** - CI hard-blocks demonstrated (though full deployment gating deferred)
+
+This history is too important to lose. It has been documented in Basic Memory at:
+`milestones/Milestone - Portfolio Skill Forge Deliberation Complete.md`
+
+---
+
+### 4. Skill Extraction Potential
+
+What we have created is a **generic pattern** that can be repeated:
+
+```
+Claude Desktop artifact (constrained creation)
+    ↓
+Export to test sandbox (vite-playground or similar)
+    ↓
+Skill Forge deliberation (quality gates via heterogeneous models)
+    ↓
+Selective import to umbrella site (with boundary markers)
+    ↓
+CI enforcement (accessibility, etc.)
+    ↓
+GitHub Pages deployment
+```
+
+This is a **proposal only** at this stage - we have not yet implemented and tested the full pipeline with multiple artifacts. However, the pattern is now documented and the key mechanisms are proven.
+
+**Potential skill:** "Artifact Integration via Deliberation" - to be extracted after successful implementation of additional artifacts.
+
+---
+
+### 5. Protocol Status
+
+**The Lanesborough Protocol remains in effect.**
+
+- This intervention does not close the deliberation
+- Implementation authorization is granted subject to project hygiene resolution
+- Further deliberation may occur as implementation proceeds
+- Any substantive changes to the agreed approach require reopening the Agreement Gate
+
+---
+
+### 6. Next Steps (HO Direction)
+
+1. **Immediate:** Resolve project hygiene (correct workspace configuration)
+2. **Near-term:** Fix accessibility violations identified by CI
+3. **Deferred:** Wire accessibility to block deployment (branch protection or workflow dependency)
+4. **Future:** Import additional artifacts (Memento, Context Sage, etc.) using the established pattern
+
+Implementation may proceed once project hygiene is confirmed.
+
+— HO (Ed O'Connell)
 
