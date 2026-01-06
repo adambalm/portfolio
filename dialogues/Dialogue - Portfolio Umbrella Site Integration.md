@@ -915,3 +915,116 @@ The failed run demonstrates exactly this:
 
 4. Is the evidence sufficient to close the Agreement Gate, or do you require additional artifacts?
 
+## IA Response — Turn 4 (Inspecting AI / ChatGPT)
+
+**Role:** IA  
+**Protocol:** Lanesborough / Skill Forge  
+**Context constraint:** I do *not* have filesystem/CI access. I can only inspect what is reachable via URLs and what HO pastes.  
+
+---
+
+## 0) Inspection reality check (based on my tools)
+
+I attempted to open the GitHub Pages URL you provided:
+
+- `https://adambalm.github.io/portfolio/`
+
+Result: my web inspection tool returns an empty/zero-line HTML view for that URL (likely SPA + script-rendered content, or a tool limitation). So **I cannot currently verify rendered behavior directly from that link**.
+
+That does *not* mean the site is broken. It means: **for IA verification, we need alternate inspectable evidence paths** (screenshots committed, repo code, Actions run URLs, or HO-provided screenshots/video).
+
+---
+
+## 1) Q1 — Is GitHub Pages an acceptable inspection mechanism?
+
+**In principle: yes** — GitHub Pages is the right idea for “inspect the rendered artifact.”  
+**In practice (for IA): not sufficient by itself** unless one of the following is also provided:
+
+- **Screenshots** (committed under `/evidence/` and/or pasted here)
+- A **non-JS-dependent render** path (SSR or static HTML snapshot) so my tool can read it
+- HO shares **manual screenshots** from multiple browsers/devices
+- A repo URL I can open to inspect the source + workflow wiring
+
+**Status:** `[partially verified]` (mechanism is conceptually correct; my ability to use it is presently blocked)
+
+---
+
+## 2) Q2 — For CI evidence: is YAML sufficient, or do I require an Actions run URL?
+
+**YAML alone is *not* sufficient for Agreement Gate.**
+
+Why:
+- YAML can claim enforcement; it doesn’t prove it triggers, runs, and blocks merges/deploys.
+- Especially for accessibility, “configured” is cheap; “actually gating” is the point.
+
+**Minimum acceptable evidence:**
+- Link to at least one **GitHub Actions run** (passing) showing the job executes on PR/push.
+- Preferably also one **intentional failing run** demonstrating the “hard block” actually fails the workflow.
+
+**Status:** `[require]` Actions run URL(s) for AG.
+
+---
+
+## 3) Q3 — Concerns about the inspection path?
+
+Yes — one concrete concern, and one fix.
+
+### Concern: “IA can’t inspect” becomes a silent failure mode
+If we proceed assuming IA can verify via Pages, but IA cannot read the live page, we’ll accidentally convert “verification” into ceremony.
+
+### Fix: define *inspectable artifacts* as first-class deliverables
+For each evidence item, require at least one of:
+- committed screenshots
+- committed generated HTML snapshot (if feasible)
+- Actions run URL
+- short HO-provided screenshot set (desktop + mobile)
+
+This keeps Black Flag honest: verification must be possible *to the verifier*.
+
+---
+
+## 4) Gate status and position
+
+### Understanding Gate (UG)
+**CLOSED** (already confirmed in Turn 3; nothing in Turn 4 reopens it)
+
+### Agreement Gate (AG)
+**Still not ready** — but we are close.
+
+**IA position:** ☒ Requesting refinement (narrow: inspection instrumentation)  
+I am not changing the architecture debate. I am requiring the verification channel to be real.
+
+---
+
+## 5) Concrete acceptance criteria for proceeding to instantiation (IA-side)
+
+Proceed with instantiation if GA/HO can provide:
+
+1) **Repo visibility for inspection**
+- Either the repo is public and linkable, *or* HO pastes the relevant files (component + workflow) into the dialogue.
+
+2) **Evidence Item 1 (boundary markers)**
+- A committed screenshot in `/evidence/` showing:
+  - provenance header
+  - epistemic badge
+  - containment styling distinct from shell
+
+3) **Evidence Item 2 (accessibility gating)**
+- `.github/workflows/accessibility.yml` committed
+- At least one **Actions run URL** showing it executed
+- (Prefer) one failing run URL demonstrating the hard block
+
+If you can meet those, I will be in position to propose handshake.
+
+---
+
+## 6) One question back to GA (to remove ambiguity)
+
+Is the **GitHub Actions workflow** also gating the **Pages deployment** (i.e., deploy only on green), or is Pages currently deploying on every push regardless?  
+That answer matters because otherwise “CI blocks” may not block the thing users see.
+
+(If you can’t answer in text, the workflow + Pages deploy config should make it obvious once inspectable.)
+
+---
+
+
