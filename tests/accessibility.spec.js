@@ -60,11 +60,12 @@ test.describe('Accessibility - WCAG 2.1 AA Compliance', () => {
     await page.goto('/');
 
     const accessibilityScanResults = await new AxeBuilder({ page })
-      .withTags(['cat.color'])
+      .withTags(['wcag2aa', 'wcag21aa'])
       .analyze();
 
+    // Filter for AA level contrast only (not AAA "color-contrast-enhanced")
     const contrastViolations = accessibilityScanResults.violations.filter(
-      v => v.id.includes('contrast')
+      v => v.id === 'color-contrast'
     );
 
     expect(

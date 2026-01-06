@@ -19,19 +19,19 @@ const EPISTEMIC_STATUS = {
   VERIFIED: {
     label: 'VERIFIED',
     description: 'Claims checked against sources',
-    color: '#22c55e',
+    color: '#166534',
     bgColor: '#dcfce7',
   },
   ILLUSTRATIVE: {
     label: 'ILLUSTRATIVE',
     description: 'Shows capability, not making truth claims',
-    color: '#3b82f6',
+    color: '#1e40af',
     bgColor: '#dbeafe',
   },
   EXPLORATORY: {
     label: 'EXPLORATORY',
     description: 'Work in progress, may contain errors',
-    color: '#f59e0b',
+    color: '#92400e',
     bgColor: '#fef3c7',
   },
 };
@@ -56,7 +56,7 @@ function ProvenanceHeader({ agent, date, context, sourceUrl }) {
       marginBottom: '16px',
       fontFamily: 'system-ui, -apple-system, sans-serif',
       fontSize: '13px',
-      color: '#64748b',
+      color: '#475569',
     }}>
       <div style={{ fontWeight: '600', color: '#475569', marginBottom: '4px' }}>
         Provenance
@@ -70,7 +70,7 @@ function ProvenanceHeader({ agent, date, context, sourceUrl }) {
             href={sourceUrl}
             target="_blank"
             rel="noopener noreferrer"
-            style={{ color: '#3b82f6', textDecoration: 'underline' }}
+            style={{ color: '#1d4ed8', textDecoration: 'underline' }}
           >
             View source artifact →
           </a>
@@ -108,7 +108,7 @@ function EpistemicBadge({ status }) {
       </span>
       <span style={{
         fontSize: '12px',
-        color: '#64748b',
+        color: '#475569',
       }}>
         {config.description}
       </span>
@@ -126,11 +126,11 @@ function AuthorshipMarker({ type, details }) {
       alignItems: 'center',
       gap: '8px',
       fontSize: '12px',
-      color: '#64748b',
+      color: '#475569',
       marginBottom: '16px',
     }}>
       <span style={{
-        backgroundColor: '#f1f5f9',
+        backgroundColor: '#e2e8f0',
         padding: '2px 8px',
         borderRadius: '4px',
         fontWeight: '500',
@@ -148,7 +148,7 @@ function AuthorshipMarker({ type, details }) {
 function DemoContainer({ children, title }) {
   return (
     <div style={{
-      border: '2px dashed #94a3b8',
+      border: '2px dashed #475569',
       borderRadius: '8px',
       padding: '24px',
       backgroundColor: '#ffffff',
@@ -160,7 +160,7 @@ function DemoContainer({ children, title }) {
         position: 'absolute',
         top: '-12px',
         left: '16px',
-        backgroundColor: '#64748b',
+        backgroundColor: '#475569',
         color: '#ffffff',
         padding: '4px 12px',
         borderRadius: '4px',
@@ -211,7 +211,7 @@ function SampleDemoContent() {
         <button
           onClick={() => setCount(c => c + 1)}
           style={{
-            backgroundColor: '#3b82f6',
+            backgroundColor: '#1d4ed8',
             color: 'white',
             border: 'none',
             padding: '8px 16px',
@@ -254,7 +254,7 @@ export default function DemoWithBoundaries() {
           Portfolio Shell
         </h1>
         <p style={{
-          color: '#64748b',
+          color: '#475569',
           margin: 0,
           fontSize: '14px',
         }}>
@@ -303,7 +303,7 @@ export default function DemoWithBoundaries() {
         paddingTop: '24px',
         borderTop: '1px solid #e2e8f0',
         fontSize: '12px',
-        color: '#94a3b8',
+        color: '#475569',
       }}>
         <p>
           This page demonstrates boundary markers as specified in the
