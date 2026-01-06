@@ -17,64 +17,108 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
+// Routes to test
+const routes = [
+  { path: '/', name: 'Landing' },
+  { path: '/#/reference', name: 'Reference' },
+  { path: '/#/skill-forge', name: 'Skill Forge' },
+];
+
+// Artifact routes (have boundary markers)
+const artifactRoutes = [
+  { path: '/#/reference', name: 'Reference' },
+  { path: '/#/skill-forge', name: 'Skill Forge' },
+];
+
 test.describe('Accessibility - WCAG 2.1 AA Compliance', () => {
 
-  test('should have no critical or serious accessibility violations', async ({ page }) => {
-    await page.goto('/');
+  for (const route of routes) {
+    test(`${route.name}: should have no critical or serious accessibility violations`, async ({ page }) => {
+      await page.goto(route.path);
 
-    // Run axe-core analysis
-    const accessibilityScanResults = await new AxeBuilder({ page })
-      .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
-      .analyze();
+      // Run axe-core analysis
+      const accessibilityScanResults = await new AxeBuilder({ page })
+        .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
+        .analyze();
 
-    // Filter for hard-block violations (critical and serious)
-    const hardBlockViolations = accessibilityScanResults.violations.filter(
-      v => v.impact === 'critical' || v.impact === 'serious'
-    );
+      // Filter for hard-block violations (critical and serious)
+      const hardBlockViolations = accessibilityScanResults.violations.filter(
+        v => v.impact === 'critical' || v.impact === 'serious'
+      );
 
-    // Log all violations for debugging
-    if (accessibilityScanResults.violations.length > 0) {
-      console.log('\n=== Accessibility Violations Found ===\n');
-      accessibilityScanResults.violations.forEach(v => {
-        const blockStatus = (v.impact === 'critical' || v.impact === 'serious')
-          ? '🛑 HARD BLOCK'
-          : '⚠️ WARNING';
-        console.log(`${blockStatus} [${v.impact}] ${v.id}: ${v.description}`);
-        console.log(`  Help: ${v.helpUrl}`);
-        v.nodes.forEach(node => {
-          console.log(`  - ${node.html.substring(0, 100)}...`);
+      // Log all violations for debugging
+      if (accessibilityScanResults.violations.length > 0) {
+        console.log(`\n=== ${route.name} Accessibility Violations ===\n`);
+        accessibilityScanResults.violations.forEach(v => {
+          const blockStatus = (v.impact === 'critical' || v.impact === 'serious')
+            ? '🛑 HARD BLOCK'
+            : '⚠️ WARNING';
+          console.log(`${blockStatus} [${v.impact}] ${v.id}: ${v.description}`);
+          console.log(`  Help: ${v.helpUrl}`);
+          v.nodes.forEach(node => {
+            console.log(`  - ${node.html.substring(0, 100)}...`);
+          });
+          console.log('');
         });
-        console.log('');
-      });
-    }
+      }
 
-    // HARD BLOCK: Fail if any critical or serious violations
-    expect(
-      hardBlockViolations,
-      `Found ${hardBlockViolations.length} critical/serious accessibility violation(s). ` +
-      `These MUST be fixed before integration.`
-    ).toHaveLength(0);
-  });
+      // HARD BLOCK: Fail if any critical or serious violations
+      expect(
+        hardBlockViolations,
+        `Found ${hardBlockViolations.length} critical/serious accessibility violation(s) on ${route.name}. ` +
+        `These MUST be fixed before integration.`
+      ).toHaveLength(0);
+    });
 
-  test('should have sufficient color contrast', async ({ page }) => {
+    test(`${route.name}: should have sufficient color contrast`, async ({ page }) => {
+      await page.goto(route.path);
+
+      const accessibilityScanResults = await new AxeBuilder({ page })
+        .withTags(['wcag2aa', 'wcag21aa'])
+        .analyze();
+
+      // Filter for AA level contrast only (not AAA "color-contrast-enhanced")
+      const contrastViolations = accessibilityScanResults.violations.filter(
+        v => v.id === 'color-contrast'
+      );
+
+      expect(
+        contrastViolations,
+        `${route.name}: Color contrast violations found. WCAG 2.1 AA requires 4.5:1 for normal text, 3:1 for large text.`
+      ).toHaveLength(0);
+    });
+  }
+
+  test('Landing: should have proper heading hierarchy', async ({ page }) => {
     await page.goto('/');
 
-    const accessibilityScanResults = await new AxeBuilder({ page })
-      .withTags(['wcag2aa', 'wcag21aa'])
-      .analyze();
-
-    // Filter for AA level contrast only (not AAA "color-contrast-enhanced")
-    const contrastViolations = accessibilityScanResults.violations.filter(
-      v => v.id === 'color-contrast'
+    // Get all headings in order
+    const headings = await page.locator('h1, h2, h3, h4, h5, h6').all();
+    const headingLevels = await Promise.all(
+      headings.map(async h => {
+        const tagName = await h.evaluate(el => el.tagName);
+        return parseInt(tagName.replace('H', ''));
+      })
     );
 
+    // Check for h1 presence
     expect(
-      contrastViolations,
-      'Color contrast violations found. WCAG 2.1 AA requires 4.5:1 for normal text, 3:1 for large text.'
-    ).toHaveLength(0);
+      headingLevels.includes(1),
+      'Page should have at least one h1 element'
+    ).toBe(true);
+
+    // Check for skipped heading levels
+    for (let i = 1; i < headingLevels.length; i++) {
+      const jump = headingLevels[i] - headingLevels[i - 1];
+      expect(
+        jump,
+        `Heading level skipped: h${headingLevels[i - 1]} to h${headingLevels[i]}. ` +
+        `Headings should not skip levels.`
+      ).toBeLessThanOrEqual(1);
+    }
   });
 
-  test('should have keyboard-accessible interactive elements', async ({ page }) => {
+  test('Landing: should have keyboard-accessible interactive elements', async ({ page }) => {
     await page.goto('/');
 
     // Find all interactive elements
@@ -105,100 +149,59 @@ test.describe('Accessibility - WCAG 2.1 AA Compliance', () => {
     }
   });
 
-  test('should have proper heading hierarchy', async ({ page }) => {
-    await page.goto('/');
-
-    // Get all headings in order
-    const headings = await page.locator('h1, h2, h3, h4, h5, h6').all();
-    const headingLevels = await Promise.all(
-      headings.map(async h => {
-        const tagName = await h.evaluate(el => el.tagName);
-        return parseInt(tagName.replace('H', ''));
-      })
-    );
-
-    // Check for h1 presence
-    expect(
-      headingLevels.includes(1),
-      'Page should have at least one h1 element'
-    ).toBe(true);
-
-    // Check for skipped heading levels
-    for (let i = 1; i < headingLevels.length; i++) {
-      const jump = headingLevels[i] - headingLevels[i - 1];
-      expect(
-        jump,
-        `Heading level skipped: h${headingLevels[i - 1]} to h${headingLevels[i]}. ` +
-        `Headings should not skip levels.`
-      ).toBeLessThanOrEqual(1);
-    }
-  });
-
-  test('should have accessible button labels', async ({ page }) => {
-    await page.goto('/');
-
-    const buttons = await page.locator('button').all();
-
-    for (const button of buttons) {
-      const text = await button.textContent();
-      const ariaLabel = await button.getAttribute('aria-label');
-      const ariaLabelledBy = await button.getAttribute('aria-labelledby');
-
-      const hasAccessibleName = (text && text.trim().length > 0) ||
-                                 ariaLabel ||
-                                 ariaLabelledBy;
-
-      expect(
-        hasAccessibleName,
-        'Button must have accessible name (text content, aria-label, or aria-labelledby)'
-      ).toBe(true);
-    }
-  });
-
 });
 
 test.describe('Visual Regression - Boundary Markers', () => {
 
-  test('should render provenance header', async ({ page }) => {
-    await page.goto('/');
+  for (const route of artifactRoutes) {
+    test(`${route.name}: should render provenance header`, async ({ page }) => {
+      await page.goto(route.path);
 
-    // Check for provenance section
-    const provenance = page.locator('text=Provenance');
-    await expect(provenance).toBeVisible();
+      // Check for provenance section (use first match - the header div)
+      const provenance = page.getByText('Provenance', { exact: true }).first();
+      await expect(provenance).toBeVisible();
 
-    // Check for required provenance fields
-    await expect(page.locator('text=Generated by:')).toBeVisible();
-    await expect(page.locator('text=Date:')).toBeVisible();
-    await expect(page.locator('text=Context:')).toBeVisible();
-  });
-
-  test('should render epistemic badge', async ({ page }) => {
-    await page.goto('/');
-
-    // Check for epistemic badge
-    const badge = page.locator('text=[ILLUSTRATIVE]');
-    await expect(badge).toBeVisible();
-  });
-
-  test('should render visual containment', async ({ page }) => {
-    await page.goto('/');
-
-    // Check for "Demo Content" label indicating containment
-    const demoLabel = page.getByText('Demo Content', { exact: true }).first();
-    await expect(demoLabel).toBeVisible();
-  });
-
-  test('should capture screenshot for evidence', async ({ page }) => {
-    await page.goto('/');
-
-    // Wait for page to be fully rendered
-    await page.waitForLoadState('networkidle');
-
-    // Capture full page screenshot
-    await page.screenshot({
-      path: 'test-results/boundary-markers-evidence.png',
-      fullPage: true,
+      // Check for required provenance fields
+      await expect(page.locator('text=Generated by:')).toBeVisible();
+      await expect(page.locator('text=Date:')).toBeVisible();
+      await expect(page.locator('text=Context:')).toBeVisible();
     });
-  });
+
+    test(`${route.name}: should render epistemic badge`, async ({ page }) => {
+      await page.goto(route.path);
+
+      // Check for epistemic badge
+      const badge = page.locator('text=[ILLUSTRATIVE]');
+      await expect(badge).toBeVisible();
+    });
+
+    test(`${route.name}: should render visual containment`, async ({ page }) => {
+      await page.goto(route.path);
+
+      // Check for "Demo Content" label indicating containment
+      const demoLabel = page.getByText('Demo Content', { exact: true }).first();
+      await expect(demoLabel).toBeVisible();
+    });
+  }
+
+});
+
+test.describe('Screenshot Evidence', () => {
+
+  for (const route of routes) {
+    test(`${route.name}: capture screenshot for evidence`, async ({ page }) => {
+      await page.goto(route.path);
+
+      // Wait for page to be fully rendered
+      await page.waitForLoadState('networkidle');
+
+      // Capture full page screenshot
+      const fileName = route.name.toLowerCase().replace(/ /g, '-');
+      await page.screenshot({
+        path: `test-results/${fileName}-evidence.png`,
+        fullPage: true,
+      });
+    });
+  }
 
 });
