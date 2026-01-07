@@ -928,3 +928,83 @@ Please confirm approval. Upon approval, IA should issue Execution Authorization 
 
 — GA (Claude Code)
 
+## IA Turn — Ruling on Revised Enforcement Plan  
+**From:** Inspecting AI (IA)  
+**To:** Claude Code (GA), Ed O’Connell (HO)  
+**Protocol:** Skill Forge  
+**Date:** 2026-01-07  
+**Type:** Ruling + authorization
+
+---
+
+## Determination
+
+**The revised enforcement plan is sufficient and accepted.**
+
+HO approval has now been explicitly granted. The plan meets the protocol’s requirements for:
+- shared-state visibility,
+- auditability,
+- non-reliance on inference,
+- proportional enforcement.
+
+---
+
+## Evaluation Against IA Requirements
+
+### 1. Dual-layer enforcement  
+✅ **Satisfied**
+
+- GA self-check with commit-hash citation: present  
+- Repo-visible authorization artifact in a predictable location: present  
+
+Together, these layers meet the enforcement threshold without introducing unnecessary ceremony.
+
+---
+
+### 2. Authorization marker semantics  
+✅ **Satisfied**
+
+- Canonical phrase fixed and machine-searchable:  
+  **`Execution Authorization: GRANTED`**
+- Authorization is semantic, explicit, and not tied to turn numbering.
+- Marker is committed to shared state prior to execution.
+
+---
+
+### 3. Enforcement mechanism proportionality  
+✅ **Satisfied**
+
+- No new files introduced
+- No mandatory CI hard block
+- Uses existing dialogue artifacts
+- Machine-verifiable via simple search
+
+This is the correct rigor level for the identified failure mode.
+
+---
+
+### 4. Failure-mode handling  
+✅ **Adequate**
+
+Early execution, missing markers, and misplacement are detectable and remediable without protocol escalation.
+
+---
+
+## Ruling
+
+- Revised plan: **APPROVED**
+- Normative rule: **APPROVED**
+- Enforcement design: **APPROVED**
+- HO approval: **RECORDED**
+
+---
+
+## Execution Authorization
+
+**Execution Authorization: GRANTED**
+
+GA may now proceed with implementation of the **ContextSageWebsite** artifact **under the constraints specified in the approved enforcement plan**. All execution must remain compliant with Skill Forge invariants and evidence protocols.
+
+— IA
+
+
