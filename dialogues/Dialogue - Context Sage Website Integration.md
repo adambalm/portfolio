@@ -181,3 +181,149 @@ When responding, please:
 4. Note any concerns about Tufte styling / contrast
 
 Remember: You cannot render SPAs. Screenshots and GitHub Actions URLs are your primary evidence sources. This is the second artifact in the sequence - the infrastructure is proven.
+
+## IA Review — Context Sage Website Integration  
+**Role:** Inspecting AI (IA)  
+**Protocol:** Skill Forge (Heterogeneous AI Deliberation)  
+**Cycle:** Second artifact (post-v1.1.0)
+
+---
+
+## Understanding Gate (UG)
+
+**UG can close.**
+
+I understand the proposal end-to-end:
+
+- Existing **pure React** artifact (`ContextSageWebsite.jsx`) is copied from `vite-playground` into `portfolio/src/artifacts/`.
+- Artifact is wrapped in a **page component** with established **boundary, provenance, authorship markers**, then mounted inside the existing **DemoContainer** for containment.
+- A **HashRouter route** is added at `/#/context-sage`.
+- Landing page artifact list is updated from deferred → active.
+- **axe-core multi-route accessibility tests** are extended to include the new path.
+
+This is consistent with v1.1.0 infrastructure and the **single-artifact-per-cycle** invariant.
+
+---
+
+## Concerns / Red Flags
+
+### 1. Style Isolation (Primary Technical Risk)
+“DemoContainer provides style isolation” is only true if isolation is real.
+
+React CSS is global unless:
+- styles are inline-only, or
+- CSS Modules / scoped CSS-in-JS are used, or
+- Shadow DOM / iframe boundary exists.
+
+**Actionable requirement:**  
+Verify `ContextSageWebsite` does **not** define or import global selectors (`body`, `html`, `a`, `p`, etc.).  
+All styling must be wrapper-scoped (e.g., `.contextSageRoot …`) or inline.
+
+This is the first thing I will inspect in the diff.
+
+---
+
+### 2. Keyboard + Semantic Navigation
+You reference “tab-based section switching.”
+
+If tabs exist, they must be real tabs:
+- `role="tablist"`, `role="tab"`, `role="tabpanel"`
+- Correct `aria-selected`, `aria-controls`, `id` wiring
+- Arrow-key navigation (left/right)
+- Predictable focus management
+
+If navigation is anchor-based instead, ensure:
+- Heading hierarchy is correct
+- Focus order is logical
+- Skip navigation is not broken
+
+This is the most likely source of accessibility regressions.
+
+---
+
+### 3. Color Contrast (Measured, Not Assumed)
+Cream background + dark text is often safe, but failures usually occur in:
+- links
+- code blocks
+- marginalia / sidenotes
+- light gray text
+
+**Requirement:** axe-core pass + at least one explicit contrast verification for:
+- body text
+- link color
+- code text
+
+---
+
+### 4. Epistemic / Provenance Hygiene
+Current mitigations are good:
+- `ProvenanceHeader`
+- `EpistemicBadge status="ILLUSTRATIVE"`
+- `AuthorshipMarker type="AI"`
+
+Remaining risk: artifact content may **sound operational** (documentation-like claims) rather than illustrative.
+
+**Requirement:**  
+The artifact text itself must clearly distinguish:
+- what exists in-repo now
+- what is conceptual / illustrative
+- what is proposed
+
+If this distinction already exists in the artifact, no change required.  
+If not, add a minimal, non-redundant disclaimer **inside the demo boundary** only.
+
+---
+
+## Evidence Required for Agreement Gate (AG)
+
+Beyond the standard protocol, the following evidence is required:
+
+1. **GitHub Actions run URL**
+   - Accessibility workflow passing
+   - Must clearly include the `/#/context-sage` route
+
+2. **Screenshots committed to `/evidence/`**
+   - `context-sage_above-the-fold.png`  
+     (boundary markers + provenance visible)
+   - `context-sage_mid-page.png`  
+     (typography, margins, sidenotes)
+   - `context-sage_nav-interaction.png`  
+     (selected tab / section state, if applicable)
+   - Optional but strong:  
+     `context-sage_keyboard-focus.png`  
+     (visible focus ring in navigation and body)
+
+3. **Style Isolation Evidence**
+   One of the following:
+   - Screenshot evidence showing other artifact routes unchanged after integration, **or**
+   - Code-level proof that all ContextSage styles are wrapper-scoped and no global selectors are introduced
+
+4. **AMORTIZATION.md Entry**
+   Must include:
+   - Actual time vs expected
+   - Explicit reuse claims from v1.1.0
+   - At least one falsifiable statement, e.g.:
+     - “0 new dependencies”
+     - “1 new route”
+     - “1 new axe route entry”
+     - “0 global CSS selectors added”
+
+---
+
+## Constraint Reminder
+
+Do **not** introduce new abstractions or infrastructure “cleanups” during this cycle.
+
+Goal: **repeatability and auditability**, not elegance.
+
+---
+
+## Protocol Update Request (HO Action)
+
+This review reveals a missing constraint in the initializing exchange:
+
+**Add to the initializing exchange protocol:**
+> IA reviews are delivered in **Markdown** suitable for direct pasting into cross-agent deliberation logs. Plaintext responses are non-compliant.
+
+This should be enforced at protocol initialization to avoid reformatting friction and preserve evidentiary traceability.
+
