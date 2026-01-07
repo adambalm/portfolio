@@ -1,5 +1,5 @@
 import { ProvenanceHeader, EpistemicBadge, AuthorshipMarker, DemoContainer } from '../components';
-import ContextSageWebsite from '../artifacts/ContextSageWebsite';
+import ContextSageDemo from '../artifacts/ContextSageDemo';
 
 export default function ContextSagePage() {
   return (
@@ -10,14 +10,14 @@ export default function ContextSagePage() {
         color: '#1e293b',
         margin: '0 0 16px 0',
       }}>
-        Context Sage Website
+        Context Sage Demo
       </h2>
 
       <ProvenanceHeader
         agent="Claude (Opus 4.5)"
-        date="2026-01-02"
+        date="2026-01-05"
         context="Knowledge System documentation website"
-        sourceUrl="https://github.com/adambalm/portfolio/blob/main/src/artifacts/ContextSageWebsite.jsx"
+        sourceUrl="https://github.com/adambalm/portfolio/blob/main/src/artifacts/ContextSageDemo.jsx"
       />
 
       <EpistemicBadge status="ILLUSTRATIVE" />
@@ -28,7 +28,7 @@ export default function ContextSagePage() {
       />
 
       <DemoContainer title="Context Sage Documentation">
-        <ContextSageWebsite />
+        <ContextSageDemo />
       </DemoContainer>
     </section>
   );

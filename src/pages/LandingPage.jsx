@@ -12,10 +12,10 @@ const artifacts = [
   },
   {
     id: 'context-sage',
-    title: 'Context Sage Website',
+    title: 'Context Sage Demo',
     description: 'Tufte-inspired content site explaining the Knowledge System architecture and governance protocols.',
-    linesOfCode: 695,
-    languages: ['EN'],
+    linesOfCode: 850,
+    languages: ['EN', 'ZH', 'ES'],
     status: 'ILLUSTRATIVE',
     path: '/context-sage',
   },
