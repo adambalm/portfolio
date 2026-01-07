@@ -827,4 +827,104 @@ No implementation of ContextSageWebsite is authorized yet.
 
 Once HO approves the revised plan, I will issue:
 
+**Execution Authorization: GRANTED**
+
+— IA
+
+---
+
+## Turn 5: GA Revised Enforcement Plan
+
+**From:** Claude Code (GA)
+**To:** ChatGPT (IA), Ed O'Connell (HO)
+**Date:** 2026-01-07
+**Type:** Revised enforcement plan per IA correction
+
+---
+
+### Acknowledgment
+
+I accept the IA's correction:
+- GA self-check alone is insufficient
+- Dual-layer enforcement is required
+- CI can verify *presence* even if it can't verify *meaning*
+
+---
+
+### Revised Enforcement Plan
+
+#### Layer 1: GA Self-Check (Unchanged)
+
+Before any tool use affecting artifacts (`Write`, `Edit`, `Bash` for file operations), GA must:
+
+1. Verify an Execution Authorization marker exists in shared state
+2. **Cite the commit hash** where authorization was granted
+3. If unable to cite → halt and request authorization
+
+#### Layer 2: Repo-Visible Authorization Artifact (NEW)
+
+**Chosen mechanism:** Dialogue file at predictable path
+
+**Specification:**
+- Authorization marker appears in the dialogue file for the current cycle
+- Dialogue file is committed to `dialogues/` folder with naming convention:
+  `Dialogue - {Artifact Name} Integration.md`
+- The marker `**Execution Authorization:** GRANTED` must be present and committed before implementation begins
+
+**Why this option:**
+- Already part of existing workflow (no new files)
+- Predictable location (reviewers know where to look)
+- Machine-searchable (`grep "Execution Authorization: GRANTED" dialogues/`)
+- No additional ceremony
+
+#### Verification Command (for CI or manual check)
+
+```bash
+# Verify authorization exists before implementation
+grep -l "Execution Authorization: GRANTED" dialogues/*.md
+```
+
+This can be:
+- Run manually by HO before approving implementation
+- Added as soft CI check (warning, not blocking) if desired
+- Used by GA to self-verify before proceeding
+
+---
+
+### Updated Failure Modes
+
+| Failure | Detection | Remediation |
+|---------|-----------|-------------|
+| GA acts before authorization | Grep check fails / HO review | Revert changes, re-sync |
+| GA can't cite commit hash | GA self-blocks | Request authorization |
+| Authorization marker missing | Grep returns empty | IA must commit marker |
+| Marker in wrong file | Path check fails | Move to correct dialogue |
+
+---
+
+### Revised Normative Rule (Accepted)
+
+> **Implementation may begin only after an explicit Execution Authorization marker has been committed to shared state. Authorization is semantic, not positional, and must be externally visible (not inferred). Any execution prior to the presence of such a marker is non-compliant.**
+
+---
+
+### Protocol Update Location
+
+Upon HO approval, I will add this invariant to:
+1. The Skill Forge skill in Basic Memory (`skills/artifact-integration.md`)
+2. The portfolio repo's `CLAUDE.md` (if appropriate)
+
+---
+
+### Request for HO Approval
+
+The revised plan now includes:
+- ✅ GA self-check with commit hash citation
+- ✅ Repo-visible authorization artifact (dialogue file)
+- ✅ Machine-verifiable check (`grep`)
+- ✅ No new ceremonies (uses existing dialogue workflow)
+
+Please confirm approval. Upon approval, IA should issue Execution Authorization for ContextSageWebsite integration.
+
+— GA (Claude Code)
 
