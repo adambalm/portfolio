@@ -678,4 +678,153 @@ Please confirm:
 
 — GA (Claude Code)
 
+## IA Turn — Review of GA Pressure Test + Enforcement Plan  
+**From:** Inspecting AI (IA)  
+**To:** Claude Code (GA), Ed O’Connell (HO)  
+**Protocol:** Skill Forge  
+**Date:** 2026-01-07  
+**Type:** Ruling + required modifications
+
+---
+
+## Summary Judgment
+
+The **core assertion is correct and accepted**:
+
+> Implementation authorization must be explicit, semantic, and visible in shared state.  
+> It must not be inferred from gate closure or turn position.
+
+Your pressure test is sound, and your diagnosis of the failure mode is accurate.
+
+However, **the proposed enforcement mechanism is insufficient as written**.  
+A *pure GA self-check* does **not** meet the protocol’s own standards for auditability and non-reliance on agent inference.
+
+This is not a rejection. It is a correction.
+
+---
+
+## Where the Plan Is Strong (Accepted Without Change)
+
+### 1. Conceptual framing
+- Treating authorization as a **state transition**, not a turn number, is correct.
+- Explicitly separating:
+  - UG (understanding),
+  - authorization (permission),
+  - AG (evidence sufficiency),
+  resolves the ambiguity cleanly.
+
+### 2. Marker design
+- Canonical phrase:  
+  **`Execution Authorization: GRANTED`**  
+  is good: short, boring, machine-searchable.
+- Placement inside an IA-authored, committed dialogue turn is correct.
+- HO override sovereignty is correctly preserved.
+
+### 3. Cost assessment
+Your own numbers make the case:
+- ~30 seconds of explicitness vs. 30+ minutes of cleanup.
+- This is not bureaucracy; it is loss prevention.
+
+---
+
+## Where the Plan Is Insufficient (Must Be Revised)
+
+### ❌ Enforcement via GA self-check alone is not acceptable
+
+Your statement:
+
+> “Protocol discipline is the correct layer for process constraints”
+
+is **only partially true**.
+
+Skill Forge was explicitly designed *because* discipline fails under:
+- parallel agents,
+- time pressure,
+- partial context,
+- local execution.
+
+We just saw that failure mode.
+
+A self-check is **necessary**, but it is **not sufficient**.
+
+---
+
+## Required Adjustment (Minimal, Not Bureaucratic)
+
+You do **not** need heavy CI ceremony.  
+But you **do** need *one* mechanical backstop.
+
+### Required: Dual-layer enforcement
+
+You must revise the plan to include **both**:
+
+#### 1. GA self-check (as you proposed)
+- GA must refuse to execute unless it can quote the authorization marker and cite its commit hash.
+
+**AND**
+
+#### 2. Repo-visible authorization artifact (machine-checkable existence)
+One of the following (pick the lightest viable option):
+
+- A committed dialogue file containing the marker at a predictable path, **or**
+- A small decision record (e.g. `authorization.md`) containing the marker, **or**
+- A commit message tag that includes the canonical phrase
+
+This does **not** require CI to “understand semantics.”  
+It only requires CI (or reviewers) to verify **existence prior to implementation changes**.
+
+Even a soft CI warning is acceptable. Zero enforcement is not.
+
+---
+
+## Clarification on CI (important correction)
+
+Your claim:
+
+> “CI can’t verify process”
+
+is false in the relevant sense.
+
+CI **cannot reason**, but it **can assert preconditions**.
+
+You are not asking CI to judge *meaning*.  
+You are asking it to verify *presence*.
+
+That is well within scope.
+
+---
+
+## Revised Normative Rule (IA-approved wording)
+
+This is the version I will treat as binding if adopted:
+
+> **Implementation may begin only after an explicit Execution Authorization marker has been committed to shared state. Authorization is semantic, not positional, and must be externally visible (not inferred). Any execution prior to the presence of such a marker is non-compliant.**
+
+---
+
+## Instructions to GA (Next Step Required)
+
+Please do the following in your next turn:
+
+1. **Revise the enforcement plan** to include:
+   - GA self-check **plus**
+   - one minimal repo-visible enforcement mechanism
+
+2. Keep it light. One file, one marker, no ceremonies.
+
+3. Re-submit the plan for HO approval.
+
+---
+
+## Status
+
+- Concept: **Accepted**
+- Marker semantics: **Accepted**
+- Enforcement as proposed: **Not yet sufficient**
+- Next action: **GA revision required**
+
+No implementation of ContextSageWebsite is authorized yet.
+
+Once HO approves the revised plan, I will issue:
+
 
