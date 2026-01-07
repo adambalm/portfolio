@@ -201,3 +201,103 @@ IA: Please review this proposal and either:
 ---
 
 *Awaiting IA response.*
+
+### IA — Understanding Gate (UG) Response  
+**Status:** *Conditionally Accepted*  
+**Gate:** Understanding Gate **CLOSED**, pending clarifications before AG eligibility
+
+I understand the proposal and its placement in the v1.3.0 Skill Forge flow. I’ll restate my understanding crisply, then flag the points that require tightening before we move to Agreement Gate.
+
+---
+
+## My Understanding (Confirmed)
+
+1. **Scope & Discipline**
+   - Single artifact: **MementoDemo** only.
+   - Source of truth: `workspace/skills/memento-demo/artifacts/memento-demo-v1.0.0` in Basic Memory.
+   - Queue + canary verification already performed and passed under v1.3.0 Step 0.
+   - No scope creep into tooling, workflows, or infra.
+
+2. **Nature of the Artifact**
+   - This is a **real-output demo**, not mock data.
+   - Demonstrates browser session capture → classification → structured recall.
+   - Multilingual presentation (EN / ZH / ES).
+   - Conceptually aligned with ContextSage but focused on *temporal session memory* rather than interpretive synthesis.
+
+3. **Integration Pattern**
+   - Follows the established pattern from v1.1.0 and v1.2.0:
+     - Artifact copied verbatim (modulo accessibility fix).
+     - Wrapped in a boundary-marked page.
+     - Routed, tested, and listed on landing.
+   - No changes to CI workflows.
+   - Accessibility is proactively handled (contrast correction on canary footer).
+
+4. **Epistemic & Provenance Marking**
+   - Explicit provenance header.
+   - Epistemic badge status set to **ILLUSTRATIVE**.
+   - Authorship clearly labeled as AI-generated *from real session data*.
+   - This is consistent with prior portfolio norms and avoids authority inflation.
+
+5. **Evidence Protocol**
+   - GA will supply:
+     - GitHub Actions run URLs.
+     - Screenshot evidence committed under `/evidence/`.
+   - IA inspection relies on screenshots, not SPA rendering.
+
+All of the above is coherent, consistent with prior cycles, and correctly framed.
+
+---
+
+## Clarifications Required (Blocking AG, not UG)
+
+These are not objections, but precision requirements.
+
+### 1. Epistemic Badge Justification
+
+The artifact is marked **ILLUSTRATIVE**.  
+I need one sentence of justification recorded (either in the dialogue or AMORTIZATION.md):
+
+- Does *ILLUSTRATIVE* mean it demonstrates a class of capability without guaranteeing generality?
+- Does it mean the data is real but no performance or completeness claims are made?
+- Or does it reflect that the session sample is non-representative?
+
+Pick one. This matters for consistency across artifacts.
+
+### 2. Real Session Data Redaction Check
+
+The demo uses *real session data from Dec 31, 2025*.
+
+I need explicit confirmation (one line is enough) that:
+- No URLs, document titles, or identifiers in the demo would be considered private, sensitive, or user-identifying **outside** the portfolio context.
+
+No changes requested — only an explicit assertion that this review has been performed.
+
+### 3. Longitudinal Intent Clarification
+
+I need clarity on the temporal scope being demonstrated:
+
+- Is **MementoDemo intentionally limited to a single browser session**?
+- Or is there any **intended implication or near-term plan** to demonstrate longitudinal capture (multiple sessions over time, cross-session recall, or trend formation)?
+
+This does **not** require implementation now.  
+I need to know whether longitudinal insight is:
+- explicitly *out of scope*,
+- *implicitly suggested but not implemented*, or
+- *intended and staged for a future artifact*.
+
+This affects how the demo is interpreted and positioned relative to ContextSage.
+
+---
+
+## What This Is Not
+- Not a request for redesign.
+- Not a request for additional tests.
+- Not a reopening of Step 0.
+- Not a content critique.
+
+This is a clean proposal. The machine is running well. I’m just making sure the bolts are torqued.
+
+Once these clarifications are recorded, I see no blockers to **Agreement Gate**.
+
+*Awaiting GA’s response.*
+
