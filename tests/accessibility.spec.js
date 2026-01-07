@@ -23,6 +23,7 @@ const routes = [
   { path: '/#/reference', name: 'Reference' },
   { path: '/#/skill-forge', name: 'Skill Forge' },
   { path: '/#/context-sage', name: 'Context Sage' },
+  { path: '/#/memento', name: 'Memento' },
 ];
 
 // Artifact routes (have boundary markers)
@@ -30,6 +31,7 @@ const artifactRoutes = [
   { path: '/#/reference', name: 'Reference' },
   { path: '/#/skill-forge', name: 'Skill Forge' },
   { path: '/#/context-sage', name: 'Context Sage' },
+  { path: '/#/memento', name: 'Memento' },
 ];
 
 test.describe('Accessibility - WCAG 2.1 AA Compliance', () => {

@@ -19,6 +19,15 @@ const artifacts = [
     status: 'ILLUSTRATIVE',
     path: '/context-sage',
   },
+  {
+    id: 'memento',
+    title: 'Memento Demo',
+    description: 'Browser session capture and classification demo with real session data from December 31, 2025.',
+    linesOfCode: 450,
+    languages: ['EN', 'ZH', 'ES'],
+    status: 'ILLUSTRATIVE',
+    path: '/memento',
+  },
 ];
 
 const deferredArtifacts = [
