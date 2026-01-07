@@ -22,12 +22,14 @@ const routes = [
   { path: '/', name: 'Landing' },
   { path: '/#/reference', name: 'Reference' },
   { path: '/#/skill-forge', name: 'Skill Forge' },
+  { path: '/#/context-sage', name: 'Context Sage' },
 ];
 
 // Artifact routes (have boundary markers)
 const artifactRoutes = [
   { path: '/#/reference', name: 'Reference' },
   { path: '/#/skill-forge', name: 'Skill Forge' },
+  { path: '/#/context-sage', name: 'Context Sage' },
 ];
 
 test.describe('Accessibility - WCAG 2.1 AA Compliance', () => {

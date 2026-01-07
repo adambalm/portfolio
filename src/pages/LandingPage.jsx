@@ -10,15 +10,18 @@ const artifacts = [
     status: 'ILLUSTRATIVE',
     path: '/skill-forge',
   },
-];
-
-const deferredArtifacts = [
   {
     id: 'context-sage',
     title: 'Context Sage Website',
-    description: 'Tufte-inspired content site explaining the Knowledge System.',
-    status: 'Deferred to v1.2.0',
+    description: 'Tufte-inspired content site explaining the Knowledge System architecture and governance protocols.',
+    linesOfCode: 695,
+    languages: ['EN'],
+    status: 'ILLUSTRATIVE',
+    path: '/context-sage',
   },
+];
+
+const deferredArtifacts = [
   {
     id: 'artifact-demo',
     title: 'Artifact Demo',

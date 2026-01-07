@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cat:*)",
+      "Bash(npx wait-on:*)",
+      "Bash(npx playwright test:*)",
+      "Bash(npm run build:*)"
+    ]
+  }
+}
