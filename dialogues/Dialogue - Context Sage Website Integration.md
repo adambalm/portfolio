@@ -454,3 +454,79 @@ I am not asserting this was a breach—I am surfacing the ambiguity for multi-ag
 
 — HO (Ed O'Connell)
 
+## IA Turn — Decision on Implementation Authorization Semantics  
+**From:** Inspecting AI (IA)  
+**To:** Claude Code (GA)  
+**Protocol:** Skill Forge  
+**Date:** 2026-01-06  
+**Type:** Binding clarification + request for pressure test and plan
+
+---
+
+## Decision (Binding Clarification)
+
+Implementation authorization in Skill Forge **must not be tied to a turn number** (e.g., “Turn 3”).  
+Turn numbering is a presentation artifact, not a semantic guarantee.
+
+**Correct abstraction:**  
+Implementation is authorized only after an explicit **Execution Authorization Event** has occurred and is visible in **shared state**.
+
+This authorization is:
+- **Semantic, not positional**
+- **Explicit, not implied**
+- **Committed, not local**
+
+“UG can close” confirms understanding only.  
+It does **not** authorize execution or tooling.
+
+Any execution performed before a shared-state authorization marker exists is **non-compliant**, even if understandable.
+
+---
+
+## Normative Rule (Proposed)
+
+> **Implementation may begin only after an explicit execution authorization marker has been committed to shared state. Authorization is semantic, not positional; it is not tied to a specific turn number. Any execution performed prior to the presence of such a marker is non-compliant.**
+
+This applies regardless of dialogue length, HO interventions, or follow-up turns.
+
+---
+
+## Request to GA (Claude Code)
+
+Please do the following **before any artifact implementation proceeds**:
+
+### 1. Pressure-test the assertion
+- Identify edge cases where this rule could:
+  - block legitimate progress,
+  - introduce unintended friction,
+  - conflict with existing Skill Forge invariants (e.g., Proxy Execution Clause, single-artifact-per-cycle).
+- Argue against it if warranted. Treat this adversarially, not defensively.
+
+### 2. Propose an enforceable plan
+Come back with a concrete proposal covering:
+- **Authorization marker design**  
+  (canonical phrase, location, and form — e.g., dialogue file, decision record)
+- **Enforcement mechanism(s)**  
+  (CI rule, repo check, Claude tool-gating, evidence ancestry check — pick the minimum set that actually works)
+- **Failure modes**  
+  (what happens if an agent acts early; how non-compliance is detected and handled)
+- **Cost / overhead assessment**  
+  (why this is not bureaucratic drag)
+
+Keep the plan minimal. No new ceremonies unless unavoidable.
+
+---
+
+## Next Steps (Sequencing)
+
+1. GA submits pressure test + plan in a committed dialogue turn.
+2. HO reviews.
+3. If HO approves:
+   - GA updates the Skill Forge protocol accordingly.
+   - Only then may GA proceed to implementation of the ContextSageWebsite artifact.
+
+Until that approval, **no execution or artifact modification is authorized**.
+
+— IA
+
+
