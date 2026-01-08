@@ -4,6 +4,101 @@ Economic accounting for portfolio development costs. Each release documents what
 
 ---
 
+## v1.3.0 (2026-01-07)
+
+**Release:** MementoDemo Integration
+
+### Verification of v1.2.0 predictions
+
+| Prediction | Actual | Verified |
+|------------|--------|----------|
+| 1 file copy to `src/artifacts/` | 1 file (MementoDemo.jsx, 450 lines) | ✅ |
+| 1 new page wrapper (~35 lines) | 1 file (MementoPage.jsx, 35 lines) | ✅ |
+| 1 route addition to App.jsx | 1 route added | ✅ |
+| 2 entries in test arrays | 2 entries (routes + artifactRoutes) | ✅ |
+| 0 CI workflow changes | 0 changes | ✅ |
+| Execution Authorization before implementation | Authorization granted before implementation | ✅ |
+| If source artifact is complete, 0 debugging time | Source complete; 1 preemptive a11y fix | ✅ |
+
+**Note:** v1.2.0 predicted "ArtifactDemo" as next integration. Queue priority changed to MementoDemo. Predictions still validated as they were pattern-based, not artifact-specific.
+
+### What became cheaper
+
+1. **Queue verification: new but lightweight**
+   - v1.3.0 added Step 0 (Queue and Canary Verification) as binding requirement
+   - Overhead: ~2 minutes to read queue, verify canary match
+   - Prevented wrong-source integration (lesson from v1.2.0 truncation incident)
+
+2. **Integration time: consistent with predictions**
+   - Implementation tasks (copy, wrapper, route, tests): ~20 minutes
+   - 1 preemptive accessibility fix (canary contrast `#999` → `#6b6b6b`)
+   - Pattern completely stable: copy-paste from ContextSagePage worked
+
+3. **Test coverage: automatic expansion**
+   - Added 2 route entries → 6 new tests generated automatically
+   - Total tests: 23 → 29 (26% increase, 0 new test code)
+
+4. **Protocol reconciliation overhead: new investment**
+   - IA requested full protocol restatement before Step 9 closure
+   - Surfaced gap: AMORTIZATION.md was not updated (this document)
+   - Value: Ensures binding invariants are actually enforced, not assumed
+
+### What was invested (new capital)
+
+1. **Queue and Canary Verification (Step 0)**
+   - Skill updated to v1.3.0
+   - Prevents integration from wrong source path
+   - Canary verification ensures artifact integrity
+
+2. **Protocol reconciliation discipline**
+   - IA can request full protocol restatement at any gate
+   - All binding invariants must be explicitly verified
+   - Gaps surfaced before closure, not after
+
+### Evidence
+
+| Artifact | Location |
+|----------|----------|
+| Artifact file | `src/artifacts/MementoDemo.jsx` (450 lines) |
+| Page wrapper | `src/pages/MementoPage.jsx` (35 lines) |
+| Route addition | `src/App.jsx:16` |
+| Test routes | `tests/accessibility.spec.js:25-26,33-34` |
+| Screenshots | `evidence/memento-evidence.png` |
+| Accessibility run | [GitHub Actions #20800336927](https://github.com/adambalm/portfolio/actions/runs/20800336927) |
+| Dialogue | `dialogues/Dialogue - Memento Demo Integration.md` |
+
+### Evidence Provenance Chain
+
+```
+Source: workspace/skills/memento-demo/artifacts/memento-demo-v1.0.0 (Basic Memory)
+  ↓ canary verified: MEMENTO-DEMO-2026-01-05-VITE-READY
+Artifact: src/artifacts/MementoDemo.jsx
+  ↓ committed in dc41e9c
+Screenshot: evidence/memento-evidence.png
+  ↓ committed in dc41e9c
+Push: dc41e9c → origin/main
+  ↓ triggered CI
+Actions Run: #20800336927 (accessibility.yml)
+  ↓ status: success, 29 tests passing
+Deploy: GitHub Pages updated
+  ↓ live at https://adambalm.github.io/portfolio/#/memento
+```
+
+### Falsifiable claims
+
+- Next artifact integration should require:
+  - Step 0: Queue and Canary Verification (~2 min)
+  - 1 file copy to `src/artifacts/`
+  - 1 new page wrapper (~35 lines)
+  - 1 route addition to App.jsx
+  - 2 entries in test arrays
+  - 0 CI workflow changes
+  - Execution Authorization before implementation
+  - AMORTIZATION.md update before Step 9 closure
+  - If source artifact is complete, 0 debugging time
+
+---
+
 ## v1.2.0 (2026-01-07)
 
 **Release:** ContextSageWebsite Integration
