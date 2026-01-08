@@ -2,32 +2,33 @@
 MANIFEST
 =========
 Artifact: SkillForgeVisualizer
-Version: 2.2.0
-Generated: 2025-01-05T21:45:00Z
-Generator: Claude (Opus 4.5) via Claude Desktop
+Version: 3.0.0
+Generated: 2026-01-08T00:00:00Z
+Generator: Claude (Opus 4.5) via Claude Code
+Protocol: SKILL-FORGE-V2.2.0-GOVERNANCE (Heterogeneous AI Deliberation)
 
 SECTIONS:
-- Process (~lines 700-800)
-- Verification (~lines 800-870)
-- Example (~lines 870-900)
-- Economics (~lines 900-1030)
-- Accumulation (~lines 1030-1200) [EXPANDED: thin skill explainer + inventory]
-- References (~lines 1200-1300)
+- Process (~lines 1130-1230) [ENHANCED: Swimlane layout]
+- Verification (~lines 1235-1255)
+- Example (~lines 1255-1310) [ENHANCED: RewordGate]
+- Economics (~lines 1310-1360) [ENHANCED: Responsive SVG]
+- Accumulation (~lines 1360-1500)
+- References (~lines 1500-1600)
 
 SUBCOMPONENTS:
-- CitationLink (~lines 400-430) — APA 7th external links
-- SkipLink (~lines 430-460) — WCAG skip navigation
-- FlowStep (~lines 460-520) — Process step button
-- Gate (~lines 520-570) — UG/AG status indicator
-- SwissCheeseVisualization (~lines 570-630) — SVG diagram
-- Slider (~lines 630-660) — Accessible range input
-- CostCurve (~lines 750-830) — Economics SVG chart
-- NavTab (~lines 830-870) — ARIA tab button
-- ExpandablePanel (~lines 870-930) — Accordion
-- RewordGate (~lines 900-980) — Human Articulation Gate (v3.0.0)
-- SkillInventoryTable (~lines 980-1030) — Thin skill inventory
-- LaTeX (~lines 300-350) — KaTeX with fallback
-- ConditionalLink (~lines 350-380) — Props-based linking
+- CitationLink (~lines 750-765) — APA 7th external links
+- SkipLink (~lines 765-775) — WCAG skip navigation
+- FlowStep (~lines 775-795) — Process step button
+- Gate (~lines 795-810) — UG/AG status indicator
+- SwissCheeseVisualization (~lines 810-825) — SVG diagram
+- Slider (~lines 825-835) — Accessible range input (44px touch target)
+- CostCurve (~lines 855-885) — Economics SVG chart (viewBox + preserveAspectRatio)
+- NavTab (~lines 885-900) — ARIA tab button
+- ExpandablePanel (~lines 900-920) — Accordion
+- RewordGate (~lines 920-990) — Human Articulation Gate (NEW v3.0.0)
+- SkillInventoryTable (~lines 1000-1030) — Thin skill inventory
+- LaTeX (~lines 650-700) — KaTeX with fallback
+- ConditionalLink (~lines 700-730) — Props-based linking
 
 DEPENDENCIES:
 - react (useState, useEffect, useRef)
@@ -39,15 +40,26 @@ CONSTRAINTS:
 - Tailwind core utilities only
 - Single default export
 - Links prop contract for parent site composition
+- 44px minimum touch targets (WCAG)
+- Responsive grid layouts (mobile-first)
 
-CHANGES FROM 2.1.1:
-- Added `links` prop for parent site routing
-- Expanded Accumulation section with thin skill explainer
-- Added SkillInventoryTable component with real inventory
-- Added ConditionalLink component for props-based navigation
-- ~60 new i18n keys for thin skill content
+CHANGES FROM 2.2.0 (v3.0.0 - BREAKING):
+- Added RewordGate component (Human Articulation Gate with 50-char minimum)
+- Added Swimlane layout for Process section (3-column HO/GA/IA grid)
+- Added layout toggle (swimlane vs classic view)
+- Enhanced CostCurve SVG with preserveAspectRatio for mobile
+- Enhanced Slider with 44px touch targets
+- Made Economics section responsive (1-col mobile, 2-col desktop)
+- ~20 new i18n keys for v3.0.0 features
 
-CANARY: SKILLFORGE-V2.2.0-2025-01-05
+BREAKING CHANGE:
+The RewordGate in Example section adds friction to the approval flow.
+Users must articulate their understanding (50+ chars) before approval.
+
+ROLLBACK:
+git checkout skillforge-v2.2.0-pre-v3 -- src/artifacts/SkillForgeVisualizer.jsx
+
+CANARY: SKILLFORGE-V3.0.0-2026-01-08
 */}
 
 import React, { useState, useEffect, useRef } from 'react';
@@ -327,10 +339,10 @@ const i18n = {
     
     // Footer
     footerTitle: 'Skill Forge Pattern Visualization',
-    footerVersion: 'Version 2.2.0 | WCAG 2.1 AA | APA 7th Edition',
+    footerVersion: 'Version 3.0.0 | WCAG 2.1 AA | APA 7th Edition',
     footerAuthor: '© Ed O\'Connell',
     footerPubDate: 'January 2026',
-    canary: 'SKILLFORGE-V2.2.0-2025-01-05',
+    canary: 'SKILLFORGE-V3.0.0-2026-01-08',
   },
   
   es: {
@@ -493,7 +505,7 @@ const i18n = {
     linkOpensNewTab: 'se abre en nueva pestaña',
     footerTitle: 'Visualización del Patrón Skill Forge',
     footerVersion: 'Versión 2.2.0 | WCAG 2.1 AA | APA 7ª Ed.',
-    canary: 'SKILLFORGE-V2.2.0-2025-01-05',
+    canary: 'SKILLFORGE-V3.0.0-2026-01-08',
   },
   
   zh: {
@@ -656,7 +668,7 @@ const i18n = {
     linkOpensNewTab: '在新标签页中打开',
     footerTitle: '技能锻造模式可视化',
     footerVersion: '版本 2.2.0 | WCAG 2.1 AA | APA第7版',
-    canary: 'SKILLFORGE-V2.2.0-2025-01-05',
+    canary: 'SKILLFORGE-V3.0.0-2026-01-08',
   },
 };
 
