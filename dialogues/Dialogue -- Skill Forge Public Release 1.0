@@ -1,0 +1,511 @@
+# ⚔️ Protocol Initiation: Skill Forge V2 (Governance Artifact)
+
+**Role:** You are the **Artifact Builder**.
+**Protocol:** `SKILL-FORGE-V2.2.0-GOVERNANCE`
+
+## 1. Context Loading (The Skill Forge Pattern)
+Before proceeding, you must load the following epistemic assets from the repository to ground your execution:
+
+1.  **The Process (Skill):** Read `workspace/skills/artifact-builder.md`.
+    * *Constraint:* You must adhere to the boundary markers, WCAG compliance standards, and file structure defined here.
+2.  **The Integration (Skill):** Read `workspace/skills/artifact-integration.md`.
+    * *Constraint:* Follow the established routing and navigation patterns in `App.jsx`.
+3.  **The Existing Visuals (Artifact):** Read `src/artifacts/SkillForgeVisualizer.jsx`.
+    * *Constraint:* Understand the current state, but do not overwrite it. We are forking to V2.
+
+## 2. The Interaction Rules (Engine vs. Brake)
+We are building a new artifact, `SkillForgeVisualizerV2.jsx`, which visualizes the "Engine vs. Brake" philosophy.
+
+**The "Reword Gate" Rule:**
+You must implement a **Cognitive Brake** component.
+* **State:** The "Approve" action is **LOCKED** by default.
+* **Unlock Condition:** The user must type a rationalization (>50 chars) into a text area.
+* **Epigraph:** You must display this quote above the input:
+    > *"Bring me to the test, and I the matter will reword, which madness would gambol from." — Hamlet (III.iv)*
+
+**The "Swimlane" Rule:**
+You must refactor the layout into a **Cybernetic Loop**:
+* **Desktop:** 3-Column Grid (`Human Orchestrator` → `Model A` → `Model B`).
+* **Mobile:** Vertical Stack.
+
+**The "Economics" Rule:**
+You must replace the static text with a **Dynamic SVG Sparkline**.
+* **Inputs:** Keep the 4 existing sliders.
+* **Logic:** Use the provided `calculateChartPath` function (see below) to ensure the math is accurate.
+
+## 3. Execution Plan Request
+**Do not write code yet.**
+First, explain the **Interaction Rules** back to me as you understand them.
+1.  How will you implement the "Reword Gate" using our existing component patterns?
+2.  How will you ensure the SVG chart is responsive on mobile?
+3.  Confirm you have located the `artifact-builder` skill and are ready to proceed.
+
+---
+
+### Appendix: Chart Logic (Immutable)
+```javascript
+const calculateChartPath = (width, height, D, S, P, N) => {
+  const maxN = 20;
+  const manualCostFunc = (n) => n * 100;
+  const forgeCostFunc = (n) => D + (n - 1) * (S + P * 100);
+
+  const maxCost = Math.max(manualCostFunc(maxN), forgeCostFunc(maxN));
+  const getX = (n) => (n / maxN) * width;
+  const getY = (cost) => height - (cost / maxCost) * height;
+
+  const manualPath = `M ${getX(0)} ${getY(0)} L ${getX(maxN)} ${getY(manualCostFunc(maxN))}`;
+  const forgePath = `M ${getX(0)} ${getY(D)} L ${getX(maxN)} ${getY(forgeCostFunc(maxN))}`;
+
+  return { manualPath, forgePath };
+};
+```
+
+---
+
+# GA Response: Protocol Acknowledgment and Execution Plan
+
+**Agent:** Claude (Opus 4.5) via Claude Code
+**Role:** Artifact Builder (GA)
+**Protocol:** `SKILL-FORGE-V2.2.0-GOVERNANCE`
+**Date:** 2026-01-08
+
+---
+
+## Context Loading Confirmation
+
+### Skills Located and Loaded
+
+| Required Asset | Actual Location | Status |
+|----------------|-----------------|--------|
+| artifact-builder skill | `basic-memory://workspace/skills/artifact-builder/INSTRUCTIONS.md` | ✅ Loaded |
+| artifact-integration skill | `basic-memory://workspace/skills/artifact-integration/Artifact Integration Skill - INSTRUCTIONS.md` | ✅ Loaded |
+| SkillForgeVisualizer.jsx | `portfolio/src/artifacts/SkillForgeVisualizer.jsx` | ✅ Loaded (v2.2.0, 1300+ lines) |
+
+**Note:** The skills are in Basic Memory (`C:\Users\Guest1\basic-memory\workspace\skills\`), not in the portfolio repo at `workspace/skills/`. The portfolio repo has a `dialogues/` folder but not a `workspace/skills/` folder. This is correct architecture—thin skills live in the knowledge base, artifacts live in the portfolio.
+
+### Key Constraints from Loaded Context
+
+From **artifact-builder** skill:
+- Single default export
+- Manifest header with sections, subcomponents, dependencies
+- Claude Desktop preview compatible (no localStorage, no external fetches)
+- Tailwind core utilities only
+- Data attributes for Playwright testing (`data-testid`, `data-section`)
+- Canary string in manifest AND visible footer
+
+From **artifact-integration** skill (v1.4.0):
+- Boundary markers required (ProvenanceHeader, EpistemicBadge, AuthorshipMarker, DemoContainer)
+- Navigation.jsx must be updated (binding Step 2.5)
+- WCAG 2.1 AA contrast (4.5:1 minimum)
+- Colors: `#1d4ed8`, `#1e40af`, `#475569`
+
+From **SkillForgeVisualizer v2.2.0** (current state):
+- 6 sections: Process, Verification, Example, Economics, Accumulation, References
+- Existing `CostCurve` component (lines ~750-830) with sliders
+- Existing `Slider` component (lines ~630-660)
+- i18n infrastructure (EN/ZH/ES)
+- `links` prop for parent site composition
+
+---
+
+## Interaction Rules: My Understanding
+
+### Rule 1: The Reword Gate (Cognitive Brake)
+
+**Purpose:** Implement the Human Articulation Gate (Step 7 in Skill Forge) as an interactive component. The user cannot approve until they demonstrate understanding by restating the decision.
+
+**Implementation Plan:**
+
+```
+┌─────────────────────────────────────────────────────────┐
+│  "Bring me to the test, and I the matter will reword,  │
+│   which madness would gambol from." — Hamlet (III.iv)  │
+├─────────────────────────────────────────────────────────┤
+│  ┌─────────────────────────────────────────────────┐   │
+│  │ [textarea: "Restate the decision..."]           │   │
+│  │                                                 │   │
+│  │                                    [42/50 chars]│   │
+│  └─────────────────────────────────────────────────┘   │
+│                                                         │
+│  [ Approve ] ← DISABLED until chars >= 50              │
+└─────────────────────────────────────────────────────────┘
+```
+
+**State Machine:**
+```
+LOCKED (default)
+  → user types in textarea
+  → chars.length >= 50
+  → UNLOCKED
+  → user clicks Approve
+  → APPROVED (visual confirmation)
+```
+
+**Component Pattern:** Following existing patterns (e.g., `ExpandablePanel`), I'll create a `RewordGate` subcomponent:
+
+```jsx
+// RewordGate (~lines TBD) — Human Articulation Gate
+const RewordGate = ({ onApprove, minChars = 50 }) => {
+  const [text, setText] = useState('');
+  const isUnlocked = text.length >= minChars;
+
+  return (
+    <div data-testid="reword-gate">
+      <blockquote className="italic text-slate-600 border-l-4 pl-4 mb-4">
+        "Bring me to the test, and I the matter will reword,
+        which madness would gambol from." — Hamlet (III.iv)
+      </blockquote>
+      <textarea
+        data-testid="reword-input"
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        placeholder="Restate the decision in your own words..."
+        className="w-full p-3 border rounded min-h-[100px]"
+        aria-label="Articulation input"
+      />
+      <div className="flex justify-between items-center mt-2">
+        <span className="text-sm text-slate-500">
+          {text.length}/{minChars} characters
+        </span>
+        <button
+          data-testid="approve-button"
+          onClick={() => isUnlocked && onApprove(text)}
+          disabled={!isUnlocked}
+          className={`px-4 py-2 rounded ${
+            isUnlocked
+              ? 'bg-blue-600 text-white hover:bg-blue-700'
+              : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+          }`}
+          aria-disabled={!isUnlocked}
+        >
+          {isUnlocked ? 'Approve' : `Need ${minChars - text.length} more chars`}
+        </button>
+      </div>
+    </div>
+  );
+};
+```
+
+**Accessibility:** WCAG AA compliant with `aria-label`, `aria-disabled`, keyboard navigation, and 4.5:1 contrast.
+
+---
+
+### Rule 2: The Swimlane Layout (Cybernetic Loop)
+
+**Purpose:** Visualize the three-actor flow (HO → Model A → Model B) as parallel swimlanes on desktop, stacking vertically on mobile.
+
+**Desktop Layout (≥1024px):**
+```
+┌──────────────┬──────────────┬──────────────┐
+│     HO       │   Model A    │   Model B    │
+│  (Human      │   (GA:       │   (IA:       │
+│ Orchestrator)│   Proposes)  │   Verifies)  │
+├──────────────┼──────────────┼──────────────┤
+│ 1. Problem   │              │              │
+│    arrives   │              │              │
+│      ↓       │              │              │
+│              │ 2. Proposes  │              │
+│              │    approach  │              │
+│              │      ↓       │              │
+│              │              │ 3. Verifies  │
+│              │              │    + flags   │
+│              │      ↓       │              │
+│              │ 4. Responds  │              │
+│              │    to flags  │              │
+│      ↓       │              │              │
+│   [UG GATE]  │              │              │
+│              │              │      ↓       │
+│              │              │ 5. Critiques │
+│      ↓       │              │              │
+│   [AG GATE]  │              │              │
+│      ↓       │              │              │
+│ 7. Articulate│              │              │
+│    & Approve │              │              │
+│      ↓       │              │              │
+│ 8. Skill     │              │              │
+│    Compiled  │              │              │
+└──────────────┴──────────────┴──────────────┘
+```
+
+**Mobile Layout (<1024px):**
+```
+┌──────────────────────────────┐
+│ 1. Problem arrives [HO]      │
+├──────────────────────────────┤
+│ 2. Model A proposes [GA]     │
+├──────────────────────────────┤
+│ 3. Model B verifies [IA]     │
+├──────────────────────────────┤
+│ 4. Model A responds [GA]     │
+├──────────────────────────────┤
+│     [UG GATE]                │
+├──────────────────────────────┤
+│ 5. Model B critiques [IA]    │
+├──────────────────────────────┤
+│     [AG GATE]                │
+├──────────────────────────────┤
+│ 7. Human articulates [HO]    │
+├──────────────────────────────┤
+│ 8. Skill compiled            │
+└──────────────────────────────┘
+```
+
+**Implementation:**
+
+```jsx
+// Swimlane container with responsive grid
+<div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+  <div className="swimlane" data-testid="swimlane-ho">
+    <h3 className="font-bold text-center p-2 bg-slate-100">Human Orchestrator</h3>
+    {/* Steps 1, 7, 8 */}
+  </div>
+  <div className="swimlane" data-testid="swimlane-ga">
+    <h3 className="font-bold text-center p-2 bg-blue-100">Model A (GA)</h3>
+    {/* Steps 2, 4 */}
+  </div>
+  <div className="swimlane" data-testid="swimlane-ia">
+    <h3 className="font-bold text-center p-2 bg-green-100">Model B (IA)</h3>
+    {/* Steps 3, 5 */}
+  </div>
+</div>
+```
+
+The `grid-cols-1 lg:grid-cols-3` pattern handles the responsive breakpoint automatically via Tailwind.
+
+---
+
+### Rule 3: The Economics Chart (Dynamic SVG Sparkline)
+
+**Purpose:** Replace static economics formulas with an interactive visualization showing cost curves as sliders change.
+
+**Current State (v2.2.0):** The `CostCurve` component exists but shows a simple line chart. The sliders (D, S, P, N) exist and update state.
+
+**Proposed Enhancement:**
+
+```
+┌─────────────────────────────────────────────────────────┐
+│  Economics: When Does Skill Forge Pay Off?              │
+├─────────────────────────────────────────────────────────┤
+│  ┌─────────────────────────────────────────────────┐   │
+│  │  Cost                                            │   │
+│  │   ▲                                              │   │
+│  │   │         ╱ Manual (red)                       │   │
+│  │   │       ╱                                      │   │
+│  │   │     ╱    ╱ Forge (blue)                      │   │
+│  │   │   ╱    ╱                                     │   │
+│  │   │ ╱    ╱                                       │   │
+│  │   │╱   ╱  ← Break-even point (N*)                │   │
+│  │   ├──┼────────────────────────────────▶ N       │   │
+│  │                                                  │   │
+│  └─────────────────────────────────────────────────┘   │
+│                                                         │
+│  D (Deliberation): [====●====] 150                     │
+│  S (Skill cost):   [==●======] 20                      │
+│  P (Failure rate): [=●=======] 0.1                     │
+│  N (Problems):     [======●==] 12                      │
+│                                                         │
+│  Break-even N* = 3.2 problems                          │
+└─────────────────────────────────────────────────────────┘
+```
+
+**SVG Responsiveness Strategy:**
+
+1. **ViewBox-based scaling:** Use `viewBox="0 0 400 200"` with `preserveAspectRatio="xMidYMid meet"` so the SVG scales proportionally.
+
+2. **Container query:** Wrap SVG in a container that sets width to 100%:
+   ```jsx
+   <div className="w-full max-w-2xl mx-auto">
+     <svg viewBox="0 0 400 200" className="w-full h-auto">
+       {/* paths calculated by calculateChartPath */}
+     </svg>
+   </div>
+   ```
+
+3. **Touch-friendly sliders:** On mobile, sliders should be full-width with larger touch targets (min 44px height per WCAG).
+
+**Implementation using provided function:**
+
+```jsx
+const EconomicsChart = ({ D, S, P, N }) => {
+  const width = 400;
+  const height = 200;
+  const { manualPath, forgePath } = calculateChartPath(width, height, D, S, P, N);
+
+  // Calculate break-even N*
+  const breakEvenN = D / (100 - S - P * 100);
+  const breakEvenX = (breakEvenN / 20) * width;
+
+  return (
+    <svg
+      viewBox={`0 0 ${width} ${height}`}
+      className="w-full h-auto"
+      role="img"
+      aria-label={`Cost comparison chart. Break-even at ${breakEvenN.toFixed(1)} problems.`}
+    >
+      {/* Axes */}
+      <line x1="0" y1={height} x2={width} y2={height} stroke="#94a3b8" />
+      <line x1="0" y1="0" x2="0" y2={height} stroke="#94a3b8" />
+
+      {/* Manual cost line (red) */}
+      <path d={manualPath} stroke="#ef4444" strokeWidth="2" fill="none" />
+
+      {/* Forge cost line (blue) */}
+      <path d={forgePath} stroke="#1d4ed8" strokeWidth="2" fill="none" />
+
+      {/* Break-even marker */}
+      <circle cx={breakEvenX} cy={height - (breakEvenN * 100 / Math.max(20 * 100, D + 19 * (S + P * 100))) * height} r="5" fill="#1d4ed8" />
+
+      {/* Labels */}
+      <text x={width - 10} y={height - 10} className="text-xs" fill="#94a3b8">N</text>
+      <text x="10" y="20" className="text-xs" fill="#94a3b8">Cost</text>
+    </svg>
+  );
+};
+```
+
+---
+
+## Pre-Execution Confirmation
+
+### Answers to Your Questions
+
+**1. How will you implement the "Reword Gate" using our existing component patterns?**
+
+Following the `ExpandablePanel` pattern: a self-contained functional component with internal state, data-testid attributes for Playwright, WCAG-compliant accessibility attributes, and Tailwind styling. The component will:
+- Accept `onApprove` callback and `minChars` threshold as props
+- Manage `text` state internally with `useState`
+- Render blockquote epigraph, textarea, character counter, and conditional button
+- Disable button until `text.length >= minChars`
+
+**2. How will you ensure the SVG chart is responsive on mobile?**
+
+Three-layer approach:
+1. **ViewBox scaling:** SVG uses `viewBox` with `preserveAspectRatio` for proportional scaling
+2. **Container width:** Parent div is `w-full max-w-2xl` so SVG fills available space
+3. **Touch targets:** Sliders use `h-11` (44px) for WCAG-compliant touch targets on mobile
+
+**3. Confirm you have located the `artifact-builder` skill and are ready to proceed.**
+
+✅ **Confirmed.** Located at `basic-memory://workspace/skills/artifact-builder/INSTRUCTIONS.md`
+- Canary: `ARTIFACT-BUILDER-ACTIVE-2025-12-11`
+- Key constraints loaded: manifest header, single export, Claude Desktop compatibility, data-testid attributes
+
+---
+
+## Clarification Request Before Proceeding
+
+Before I write code, I need one clarification:
+
+**Scope Question:** Is SkillForgeVisualizerV2 a complete rewrite, or an enhancement of v2.2.0?
+
+| Option A: Fork (New File) | Option B: Enhance (Same File) |
+|---------------------------|-------------------------------|
+| Create `SkillForgeVisualizerV2.jsx` | Update `SkillForgeVisualizer.jsx` to v2.3.0 |
+| Keep v2.2.0 as baseline | Tag v2.2.0 before changes |
+| Two artifacts in portfolio | Single artifact evolves |
+| More integration work | Less duplication |
+
+The initiation document says "fork to V2" (Option A), but the existing artifact is already at v2.2.0 with substantial content. Please confirm:
+
+1. **New file** (`SkillForgeVisualizerV2.jsx`) — I'll start fresh with the three new features
+2. **Version bump** (`SkillForgeVisualizer.jsx` → v2.3.0) — I'll add features to existing artifact
+
+---
+
+## GA Recommendation: Version Bump with Safeguards
+
+**To:** IA (Gemini) for verification
+**From:** GA (Claude Opus 4.5)
+**Subject:** Fork vs. Version Bump Decision
+
+HO has delegated this architectural decision to our deliberation. Here is my recommendation with supporting evidence.
+
+### Recommendation: Option B (Version Bump to v3.0.0)
+
+I recommend **enhancing the existing artifact** rather than forking to a new file, for the following reasons:
+
+### Evidence: Rollback Infrastructure Already Exists
+
+| Safeguard | Location | Status |
+|-----------|----------|--------|
+| Git tag | `skillforge-v2.2.0-examples` → commit `a98b827` | ✅ Exists |
+| Content backup | `basic-memory://portfolio/artifacts/skill-forge-visualizer-v2.2.0-content` | ✅ Exists |
+| Rollback command | `git checkout skillforge-v2.2.0-examples -- src/artifacts/SkillForgeVisualizer.jsx` | ✅ Documented |
+
+**Rollback is a single command.** No need to maintain two parallel files.
+
+### Evidence: The Three Features Are Additive
+
+| Feature | Integration Point | Replaces Existing? |
+|---------|-------------------|-------------------|
+| Reword Gate | New subcomponent, used in Example section | No — adds to existing |
+| Swimlane | New layout option for Process section | No — alternative view |
+| Economics SVG | Enhancement to existing CostCurve | Partial — improves existing |
+
+None of these features require deleting working code. They extend the artifact's capabilities.
+
+### Evidence: Fork Creates Maintenance Burden
+
+Creating `SkillForgeVisualizerV2.jsx` means:
+- Duplicating ~1300 lines of working code (i18n, components, sections)
+- Two files to maintain for bug fixes
+- Two routes, two nav entries, two test suites
+- Confusion about which artifact is "current"
+
+### Evidence: Semantic Versioning Supports This
+
+The jump from **v2.2.0 → v3.0.0** signals:
+- Breaking change in user-facing behavior (Reword Gate adds friction)
+- Major feature additions (Swimlane, enhanced SVG)
+- Clear boundary from v2.x baseline
+
+### Proposed Safeguards
+
+Before any code changes:
+
+1. **Create pre-change tag:** `git tag skillforge-v2.2.0-pre-v3 -m "Last stable v2.2.0 before v3.0.0 governance features"`
+
+2. **Verify Basic Memory backup** is current (already confirmed at `portfolio/artifacts/skill-forge-visualizer-v2.2.0-content`)
+
+3. **Document rollback in CLAUDE.md** if not already present
+
+4. **Implement features in separate commits** for granular rollback:
+   - Commit 1: Add RewordGate component
+   - Commit 2: Add Swimlane layout
+   - Commit 3: Enhance Economics SVG
+
+### Risk Assessment
+
+| Risk | Mitigation |
+|------|------------|
+| Features break existing functionality | Playwright tests catch regressions |
+| Rollback needed mid-development | Each commit is atomic; can revert individual features |
+| v3.0.0 is too unstable for portfolio | Keep v2.2.0 deployed until v3.0.0 passes all tests |
+
+### Request for IA Verification
+
+**IA (Gemini):** Please verify or challenge the following claims:
+
+1. **Claim:** Git tag `skillforge-v2.2.0-examples` exists and provides adequate rollback
+   - *Verification:* `git tag -l "skillforge*"` should show the tag
+
+2. **Claim:** Basic Memory backup contains complete v2.2.0 content
+   - *Verification:* Read `portfolio/artifacts/skill-forge-visualizer-v2.2.0-content` and confirm canary `SKILLFORGE-V2.2.0-2025-01-05`
+
+3. **Claim:** The three features are additive and don't require deleting existing code
+   - *Verification:* Review the implementation sketches above
+
+4. **Claim:** Semantic versioning to v3.0.0 is appropriate
+   - *Verification:* Assess whether Reword Gate constitutes a breaking change
+
+### Flags for IA
+
+- 🟡 **UNCERTAIN:** Is the Reword Gate a "breaking change" or a "feature addition"? It adds friction but doesn't remove functionality.
+- 🟢 **CONFIDENT:** Git rollback infrastructure is sufficient.
+- 🟢 **CONFIDENT:** Fork would create unnecessary maintenance burden.
+
+---
+
+**Status:** AWAITING IA VERIFICATION
+
+**GA Position:** Recommend Option B (version bump to v3.0.0) with safeguards documented above. Ready to proceed upon IA concurrence or counter-proposal.
