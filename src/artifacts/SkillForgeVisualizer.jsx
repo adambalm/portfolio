@@ -24,7 +24,8 @@ SUBCOMPONENTS:
 - CostCurve (~lines 750-830) — Economics SVG chart
 - NavTab (~lines 830-870) — ARIA tab button
 - ExpandablePanel (~lines 870-930) — Accordion
-- SkillInventoryTable (~lines 930-980) — Thin skill inventory
+- RewordGate (~lines 900-980) — Human Articulation Gate (v3.0.0)
+- SkillInventoryTable (~lines 980-1030) — Thin skill inventory
 - LaTeX (~lines 300-350) — KaTeX with fallback
 - ConditionalLink (~lines 350-380) — Props-based linking
 
@@ -291,7 +292,19 @@ const i18n = {
     exSpeakerGPT: 'GPT (IA)',
     exSpeakerHuman: 'Human (HO)',
     exSpeakerOutcome: 'Outcome',
-    
+
+    // Reword Gate (v3.0.0)
+    rewordGateTitle: 'Your Turn: Articulate the Decision',
+    rewordGateEpigraph: '"Bring me to the test, and I the matter will reword, which madness would gambol from."',
+    rewordGateAttribution: '— Hamlet (III.iv)',
+    rewordGatePlaceholder: 'Restate the core decision in your own words. What are we doing? What are the key constraints? Why does this approach make sense?',
+    rewordGateCharCount: 'characters',
+    rewordGateMinChars: 'minimum',
+    rewordGateButtonLocked: 'Articulate to Unlock',
+    rewordGateButtonUnlocked: 'Approve Decision',
+    rewordGateApproved: 'Decision Approved',
+    rewordGateApprovedDetail: 'You have demonstrated understanding. The skill may now compile.',
+
     // Accessibility
     skipToMain: 'Skip to main content',
     selectView: 'Select a view',
@@ -886,6 +899,95 @@ const ExpandablePanel = ({ id, icon: Icon, title, expanded, onToggle, children }
   </div>
 );
 
+const RewordGate = ({ lang, onApprove, minChars = 50 }) => {
+  const [text, setText] = React.useState('');
+  const [approved, setApproved] = React.useState(false);
+  const isUnlocked = text.length >= minChars;
+
+  const handleApprove = () => {
+    if (isUnlocked && !approved) {
+      setApproved(true);
+      onApprove?.(text);
+    }
+  };
+
+  if (approved) {
+    return (
+      <div data-testid="reword-gate" style={{ background: '#f5fff5', border: '2px solid #2d5a3d', borderRadius: 4, padding: 24 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
+          <Check style={{ width: 24, height: 24, color: '#2d5a3d' }} aria-hidden="true" />
+          <span style={{ fontSize: 18, fontWeight: 500, color: '#2d5a3d', fontStyle: 'italic' }}>{t(lang, 'rewordGateApproved')}</span>
+        </div>
+        <p style={{ color: '#555', lineHeight: 1.6, margin: 0 }}>{t(lang, 'rewordGateApprovedDetail')}</p>
+      </div>
+    );
+  }
+
+  return (
+    <div data-testid="reword-gate" style={{ background: '#fff5f5', border: '1px solid rgba(160,0,0,0.25)', borderRadius: 4, padding: 24 }}>
+      <h3 style={{ fontSize: 18, fontStyle: 'italic', fontWeight: 400, marginBottom: 16, color: '#111' }}>{t(lang, 'rewordGateTitle')}</h3>
+      <blockquote style={{ margin: '0 0 20px 0', padding: '16px 20px', background: '#fafafa', borderLeft: '4px solid #a00000', borderRadius: 2 }}>
+        <p style={{ fontSize: 15, fontStyle: 'italic', color: '#333', margin: 0, lineHeight: 1.6 }}>
+          {t(lang, 'rewordGateEpigraph')}
+        </p>
+        <cite style={{ display: 'block', marginTop: 8, fontSize: 13, color: '#555', fontStyle: 'normal' }}>
+          {t(lang, 'rewordGateAttribution')}
+        </cite>
+      </blockquote>
+      <div style={{ marginBottom: 16 }}>
+        <textarea
+          data-testid="reword-input"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          placeholder={t(lang, 'rewordGatePlaceholder')}
+          style={{
+            width: '100%',
+            minHeight: 120,
+            padding: 16,
+            border: '1px solid #ccc',
+            borderRadius: 4,
+            fontFamily: 'Palatino, Georgia, serif',
+            fontSize: 15,
+            lineHeight: 1.6,
+            resize: 'vertical',
+            outline: 'none',
+            boxSizing: 'border-box'
+          }}
+          aria-label={t(lang, 'rewordGatePlaceholder')}
+          onFocus={(e) => { e.target.style.borderColor = '#a00000'; }}
+          onBlur={(e) => { e.target.style.borderColor = '#ccc'; }}
+        />
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
+        <span style={{ fontSize: 14, color: isUnlocked ? '#2d5a3d' : '#555' }}>
+          <strong>{text.length}</strong> / {minChars} {t(lang, 'rewordGateCharCount')} {!isUnlocked && `(${minChars} ${t(lang, 'rewordGateMinChars')})`}
+        </span>
+        <button
+          data-testid="approve-button"
+          onClick={handleApprove}
+          disabled={!isUnlocked}
+          style={{
+            padding: '12px 24px',
+            border: 'none',
+            borderRadius: 4,
+            fontFamily: 'Palatino, Georgia, serif',
+            fontSize: 15,
+            fontWeight: 500,
+            cursor: isUnlocked ? 'pointer' : 'not-allowed',
+            transition: 'all 0.2s',
+            background: isUnlocked ? '#a00000' : '#e5e5e5',
+            color: isUnlocked ? '#fff' : '#999',
+            minHeight: 44
+          }}
+          aria-disabled={!isUnlocked}
+        >
+          {isUnlocked ? t(lang, 'rewordGateButtonUnlocked') : t(lang, 'rewordGateButtonLocked')}
+        </button>
+      </div>
+    </div>
+  );
+};
+
 const SkillInventoryTable = ({ lang, links }) => (
   <div style={{ overflowX: 'auto' }}>
     <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14, fontFamily: 'Palatino, Georgia, serif' }} data-testid="skill-inventory">
@@ -941,6 +1043,7 @@ export default function SkillForgeVisualizer({ lang = 'en', links = {} }) {
   const [problemCount, setProblemCount] = useState(10);
   const [expandedPhase, setExpandedPhase] = useState(null);
   const [expandedExample, setExpandedExample] = useState(null);
+  const [rewordApproved, setRewordApproved] = useState(false);
 
   // Example deliberation step metadata
   const exampleSteps = [
@@ -1092,6 +1195,17 @@ export default function SkillForgeVisualizer({ lang = 'en', links = {} }) {
                   )}
                 </div>
               ))}
+            </div>
+            
+            {/* Reword Gate - Human Articulation Gate (v3.0.0) */}
+            <div style={{ marginTop: 32 }}>
+              <RewordGate 
+                lang={validLang} 
+                onApprove={(articulation) => {
+                  setRewordApproved(true);
+                  console.log('Decision articulated:', articulation);
+                }}
+              />
             </div>
           </section>
         )}
