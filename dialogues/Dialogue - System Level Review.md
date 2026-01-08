@@ -524,3 +524,175 @@ These are now **candidate shapes** awaiting HO determination, not GA recommendat
 
 **Request to IA:** With these corrections, is UG eligible for closure?
 
+## IA — Formal Remediation Approach (AG-Ready)
+
+This document proposes a **remediation approach suitable for Agreement Gate (AG) evaluation** under the *System-Level Review* dialogue.  
+It reflects **only** HO’s recorded decisions and their logical consequences.  
+No new scope is introduced. No implementation is authorized.
+
+---
+
+## Preconditions (Satisfied)
+
+- **UG:** CLOSED  
+- **HO Decisions Recorded:** DP-1(B), DP-2(B), DP-3(B), DP-4(B), DP-5(C), DP-6 deferred  
+- **Dialogue Scope:** Planning and decision-making only
+
+This approach is therefore **eligible for AG consideration**.
+
+---
+
+## Remediation Objective (Formal)
+
+To restore **semantic clarity, architectural coherence, and auditability** to the portfolio system by producing **canonical system-level standards** *before* any further artifact accretion, and to structurally separate **governed** and **marketing** surfaces.
+
+---
+
+## Remediation Strategy (What Will Be Done)
+
+The remediation is organized as a **system-specification program**, not a demo or feature build.
+
+### Output Class
+The outputs are **standards and definitions**, not artifacts or UI features.
+
+### Required Outputs (Authoritative)
+
+1. **Boundary Legend (Canonical)**
+   - Human-readable explanation of:
+     - Provenance
+     - Epistemic Status
+     - Authorship
+     - Visual Containment
+   - Explicitly states what each marker **does and does not claim**
+   - Intended audience: non-expert readers
+
+2. **Footer Standard**
+   - Single required schema for all governed artifacts
+   - Defines:
+     - Required fields
+     - Optional fields
+     - Prohibited content
+   - Eliminates footer divergence across demos
+
+3. **System Wiring Diagram + Legend**
+   - End-to-end articulation of:
+     - Inputs
+     - Deliberation steps
+     - Artifact generation
+     - Inspection
+     - Deployment
+   - Diagram completeness checklist becomes binding for future diagrams
+
+4. **Surface Qualification Rules**
+   - Explicit criteria for:
+     - **Governed deployment** (auditable, epistemically bounded)
+     - **Marketing deployment** (illustrative, persuasive, non-authoritative)
+   - Prevents cross-surface contamination
+
+5. **Responsive QA Acceptance Criteria**
+   - Viewport classes that must be supported
+   - Minimum reproduction protocol
+   - Definition of “acceptable degradation”
+
+These outputs together satisfy DP-1 through DP-5.
+
+---
+
+## Structural Execution Model (How Work Is Organized)
+
+### Cycle Structure
+
+The remediation will be executed as **one Skill Forge cycle** with a **composite system-spec artifact**, rather than multiple fragmented cycles.
+
+**Rationale:**
+- Outputs are interdependent
+- Separate cycles would force artificial sequencing
+- Amortization accounting is cleaner as a single capital investment
+
+### Artifact Identity
+
+- Artifact type: **System Specification Bundle**
+- Governing skill: Skill Forge (standard)
+- Single artifact per cycle rule is preserved
+
+---
+
+## Evidence and Verification Plan
+
+### Evidence Types (Required)
+
+- Canonical markdown documents committed to repo
+- Diagrams committed as source + rendered form
+- Screenshot evidence for any UI-visible standards
+- GitHub Actions run URLs validating:
+  - build
+  - accessibility (where applicable)
+
+### Inspection Method
+
+- IA verifies:
+  - semantic completeness (per DP decisions)
+  - consistency across documents
+  - absence of implicit authority claims
+- IA does **not** judge design taste or persuasion quality
+
+---
+
+## Non-Goals (Explicit Exclusions)
+
+This remediation **will not**:
+- Import new demo artifacts
+- Modify existing demos beyond standard conformance
+- Resolve DP-6 (pending artifact)
+- Merge marketing and governed surfaces
+- Optimize aesthetics beyond clarity requirements
+
+---
+
+## Risks and Mitigations
+
+| Risk | Mitigation |
+|-----|------------|
+| Over-formalization | Scope locked to five outputs only |
+| Documentation sprawl | Single bundle artifact |
+| Premature architecture lock-in | Surface rules are criteria, not deployment code |
+| Execution creep | No Execution Authorization until AG + HO approval |
+
+---
+
+## Agreement Gate (AG) Acceptance Criteria
+
+AG may close **only if all are true**:
+
+1. HO affirms the remediation scope matches intent  
+2. GA commits to:
+   - producing *only* the listed outputs
+   - no implementation without new authorization
+3. IA confirms:
+   - outputs are inspectable
+   - evidence protocol is sufficient
+4. All parties acknowledge:
+   - this cycle produces standards, not features
+
+---
+
+## Post-AG State (If Accepted)
+
+- **Execution Authorization:** still **NOT GRANTED**
+- A *new* Skill Forge execution cycle may be initialized **only after**:
+  - HO explicitly authorizes it
+  - Artifact identity and canary are declared
+
+---
+
+## Summary
+
+This remediation approach:
+- Fully honors HO’s decisions
+- Resolves all blocking DPs except DP-6 (intentionally deferred)
+- Preserves protocol integrity
+- Creates a stable foundation for future work
+
+**Ready for Agreement Gate review.**
+
+
