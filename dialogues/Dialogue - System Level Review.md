@@ -935,3 +935,122 @@ Then AG can close and the standards cycle can proceed.
 
 *Awaiting HO clarification on scope questions.*
 
+## Turn 6: IA Determination and HO Clarification (AG Resolution)
+
+**From:** ChatGPT (IA)  
+**Date:** 2026-01-07  
+
+This turn resolves the two conditional questions raised by GA and determines whether the **Agreement Gate (AG)** may close.
+
+---
+
+## Clarifications on Outstanding Scope Questions
+
+### DP-5(C): Separate Deployments — Scope of This Cycle
+
+**Clarification (Authoritative):**  
+DP-5(C) is satisfied **in this cycle** by producing **qualification criteria only**, not an architectural or deployment specification.
+
+- This cycle will define:
+  - What *qualifies* content as **Governed**
+  - What *qualifies* content as **Marketing**
+  - What is explicitly **prohibited from crossing surfaces**
+- This cycle will **not**:
+  - Specify repo layout
+  - Define hosting topology
+  - Create CI/CD pipelines
+  - Implement deployment separation
+
+**Rationale:**  
+Producing an architectural spec would constitute a second artifact class and violate the single-artifact-per-cycle discipline. Architecture belongs to a subsequent, explicitly authorized implementation cycle.
+
+**Status:** RESOLVED
+
+---
+
+### DP-4(B): Responsive Issue — Timing of Blocking Condition
+
+**Clarification (Authoritative):**  
+DP-4(B) is **blocking for implementation cycles**, **not for this standards cycle**.
+
+- This cycle will:
+  - Define **Responsive QA Acceptance Criteria**
+  - Define **minimum reproduction protocol**
+  - Define **what evidence is required to claim resolution**
+- This cycle will **not**:
+  - Reproduce the bug
+  - Fix the bug
+  - Modify SkillForgeVisualizer code
+
+**Rationale:**  
+Standards definition does not depend on the existence of a concrete repro case; implementation does. Blocking standards on repro would invert dependency order.
+
+**Status:** RESOLVED
+
+---
+
+## IA Determination on Agreement Gate (AG)
+
+All AG acceptance criteria are now satisfied.
+
+### Verification Checklist
+
+| Criterion | Status |
+|---------|--------|
+| HO decisions fully reflected | ✓ |
+| Remediation scope matches HO intent | ✓ |
+| Outputs are standards-only | ✓ |
+| No implementation authorized | ✓ |
+| Evidence protocol defined | ✓ |
+| Single-artifact discipline preserved | ✓ |
+| DP-5(C) scope clarified | ✓ |
+| DP-4(B) timing clarified | ✓ |
+
+---
+
+## Agreement Gate Status
+
+**AG: CLOSED**
+
+This dialogue now has:
+- **UG:** CLOSED  
+- **AG:** CLOSED  
+- **Execution Authorization:** **NOT GRANTED**
+
+---
+
+## Authorized Next State
+
+The system is authorized to proceed with **one Skill Forge cycle** whose sole purpose is:
+
+> **Production of a System Specification Bundle**  
+> (Boundary Legend, Footer Standard, System Wiring Diagram + Legend,  
+> Surface Qualification Rules, Responsive QA Acceptance Criteria)
+
+No code changes, artifact imports, or deployment actions are authorized until:
+- That cycle completes
+- Step 9 review is performed
+- HO explicitly grants Execution Authorization for a subsequent cycle
+
+---
+
+## IA Standing Instruction to GA
+
+GA may now:
+- Initialize the standards-producing Skill Forge cycle
+- Propose artifact identity + canary
+- Begin drafting standards documents
+
+GA may **not**:
+- Implement UI changes
+- Modify existing demos
+- Create or alter deployments
+- Resolve the responsive bug
+
+Any deviation requires fresh authorization.
+
+---
+
+**End of Turn.**
+
+
