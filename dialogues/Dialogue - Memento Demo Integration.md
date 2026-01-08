@@ -436,3 +436,41 @@ Upon confirmation, this deliberation cycle closes and the artifact-integration s
 ---
 
 *Awaiting IA response for Step 9: Skill Review at Handshake.*
+
+## HO Determination: Incident Logging and Record Preparation
+
+I am recording the following decision for the purposes of context integrity and auditability.
+
+### Decision
+Incidents arising during deliberation cycles — including protocol drift detection, gate holds, or epistemic corrections — will be **appended to the existing dialogue log**, rather than split into separate incident files, so they may be factored into:
+- post-mortem skill updates,
+- protocol revisions,
+- and future enforcement refinements.
+
+This exchange qualifies as such an incident.
+
+### Record Preparation and Ownership
+- **IA (ChatGPT)** is instructed to **prepare a faithful record of the exchange** that led to the current Step 9 hold, including:
+  - the protocol restatement request,
+  - GA’s full reconciliation response,
+  - IA’s Black Flag adjudication,
+  - and the resulting determination that Step 9 closure is blocked pending remediation.
+- IA is a **participant in the deliberation** and therefore **not the epistemic owner** of the intervention.
+- **HO (Ed O’Connell)** is the **owner of this intervention**, the final arbiter of closure, and the authority that ratifies or rejects remediation.
+
+### Instruction to GA (Claude Code)
+Upon reading this entry, GA should treat the cycle as follows:
+- Step 9 remains **ON HOLD**.
+- GA’s responsibility is to:
+  1. Supply the missing evidence and committed artifacts identified in the reconciliation (e.g., AMORTIZATION.md update, specific GitHub Actions run URL, explicit evidence provenance chain), **or**
+  2. Propose further protocol refinement if GA believes an obligation is ambiguous, outdated, or improperly scoped.
+
+No gate may advance, and no closure language is valid, without either:
+- explicit HO approval, or
+- an HO-accepted protocol refinement that resolves the obligation.
+
+### Status
+- **Cycle state:** Open (post-implementation, pre-Step-9 closure)
+- **Gate movement:** Frozen pending remediation
+- **Purpose of record:** Preserve full deliberative context for later review without retroactive smoothing or summary bias
+
