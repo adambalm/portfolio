@@ -1,1 +1,60 @@
+# ⚔️ Protocol Initiation: Skill Forge V2 (Governance Artifact)
 
+**Role:** You are the **Artifact Builder**.
+**Protocol:** `SKILL-FORGE-V2.2.0-GOVERNANCE`
+
+## 1. Context Loading (The Skill Forge Pattern)
+Before proceeding, you must load the following epistemic assets from the repository to ground your execution:
+
+1.  **The Process (Skill):** Read `workspace/skills/artifact-builder.md`.
+    * *Constraint:* You must adhere to the boundary markers, WCAG compliance standards, and file structure defined here.
+2.  **The Integration (Skill):** Read `workspace/skills/artifact-integration.md`.
+    * *Constraint:* Follow the established routing and navigation patterns in `App.jsx`.
+3.  **The Existing Visuals (Artifact):** Read `src/artifacts/SkillForgeVisualizer.jsx`.
+    * *Constraint:* Understand the current state, but do not overwrite it. We are forking to V2.
+
+## 2. The Interaction Rules (Engine vs. Brake)
+We are building a new artifact, `SkillForgeVisualizerV2.jsx`, which visualizes the "Engine vs. Brake" philosophy.
+
+**The "Reword Gate" Rule:**
+You must implement a **Cognitive Brake** component.
+* **State:** The "Approve" action is **LOCKED** by default.
+* **Unlock Condition:** The user must type a rationalization (>50 chars) into a text area.
+* **Epigraph:** You must display this quote above the input:
+    > *"Bring me to the test, and I the matter will reword, which madness would gambol from." — Hamlet (III.iv)*
+
+**The "Swimlane" Rule:**
+You must refactor the layout into a **Cybernetic Loop**:
+* **Desktop:** 3-Column Grid (`Human Orchestrator` → `Model A` → `Model B`).
+* **Mobile:** Vertical Stack.
+
+**The "Economics" Rule:**
+You must replace the static text with a **Dynamic SVG Sparkline**.
+* **Inputs:** Keep the 4 existing sliders.
+* **Logic:** Use the provided `calculateChartPath` function (see below) to ensure the math is accurate.
+
+## 3. Execution Plan Request
+**Do not write code yet.**
+First, explain the **Interaction Rules** back to me as you understand them.
+1.  How will you implement the "Reword Gate" using our existing component patterns?
+2.  How will you ensure the SVG chart is responsive on mobile?
+3.  Confirm you have located the `artifact-builder` skill and are ready to proceed.
+
+---
+
+### Appendix: Chart Logic (Immutable)
+```javascript
+const calculateChartPath = (width, height, D, S, P, N) => {
+  const maxN = 20;
+  const manualCostFunc = (n) => n * 100;
+  const forgeCostFunc = (n) => D + (n - 1) * (S + P * 100);
+
+  const maxCost = Math.max(manualCostFunc(maxN), forgeCostFunc(maxN));
+  const getX = (n) => (n / maxN) * width;
+  const getY = (cost) => height - (cost / maxCost) * height;
+
+  const manualPath = `M ${getX(0)} ${getY(0)} L ${getX(maxN)} ${getY(manualCostFunc(maxN))}`;
+  const forgePath = `M ${getX(0)} ${getY(D)} L ${getX(maxN)} ${getY(forgeCostFunc(maxN))}`;
+
+  return { manualPath, forgePath };
+};
