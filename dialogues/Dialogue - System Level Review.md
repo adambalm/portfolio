@@ -161,3 +161,197 @@ This dialogue is for **planning and decision-making**, not artifact production. 
 
 *Initialized 2026-01-07. Awaiting HO direction or IA review.*
 
+---
+
+## Turn 1: GA Decision Memo
+
+**From:** Claude Code (GA)
+**Date:** 2026-01-07
+
+The following decision memo was produced after codebase exploration. It decomposes the stated concerns and identifies decision points requiring HO input before any action pathway can be chosen.
+
+---
+
+# Decision Memo: Portfolio System Review
+
+**Date:** 2026-01-07
+**Mode:** Plan-only exploration (no authorization for action)
+**HO:** Adam Balm
+
+---
+
+## 1. Problem Decomposition
+
+I decompose the 7 stated concerns into **four distinct problem clusters**:
+
+### Cluster A: Semantic Clarity (Concerns 1, 2)
+
+| Concern | Current State | Gap |
+|---------|--------------|-----|
+| UI boundary semantics ambiguity | [grounded] Three distinct marker types exist: `ProvenanceHeader` (origin), `EpistemicBadge` (inspection status), `AuthorshipMarker` (attribution) | [inference] Ambiguity may be perceived because markers are **inline** without unified legend |
+| No human-readable legend | [grounded] No dedicated legend component. Explanation distributed across: (a) `DemoWithBoundaries.jsx` reference implementation, (b) inline badge descriptions, (c) shell footer one-liner | [missing] Requirements doc specifying what legend should contain |
+
+### Cluster B: Consistency & Standards (Concerns 3, 4)
+
+| Concern | Current State | Gap |
+|---------|--------------|-----|
+| Inconsistent footers | [grounded] Three footer patterns: Shell (`Layout.jsx`), SkillForge (versioned/trilingual), ContextSage/Memento (Tufte-style copyright) | [missing] Footer standard specification |
+| Diagrams missing detail | [inference] SkillForgeVisualizer has Swiss Cheese SVG + Cost Curve SVG. "Missing detail" claim not grounded—needs specific examples | [missing] Which diagrams, what detail |
+
+### Cluster C: Architecture Tension (Concern 5)
+
+| Concern | Current State | Gap |
+|---------|--------------|-----|
+| Dual-surface tension | [grounded] Single site serves both roles. `DemoContainer` creates visual separation but no architectural separation | [inference] This may be acceptable if boundary markers are sufficient epistemic guardrails |
+
+### Cluster D: Technical Debt (Concerns 6, 7)
+
+| Concern | Current State | Gap |
+|---------|--------------|-----|
+| SkillForge breaks at some resolutions | [inference] Not observed in exploration. 1,176-line component with complex SVG | [missing] Reproduction steps, affected viewport sizes |
+| Pending artifact import | [grounded] LandingPage shows "Artifact Demo" as deferred to v1.3.0+ | [missing] Whether this is the referenced pending import, or something else |
+
+---
+
+## 2. Decision Points for HO
+
+These require HO input before any action pathway can be chosen:
+
+### DP-1: Legend Scope
+
+**Question:** Should the legend be:
+- (a) A dedicated `/legend` route with comprehensive explanations
+- (b) An expandable panel on the landing page
+- (c) Tooltips on each marker type
+- (d) Current inline pattern is sufficient
+
+**Dependency:** Answers DP-1 determines whether Cluster A requires implementation work.
+
+### DP-2: Footer Standardization Priority
+
+**Question:** Is footer inconsistency blocking, or acceptable tech debt?
+- If blocking: need footer spec before next artifact import
+- If acceptable: defer to future consolidation pass
+
+### DP-3: Diagram Detail Specification
+
+**Question:** Which diagrams are incomplete? What detail is missing?
+- [missing] Cannot evaluate without specific examples
+- Blocks any Cluster B remediation work
+
+### DP-4: SkillForge Responsive Issue
+
+**Question:** Can you provide reproduction steps for the reported breakage?
+- [missing] Viewport size(s) where issue manifests
+- [missing] Browser/device context
+- Blocks any Cluster D remediation work
+
+### DP-5: Surface Separation
+
+**Question:** Should governed/auditable content and marketing content be:
+- (a) Same site, differentiated only by boundary markers (current)
+- (b) Same repo, separate routes (e.g., `/governed/*` vs `/showcase/*`)
+- (c) Separate repos/deployments entirely
+
+**Dependency:** Impacts architecture if (b) or (c) chosen.
+
+### DP-6: Pending Import Identity
+
+**Question:** Is the "pending artifact import" the "Artifact Demo" listed as deferred on landing page, or something else?
+- [grounded] LandingPage.jsx lists "Artifact Demo" as deferred
+- [missing] Confirmation this is the item referenced
+
+---
+
+## 3. Recommended Deliberation Structure
+
+### Should a new Skill Forge cycle be initiated?
+
+**Recommendation: Not yet.**
+
+**Reasoning:**
+
+1. [grounded] A Skill Forge cycle is a heavyweight pattern for producing auditable artifacts with gate-enforced deliberation
+2. [inference] The concerns raised are **meta-level** (standards, legends, architecture)—not artifact production
+3. [inference] Starting a Skill Forge cycle without resolved decision points would contaminate the cycle with unresolved requirements
+
+**Alternative recommended structure:**
+
+| Phase | Purpose | Output |
+|-------|---------|--------|
+| **Phase 1: Requirements Gathering** | Resolve DP-1 through DP-6 | Decision document |
+| **Phase 2: Standards Definition** | If needed, define legend spec, footer standard | Standards doc (could be CLAUDE.md amendment) |
+| **Phase 3: Remediation** | Fix responsive issue, footer inconsistency | PRs with standard CI validation |
+| **Phase 4: Artifact Import** | If deferred artifact is unblocked | Skill Forge cycle (if artifact warrants it) |
+
+**Protocol contamination risk:** [inference] If a Skill Forge cycle is started now without Phase 1-2, the cycle may oscillate between artifact production and standards negotiation. Skill Forge is designed for artifact deliberation, not meta-standard negotiation.
+
+---
+
+## 4. Proposed Recommendations
+
+### R-1: Defer Artifact Import
+
+**Recommendation:** Do not proceed with remaining artifact import until DP-2 (footer standard) is resolved.
+**Rationale:** [grounded] Current footers show three different patterns. Importing another artifact without footer spec perpetuates inconsistency.
+**Exception:** If HO decides footer inconsistency is acceptable (DP-2 = "acceptable debt"), import can proceed.
+
+### R-2: No Architectural Separation (Yet)
+
+**Recommendation:** Keep single-surface architecture with boundary markers.
+**Rationale:** [grounded] The boundary marker system (`ProvenanceHeader`, `EpistemicBadge`, `AuthorshipMarker`, `DemoContainer`) provides epistemic containment. [inference] Separate surfaces add deployment complexity without clear benefit if markers are working.
+**Revisit trigger:** If user research shows boundary markers are not understood.
+
+### R-3: Legend as Landing Page Amendment (Tentative)
+
+**Recommendation:** If DP-1 = "needs legend", implement as collapsible section on landing page rather than separate route.
+**Rationale:** [inference] Users encountering artifacts will enter via landing page. Legend at entry point reduces friction.
+**Contingent on:** HO confirming current inline pattern is insufficient.
+
+### R-4: Gather Missing Evidence Before Remediation
+
+**Recommendation:** Before any Cluster B/D work, request:
+- Specific diagrams needing detail (DP-3)
+- SkillForge responsive issue reproduction steps (DP-4)
+
+**Rationale:** [grounded] Cannot scope remediation work without specific failure cases.
+
+---
+
+## 5. Information Requests
+
+If HO wants me to proceed with any pathway, I need:
+
+| Item | Purpose |
+|------|---------|
+| Confirmation of pending artifact identity | Resolve DP-6 |
+| SkillForge responsive issue reproduction | Scope DP-4 remediation |
+| Diagram detail requirements | Scope DP-3 remediation |
+| Footer standard preference | Resolve DP-2 |
+| Legend scope preference | Resolve DP-1 |
+
+**Optional (if HO wants protocol-grounded work):**
+- Canonical "artifact integration skill instructions" (current version)
+- Canonical "Skill Forge pattern" definition
+
+---
+
+## 6. Summary Matrix
+
+| Cluster | Blocking? | Action Required | Depends On |
+|---------|-----------|-----------------|------------|
+| A: Semantic Clarity | [inference] Not blocking if inline pattern is acceptable | Legend (if DP-1 ≠ "sufficient") | DP-1 |
+| B: Consistency | [inference] Blocking for new imports | Footer standard | DP-2 |
+| C: Architecture | [inference] Not blocking | None unless HO chooses separation | DP-5 |
+| D: Technical Debt | [missing] Cannot assess | Responsive fix | DP-3, DP-4 |
+
+---
+
+**End of Decision Memo**
+
+No files were modified during memo production. This memo is advisory only and does not constitute authorization for any implementation work.
+
+---
+
+*Awaiting HO response to decision points.*
+
