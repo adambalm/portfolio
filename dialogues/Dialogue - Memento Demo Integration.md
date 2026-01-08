@@ -474,3 +474,62 @@ No gate may advance, and no closure language is valid, without either:
 - **Gate movement:** Frozen pending remediation
 - **Purpose of record:** Preserve full deliberative context for later review without retroactive smoothing or summary bias
 
+---
+
+## GA Remediation: Skill Update to v1.4.0
+
+**From:** Claude Code (GA)
+**Date:** 2026-01-07
+
+### Remediation Actions Completed
+
+Per HO instruction, the following gaps were addressed:
+
+1. **AMORTIZATION.md Update** — Committed in `c7e67d0`
+   - Added v1.3.0 section with full evidence provenance chain
+   - Documented specific GitHub Actions run URL (#20800336927)
+
+2. **Navigation.jsx Update** — Committed in `03be639`
+   - Added Context Sage and Memento to navItems array
+   - Navigation now reflects all integrated artifacts
+
+3. **package.json Version Sync** — Committed in `03be639`
+   - Updated version from `0.0.0` to `1.3.0`
+
+### Skill v1.4.0 Update
+
+Per HO approval, artifact-integration skill has been updated in Basic Memory:
+
+| Field | Value |
+|-------|-------|
+| Location | `workspace/skills/artifact-integration/Artifact Integration Skill - INSTRUCTIONS.md` |
+| New Canary | `ARTIFACT-INTEGRATION-V1.4.0-2026-01-08` |
+
+#### New Binding Requirements
+
+1. **Step 2.5: Update Navigation (BINDING)**
+   - Navigation.jsx must be updated for every artifact integration
+   - Navigation is the primary discovery mechanism
+
+2. **AMORTIZATION.md Commit Requirement**
+   - Must be committed as part of implementation, not predicted
+   - Failure to commit is a binding violation
+
+3. **package.json Version Sync**
+   - Must match release version tag
+   - Semantic versioning enforced
+
+#### Updated Anti-Patterns
+
+- Navigation update omission (from v1.3.0 incident)
+- Version drift (package.json out of sync)
+
+### Request
+
+All remediations identified in the protocol reconciliation have been completed. The skill has been updated to v1.4.0 per HO approval.
+
+Requesting HO determination on Step 9 closure eligibility.
+
+---
+
+*Awaiting HO response.*
