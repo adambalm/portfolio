@@ -305,6 +305,17 @@ const i18n = {
     rewordGateApproved: 'Decision Approved',
     rewordGateApprovedDetail: 'You have demonstrated understanding. The skill may now compile.',
 
+    // Swimlane Layout (v3.0.0)
+    swimlaneHO: 'Human Orchestrator',
+    swimlaneGA: 'Model A (GA)',
+    swimlaneIA: 'Model B (IA)',
+    swimlaneHODesc: 'Owns decisions, qualifies output',
+    swimlaneGADesc: 'Proposes approaches, responds to flags',
+    swimlaneIADesc: 'Verifies claims, surfaces failure modes',
+    layoutToggle: 'Toggle Layout',
+    layoutSwimlane: 'Swimlane View',
+    layoutClassic: 'Classic View',
+
     // Accessibility
     skipToMain: 'Skip to main content',
     selectView: 'Select a view',
@@ -1044,6 +1055,7 @@ export default function SkillForgeVisualizer({ lang = 'en', links = {} }) {
   const [expandedPhase, setExpandedPhase] = useState(null);
   const [expandedExample, setExpandedExample] = useState(null);
   const [rewordApproved, setRewordApproved] = useState(false);
+  const [processLayout, setProcessLayout] = useState('swimlane'); // 'swimlane' | 'classic'
 
   // Example deliberation step metadata
   const exampleSteps = [
@@ -1118,21 +1130,104 @@ export default function SkillForgeVisualizer({ lang = 'en', links = {} }) {
         {/* ========== SECTION: Process ========== */}
         {view === 'process' && (
           <section id="panel-process" role="tabpanel" aria-labelledby="tab-process" tabIndex={0} data-section="process">
-            <h2 style={{ fontSize: 22, fontWeight: 400, fontStyle: 'italic', marginBottom: 16 }}>{t(validLang, 'processTitle')}</h2>
-            <p style={{ color: '#555', marginBottom: 24, lineHeight: 1.6 }}>{t(validLang, 'processDesc')}</p>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32 }}>
-              <div role="group" aria-label={t(validLang, 'processSteps')}>
-                {[1,2,3,4,5,6,7,8].map((num) => (
-                  <FlowStep key={num} number={num} title={t(validLang, `step${num}Title`)} description={t(validLang, `step${num}Desc`)} active={processStep === num - 1} completed={processStep > num - 1} onClick={() => setProcessStep(num - 1)} totalSteps={8} lang={validLang} />
-                ))}
+            <style>{`
+              .swimlane-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+              @media (min-width: 900px) { .swimlane-grid { grid-template-columns: repeat(3, 1fr); } }
+            `}</style>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 16, marginBottom: 16 }}>
+              <div>
+                <h2 style={{ fontSize: 22, fontWeight: 400, fontStyle: 'italic', margin: 0 }}>{t(validLang, 'processTitle')}</h2>
+                <p style={{ color: '#555', marginTop: 8, lineHeight: 1.6 }}>{t(validLang, 'processDesc')}</p>
               </div>
-              <div style={{ background: '#fff', border: '1px solid #ccc', borderRadius: 4, padding: 24 }} aria-live="polite" data-testid="step-detail">
+              <button
+                onClick={() => setProcessLayout(processLayout === 'swimlane' ? 'classic' : 'swimlane')}
+                data-testid="layout-toggle"
+                style={{ padding: '8px 16px', border: '1px solid #ccc', borderRadius: 4, background: '#fff', fontFamily: 'Palatino, Georgia, serif', fontSize: 13, cursor: 'pointer', whiteSpace: 'nowrap' }}
+              >
+                {processLayout === 'swimlane' ? t(validLang, 'layoutClassic') : t(validLang, 'layoutSwimlane')}
+              </button>
+            </div>
+
+            {/* Swimlane Layout (v3.0.0) */}
+            {processLayout === 'swimlane' && (
+              <div className="swimlane-grid" data-testid="swimlane-view">
+                {/* HO Lane */}
+                <div style={{ background: '#fff5f5', border: '1px solid rgba(160,0,0,0.25)', borderRadius: 4, padding: 16 }} data-testid="swimlane-ho">
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12, paddingBottom: 12, borderBottom: '1px solid rgba(160,0,0,0.25)' }}>
+                    <User style={{ width: 20, height: 20, color: '#a00000' }} aria-hidden="true" />
+                    <div>
+                      <div style={{ fontWeight: 500, color: '#a00000', fontSize: 14 }}>{t(validLang, 'swimlaneHO')}</div>
+                      <div style={{ fontSize: 12, color: '#555' }}>{t(validLang, 'swimlaneHODesc')}</div>
+                    </div>
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    <FlowStep number={1} title={t(validLang, 'step1Title')} description={t(validLang, 'step1Desc')} active={processStep === 0} completed={processStep > 0} onClick={() => setProcessStep(0)} totalSteps={8} lang={validLang} />
+                    <div style={{ padding: '8px 12px', background: '#fffaf0', border: '1px solid #b8860b', borderRadius: 4, fontSize: 12, color: '#8b6914', fontWeight: 500 }}>← UG Gate (Step 4)</div>
+                    <div style={{ padding: '8px 12px', background: '#fffaf0', border: '1px solid #b8860b', borderRadius: 4, fontSize: 12, color: '#8b6914', fontWeight: 500 }}>← AG Gate (Step 6)</div>
+                    <FlowStep number={7} title={t(validLang, 'step7Title')} description={t(validLang, 'step7Desc')} active={processStep === 6} completed={processStep > 6} onClick={() => setProcessStep(6)} totalSteps={8} lang={validLang} />
+                    <FlowStep number={8} title={t(validLang, 'step8Title')} description={t(validLang, 'step8Desc')} active={processStep === 7} completed={processStep > 7} onClick={() => setProcessStep(7)} totalSteps={8} lang={validLang} />
+                  </div>
+                </div>
+
+                {/* GA Lane */}
+                <div style={{ background: '#fffaf0', border: '1px solid #b8860b', borderRadius: 4, padding: 16 }} data-testid="swimlane-ga">
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12, paddingBottom: 12, borderBottom: '1px solid #b8860b' }}>
+                    <Zap style={{ width: 20, height: 20, color: '#8b6914' }} aria-hidden="true" />
+                    <div>
+                      <div style={{ fontWeight: 500, color: '#8b6914', fontSize: 14 }}>{t(validLang, 'swimlaneGA')}</div>
+                      <div style={{ fontSize: 12, color: '#555' }}>{t(validLang, 'swimlaneGADesc')}</div>
+                    </div>
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    <FlowStep number={2} title={t(validLang, 'step2Title')} description={t(validLang, 'step2Desc')} active={processStep === 1} completed={processStep > 1} onClick={() => setProcessStep(1)} totalSteps={8} lang={validLang} />
+                    <FlowStep number={4} title={t(validLang, 'step4Title')} description={t(validLang, 'step4Desc')} active={processStep === 3} completed={processStep > 3} onClick={() => setProcessStep(3)} totalSteps={8} lang={validLang} />
+                  </div>
+                </div>
+
+                {/* IA Lane */}
+                <div style={{ background: '#f5fff5', border: '1px solid #2d5a3d', borderRadius: 4, padding: 16 }} data-testid="swimlane-ia">
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12, paddingBottom: 12, borderBottom: '1px solid #2d5a3d' }}>
+                    <AlertCircle style={{ width: 20, height: 20, color: '#2d5a3d' }} aria-hidden="true" />
+                    <div>
+                      <div style={{ fontWeight: 500, color: '#2d5a3d', fontSize: 14 }}>{t(validLang, 'swimlaneIA')}</div>
+                      <div style={{ fontSize: 12, color: '#555' }}>{t(validLang, 'swimlaneIADesc')}</div>
+                    </div>
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    <FlowStep number={3} title={t(validLang, 'step3Title')} description={t(validLang, 'step3Desc')} active={processStep === 2} completed={processStep > 2} onClick={() => setProcessStep(2)} totalSteps={8} lang={validLang} />
+                    <FlowStep number={5} title={t(validLang, 'step5Title')} description={t(validLang, 'step5Desc')} active={processStep === 4} completed={processStep > 4} onClick={() => setProcessStep(4)} totalSteps={8} lang={validLang} />
+                    <FlowStep number={6} title={t(validLang, 'step6Title')} description={t(validLang, 'step6Desc')} active={processStep === 5} completed={processStep > 5} onClick={() => setProcessStep(5)} totalSteps={8} lang={validLang} />
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Classic Layout */}
+            {processLayout === 'classic' && (
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32 }} data-testid="classic-view">
+                <div role="group" aria-label={t(validLang, 'processSteps')}>
+                  {[1,2,3,4,5,6,7,8].map((num) => (
+                    <FlowStep key={num} number={num} title={t(validLang, `step${num}Title`)} description={t(validLang, `step${num}Desc`)} active={processStep === num - 1} completed={processStep > num - 1} onClick={() => setProcessStep(num - 1)} totalSteps={8} lang={validLang} />
+                  ))}
+                </div>
+                <div style={{ background: '#fff', border: '1px solid #ccc', borderRadius: 4, padding: 24 }} aria-live="polite" data-testid="step-detail">
+                  {processStep === 3 && (<div><Gate type="UG" status="open" label={t(validLang, 'understandingGate')} lang={validLang} /><p style={{ marginTop: 16, lineHeight: 1.6, color: '#555' }}>{t(validLang, 'ugDetailText')}</p><div style={{ marginTop: 16, padding: 12, background: '#fafafa', borderLeft: '3px solid #a00000', borderRadius: 2 }}><p style={{ fontSize: 13, fontStyle: 'italic', color: '#555', margin: 0, lineHeight: 1.6 }}>{t(validLang, 'step4Example')}</p></div></div>)}
+                  {processStep === 5 && (<div><Gate type="AG" status="open" label={t(validLang, 'agreementGate')} lang={validLang} /><p style={{ marginTop: 16, lineHeight: 1.6, color: '#555' }}>{t(validLang, 'agDetailText')}</p><div style={{ marginTop: 16, padding: 12, background: '#fafafa', borderLeft: '3px solid #a00000', borderRadius: 2 }}><p style={{ fontSize: 13, fontStyle: 'italic', color: '#555', margin: 0, lineHeight: 1.6 }}>{t(validLang, 'step6Example')}</p></div></div>)}
+                  {processStep === 6 && (<div><div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}><User style={{ width: 20, height: 20, color: '#a00000' }} aria-hidden="true" /><span style={{ fontWeight: 500, fontStyle: 'italic' }}>{t(validLang, 'hagDetailTitle')}</span></div><p style={{ lineHeight: 1.6, color: '#555' }}>{t(validLang, 'hagDetailText')}</p><div style={{ marginTop: 16, padding: 12, background: '#fafafa', borderLeft: '3px solid #a00000', borderRadius: 2 }}><p style={{ fontSize: 13, fontStyle: 'italic', color: '#555', margin: 0, lineHeight: 1.6 }}>{t(validLang, 'step7Example')}</p></div></div>)}
+                  {![3, 5, 6].includes(processStep) && (<div><p style={{ lineHeight: 1.6, color: '#555' }}>{t(validLang, `step${processStep + 1}Desc`)}</p>{t(validLang, `step${processStep + 1}Example`) !== `step${processStep + 1}Example` && (<div style={{ marginTop: 16, padding: 12, background: '#fafafa', borderLeft: '3px solid #a00000', borderRadius: 2 }}><p style={{ fontSize: 13, fontStyle: 'italic', color: '#555', margin: 0, lineHeight: 1.6 }}>{t(validLang, `step${processStep + 1}Example`)}</p></div>)}</div>)}
+                </div>
+              </div>
+            )}
+
+            {/* Detail Panel for Swimlane view */}
+            {processLayout === 'swimlane' && (
+              <div style={{ marginTop: 24, background: '#fff', border: '1px solid #ccc', borderRadius: 4, padding: 24 }} aria-live="polite" data-testid="step-detail">
                 {processStep === 3 && (<div><Gate type="UG" status="open" label={t(validLang, 'understandingGate')} lang={validLang} /><p style={{ marginTop: 16, lineHeight: 1.6, color: '#555' }}>{t(validLang, 'ugDetailText')}</p><div style={{ marginTop: 16, padding: 12, background: '#fafafa', borderLeft: '3px solid #a00000', borderRadius: 2 }}><p style={{ fontSize: 13, fontStyle: 'italic', color: '#555', margin: 0, lineHeight: 1.6 }}>{t(validLang, 'step4Example')}</p></div></div>)}
                 {processStep === 5 && (<div><Gate type="AG" status="open" label={t(validLang, 'agreementGate')} lang={validLang} /><p style={{ marginTop: 16, lineHeight: 1.6, color: '#555' }}>{t(validLang, 'agDetailText')}</p><div style={{ marginTop: 16, padding: 12, background: '#fafafa', borderLeft: '3px solid #a00000', borderRadius: 2 }}><p style={{ fontSize: 13, fontStyle: 'italic', color: '#555', margin: 0, lineHeight: 1.6 }}>{t(validLang, 'step6Example')}</p></div></div>)}
                 {processStep === 6 && (<div><div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}><User style={{ width: 20, height: 20, color: '#a00000' }} aria-hidden="true" /><span style={{ fontWeight: 500, fontStyle: 'italic' }}>{t(validLang, 'hagDetailTitle')}</span></div><p style={{ lineHeight: 1.6, color: '#555' }}>{t(validLang, 'hagDetailText')}</p><div style={{ marginTop: 16, padding: 12, background: '#fafafa', borderLeft: '3px solid #a00000', borderRadius: 2 }}><p style={{ fontSize: 13, fontStyle: 'italic', color: '#555', margin: 0, lineHeight: 1.6 }}>{t(validLang, 'step7Example')}</p></div></div>)}
                 {![3, 5, 6].includes(processStep) && (<div><p style={{ lineHeight: 1.6, color: '#555' }}>{t(validLang, `step${processStep + 1}Desc`)}</p>{t(validLang, `step${processStep + 1}Example`) !== `step${processStep + 1}Example` && (<div style={{ marginTop: 16, padding: 12, background: '#fafafa', borderLeft: '3px solid #a00000', borderRadius: 2 }}><p style={{ fontSize: 13, fontStyle: 'italic', color: '#555', margin: 0, lineHeight: 1.6 }}>{t(validLang, `step${processStep + 1}Example`)}</p></div>)}</div>)}
               </div>
-            </div>
+            )}
           </section>
         )}
 
