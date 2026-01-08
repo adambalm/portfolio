@@ -1,0 +1,171 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 900" width="800" height="900">
+  <title>Skill Forge System Wiring Diagram</title>
+  <desc>Canary: SYSTEM-SPEC-BUNDLE-2026-01-07-V1</desc>
+
+  <style>
+    .title { font: bold 18px sans-serif; fill: #1e293b; }
+    .phase-label { font: bold 14px sans-serif; fill: #1e40af; }
+    .actor-label { font: bold 12px sans-serif; fill: #166534; }
+    .gate-label { font: bold 11px sans-serif; fill: #92400e; }
+    .desc-text { font: 10px sans-serif; fill: #475569; }
+    .box { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 2; }
+    .phase-box { fill: #eff6ff; stroke: #3b82f6; stroke-width: 2; }
+    .actor-box { fill: #dcfce7; stroke: #22c55e; stroke-width: 1.5; }
+    .gate-box { fill: #fef3c7; stroke: #f59e0b; stroke-width: 1.5; rx: 8; }
+    .surface-governed { fill: #dbeafe; stroke: #1d4ed8; stroke-width: 2; }
+    .surface-marketing { fill: #fce7f3; stroke: #db2777; stroke-width: 2; }
+    .arrow { fill: none; stroke: #64748b; stroke-width: 2; marker-end: url(#arrowhead); }
+    .flow-arrow { fill: none; stroke: #3b82f6; stroke-width: 2; marker-end: url(#arrowhead-blue); }
+  </style>
+
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#64748b" />
+    </marker>
+    <marker id="arrowhead-blue" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#3b82f6" />
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="400" y="30" text-anchor="middle" class="title">SKILL FORGE SYSTEM WIRING</text>
+
+  <!-- Input boxes -->
+  <g transform="translate(50, 60)">
+    <rect class="box" width="120" height="80" rx="4" />
+    <text x="60" y="20" text-anchor="middle" class="phase-label">INPUTS</text>
+    <text x="60" y="40" text-anchor="middle" class="desc-text">User needs</text>
+    <text x="60" y="55" text-anchor="middle" class="desc-text">Prior work</text>
+    <text x="60" y="70" text-anchor="middle" class="desc-text">Constraints</text>
+  </g>
+
+  <g transform="translate(340, 60)">
+    <rect class="box" width="120" height="80" rx="4" />
+    <text x="60" y="20" text-anchor="middle" class="phase-label">SKILLS</text>
+    <text x="60" y="40" text-anchor="middle" class="desc-text">Skill Forge</text>
+    <text x="60" y="55" text-anchor="middle" class="desc-text">Pattern</text>
+    <text x="60" y="70" text-anchor="middle" class="desc-text">Integration Skills</text>
+  </g>
+
+  <g transform="translate(630, 60)">
+    <rect class="box" width="120" height="80" rx="4" />
+    <text x="60" y="20" text-anchor="middle" class="phase-label">STORAGE</text>
+    <text x="60" y="40" text-anchor="middle" class="desc-text">Basic Memory</text>
+    <text x="60" y="55" text-anchor="middle" class="desc-text">GitHub Repo</text>
+  </g>
+
+  <!-- Arrows to Deliberation -->
+  <path class="arrow" d="M 110 140 L 110 170 L 400 170 L 400 190" />
+  <path class="arrow" d="M 400 140 L 400 190" />
+  <path class="arrow" d="M 690 140 L 690 170 L 400 170 L 400 190" />
+
+  <!-- Deliberation Phase -->
+  <g transform="translate(100, 200)">
+    <rect class="phase-box" width="600" height="160" rx="8" />
+    <text x="300" y="25" text-anchor="middle" class="phase-label">DELIBERATION PHASE</text>
+
+    <!-- Actors -->
+    <g transform="translate(50, 45)">
+      <rect class="actor-box" width="80" height="60" rx="4" />
+      <text x="40" y="20" text-anchor="middle" class="actor-label">HO</text>
+      <text x="40" y="35" text-anchor="middle" class="desc-text">Human</text>
+      <text x="40" y="48" text-anchor="middle" class="desc-text">Orchestrator</text>
+    </g>
+
+    <g transform="translate(260, 45)">
+      <rect class="actor-box" width="80" height="60" rx="4" />
+      <text x="40" y="20" text-anchor="middle" class="actor-label">GA</text>
+      <text x="40" y="35" text-anchor="middle" class="desc-text">Claude</text>
+      <text x="40" y="48" text-anchor="middle" class="desc-text">Code</text>
+    </g>
+
+    <g transform="translate(470, 45)">
+      <rect class="actor-box" width="80" height="60" rx="4" />
+      <text x="40" y="20" text-anchor="middle" class="actor-label">IA</text>
+      <text x="40" y="35" text-anchor="middle" class="desc-text">ChatGPT</text>
+      <text x="40" y="48" text-anchor="middle" class="desc-text">Inspector</text>
+    </g>
+
+    <!-- Gates -->
+    <g transform="translate(170, 115)">
+      <rect class="gate-box" width="60" height="35" />
+      <text x="30" y="22" text-anchor="middle" class="gate-label">UG</text>
+    </g>
+
+    <g transform="translate(370, 115)">
+      <rect class="gate-box" width="60" height="35" />
+      <text x="30" y="22" text-anchor="middle" class="gate-label">AG</text>
+    </g>
+  </g>
+
+  <!-- Arrow to Execution Auth -->
+  <path class="arrow" d="M 400 360 L 400 390" />
+
+  <!-- Execution Authorization -->
+  <g transform="translate(150, 400)">
+    <rect class="phase-box" width="500" height="50" rx="8" />
+    <text x="250" y="20" text-anchor="middle" class="phase-label">EXECUTION AUTHORIZATION</text>
+    <text x="250" y="38" text-anchor="middle" class="desc-text">IA grants explicit authorization - GA may NOT proceed without it</text>
+  </g>
+
+  <!-- Arrow to Generation -->
+  <path class="arrow" d="M 400 450 L 400 470" />
+
+  <!-- Artifact Generation -->
+  <g transform="translate(150, 480)">
+    <rect class="phase-box" width="500" height="70" rx="8" />
+    <text x="250" y="20" text-anchor="middle" class="phase-label">ARTIFACT GENERATION</text>
+    <text x="250" y="38" text-anchor="middle" class="desc-text">GA produces artifact per spec | Canary embedded</text>
+    <text x="250" y="53" text-anchor="middle" class="desc-text">Boundary markers applied | Evidence collected</text>
+  </g>
+
+  <!-- Arrow to Inspection -->
+  <path class="arrow" d="M 400 550 L 400 570" />
+
+  <!-- Inspection -->
+  <g transform="translate(150, 580)">
+    <rect class="phase-box" width="500" height="60" rx="8" />
+    <text x="250" y="20" text-anchor="middle" class="phase-label">INSPECTION</text>
+    <text x="250" y="38" text-anchor="middle" class="desc-text">IA reviews via GitHub URLs | Evidence verified</text>
+    <text x="250" y="53" text-anchor="middle" class="desc-text">Boundary markers confirmed | Protocol compliance checked</text>
+  </g>
+
+  <!-- Arrow to Step 9 -->
+  <path class="arrow" d="M 400 640 L 400 660" />
+
+  <!-- Step 9 -->
+  <g transform="translate(150, 670)">
+    <rect class="phase-box" width="500" height="60" rx="8" />
+    <text x="250" y="20" text-anchor="middle" class="phase-label">STEP 9: HANDSHAKE</text>
+    <text x="250" y="38" text-anchor="middle" class="desc-text">IA confirms implementation matches | HO determines closure</text>
+    <text x="250" y="53" text-anchor="middle" class="desc-text">AMORTIZATION.md updated | Cycle formally closed</text>
+  </g>
+
+  <!-- Arrow to Deployment -->
+  <path class="arrow" d="M 400 730 L 400 750" />
+
+  <!-- Deployment -->
+  <g transform="translate(100, 760)">
+    <rect class="box" width="600" height="120" rx="8" />
+    <text x="300" y="20" text-anchor="middle" class="phase-label">DEPLOYMENT</text>
+
+    <!-- Governed Surface -->
+    <g transform="translate(30, 35)">
+      <rect class="surface-governed" width="250" height="70" rx="4" />
+      <text x="125" y="20" text-anchor="middle" class="phase-label">GOVERNED</text>
+      <text x="125" y="38" text-anchor="middle" class="desc-text">Boundary markers required</text>
+      <text x="125" y="52" text-anchor="middle" class="desc-text">Accessibility CI enforced</text>
+      <text x="125" y="66" text-anchor="middle" class="desc-text">Evidence chain required</text>
+    </g>
+
+    <!-- Marketing Surface -->
+    <g transform="translate(320, 35)">
+      <rect class="surface-marketing" width="250" height="70" rx="4" />
+      <text x="125" y="20" text-anchor="middle" class="phase-label">MARKETING</text>
+      <text x="125" y="38" text-anchor="middle" class="desc-text">No boundary requirements</text>
+      <text x="125" y="52" text-anchor="middle" class="desc-text">Persuasive language OK</text>
+      <text x="125" y="66" text-anchor="middle" class="desc-text">Explicitly non-authoritative</text>
+    </g>
+  </g>
+
+</svg>
