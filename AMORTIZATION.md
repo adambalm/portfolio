@@ -4,6 +4,101 @@ Economic accounting for portfolio development costs. Each release documents what
 
 ---
 
+## v1.4.0 (2026-01-07)
+
+**Release:** System Specification Bundle
+
+### What this release is
+
+This is a **standards release**, not an artifact integration. It establishes canonical documentation that constrains all future work on the governed surface.
+
+### Deliverables
+
+| Output | File | Purpose |
+|--------|------|---------|
+| Boundary Legend | `docs/standards/boundary-legend.md` | Explains marker semantics to non-experts |
+| Footer Standard | `docs/standards/footer-standard.md` | Defines required/optional/prohibited footer fields |
+| System Wiring | `docs/standards/system-wiring.md` + `.svg` | End-to-end flow with completeness checklist |
+| Surface Qualification | `docs/standards/surface-qualification.md` | Governed vs marketing criteria |
+| Responsive QA | `docs/standards/responsive-qa.md` | Viewport classes, reproduction protocol |
+
+### What became cheaper
+
+1. **Future artifact integration: now has explicit footer requirements**
+   - No more ad-hoc footer decisions
+   - Migration guide exists for existing artifacts
+   - Compliance is verifiable
+
+2. **Boundary marker confusion: eliminated**
+   - Legend defines what each marker claims and does NOT claim
+   - Decision history disclosure pattern documented
+   - Orthogonal dimensions explicitly stated
+
+3. **System documentation: completeness is now enforceable**
+   - Wiring diagram has binding checklist
+   - Future diagrams must pass checklist or explain deviation
+
+4. **Surface separation: criteria now exist**
+   - Governed vs marketing qualification is defined
+   - Cross-surface contamination rules explicit
+   - Architectural implementation can proceed with clear requirements
+
+5. **Responsive QA: protocol is standardized**
+   - Reproduction requirements are explicit
+   - Acceptable vs unacceptable degradation defined
+   - Evidence requirements for resolution claims documented
+
+### What was invested (new capital)
+
+1. **9-turn heterogeneous AI deliberation**
+   - Problem decomposition (GA)
+   - Decision framework (IA)
+   - HO decisions on 6 decision points
+   - Standards drafting (GA)
+   - Inspection (IA)
+   - Step 9 closure
+
+2. **1,373 lines of standards documentation**
+   - 5 markdown files
+   - 1 SVG diagram
+
+3. **Protocol refinements**
+   - Evidence URLs with media type annotations
+   - Absolute GitHub links for IA inspection
+   - Retroactive Execution Authorization pattern
+
+### Evidence
+
+| Artifact | Location |
+|----------|----------|
+| Standards bundle | `docs/standards/` (5 files + 1 SVG) |
+| Dialogue | `dialogues/Dialogue - System Level Review.md` |
+| Bundle commit | `5824f8b` |
+| Closure commit | (this commit) |
+
+### Evidence Provenance Chain
+
+```
+Source: System Level Review dialogue (9 turns)
+  ↓ HO decisions: DP-1(B), DP-2(B), DP-3(B), DP-4(B), DP-5(C), DP-6 deferred
+Standards: docs/standards/*.md + system-wiring.svg
+  ↓ committed in 5824f8b
+Inspection: IA reviewed via GitHub URLs
+  ↓ Execution Authorization: GRANTED
+Closure: Turn 9 + AMORTIZATION.md update
+  ↓ committed in (this commit)
+```
+
+### Falsifiable claims
+
+- Next artifact integration MUST have footer compliant with `footer-standard.md`
+- Next system diagram MUST pass completeness checklist in `system-wiring.md`
+- Marketing surface content MUST NOT have boundary markers (per `surface-qualification.md`)
+- Responsive bug reports MUST follow protocol in `responsive-qa.md`
+- Legend UI implementation requires separate authorized cycle
+
+---
+
 ## v1.3.0 (2026-01-07)
 
 **Release:** MementoDemo Integration
