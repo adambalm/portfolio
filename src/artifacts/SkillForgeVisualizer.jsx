@@ -849,7 +849,7 @@ const Slider = ({ id, label, value, onChange, min, max, step, unit }) => (
       <label htmlFor={id} style={{ fontSize: 14, color: '#555' }}>{label}</label>
       <span style={{ fontSize: 14, fontWeight: 500, color: '#111' }}>{value}{unit}</span>
     </div>
-    <input type="range" id={id} data-testid={`slider-${id}`} min={min} max={max} step={step} value={value} onChange={(e) => onChange(parseFloat(e.target.value))} style={{ width: '100%', height: 8, background: '#e5e5e5', borderRadius: 4, appearance: 'none', cursor: 'pointer', outline: 'none' }} aria-valuemin={min} aria-valuemax={max} aria-valuenow={value} aria-valuetext={`${value}${unit}`} />
+    <input type="range" id={id} data-testid={`slider-${id}`} min={min} max={max} step={step} value={value} onChange={(e) => onChange(parseFloat(e.target.value))} style={{ width: '100%', height: 44, background: 'transparent', cursor: 'pointer', outline: 'none', WebkitAppearance: 'none', margin: 0 }} aria-valuemin={min} aria-valuemax={max} aria-valuenow={value} aria-valuetext={`${value}${unit}`} />
   </div>
 );
 
@@ -868,7 +868,7 @@ const CostCurve = ({ D, S, pFail, maxN, lang }) => {
   const breakEven = D / (D - S - pFail * D);
 
   return (
-    <svg viewBox={`0 0 ${width} ${height}`} style={{ width: '100%', maxWidth: width }} data-testid="cost-curve-svg" aria-labelledby="cost-curve-title cost-curve-desc">
+    <svg viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="xMidYMid meet" style={{ width: '100%', height: 'auto' }} data-testid="cost-curve-svg" aria-labelledby="cost-curve-title cost-curve-desc">
       <title id="cost-curve-title">{t(lang, 'costCurveTitle')}</title>
       <desc id="cost-curve-desc">{t(lang, 'costCurveDesc')}</desc>
       {[0, 0.25, 0.5, 0.75, 1].map((frac) => (<g key={frac}><line x1={padding.left} y1={padding.top + frac * chartHeight} x2={width - padding.right} y2={padding.top + frac * chartHeight} stroke="#ccc" strokeDasharray="2,4" /><text x={padding.left - 8} y={padding.top + frac * chartHeight + 4} textAnchor="end" fontSize="11" fill="#555" fontFamily="Palatino, Georgia, serif">{Math.round(maxCost * (1 - frac))}</text></g>))}
@@ -1308,9 +1308,13 @@ export default function SkillForgeVisualizer({ lang = 'en', links = {} }) {
         {/* ========== SECTION: Economics ========== */}
         {view === 'economics' && (
           <section id="panel-economics" role="tabpanel" aria-labelledby="tab-economics" tabIndex={0} data-section="economics">
+            <style>{`
+              .economics-grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
+              @media (min-width: 768px) { .economics-grid { grid-template-columns: 1fr 1fr; gap: 32px; } }
+            `}</style>
             <h2 style={{ fontSize: 22, fontWeight: 400, fontStyle: 'italic', marginBottom: 16 }}>{t(validLang, 'economicsTitle')}</h2>
             <p style={{ color: '#555', marginBottom: 24, lineHeight: 1.6 }}>{t(validLang, 'economicsDesc')}</p>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32 }}>
+            <div className="economics-grid">
               <div>
                 <fieldset style={{ background: '#fff', border: '1px solid #ccc', borderRadius: 4, padding: 20, marginBottom: 24 }}>
                   <legend style={{ fontStyle: 'italic', fontWeight: 500, padding: '0 8px' }}>{t(validLang, 'costModelParams')}</legend>
