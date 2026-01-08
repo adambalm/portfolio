@@ -4,6 +4,8 @@ const navItems = [
   { path: '/', label: 'Home' },
   { path: '/reference', label: 'Reference' },
   { path: '/skill-forge', label: 'Skill Forge' },
+  { path: '/context-sage', label: 'Context Sage' },
+  { path: '/memento', label: 'Memento' },
 ];
 
 export default function Navigation() {
