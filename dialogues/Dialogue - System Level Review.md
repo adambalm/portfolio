@@ -695,4 +695,243 @@ This remediation approach:
 
 **Ready for Agreement Gate review.**
 
+---
+
+## Turn 3: HO Decision Surface
+
+**From:** IA (via HO)
+**Date:** 2026-01-07
+
+The following decision framework was presented to HO for resolution. It documents the tradeoffs of each choice.
+
+---
+
+### DP-1: Do Humans Need a Legend for Boundary Markers?
+
+**Choices**
+- **A. No legend** (current inline markers are sufficient)
+- **B. Lightweight legend** (collapsible section on landing page)
+- **C. Full legend** (dedicated route or canonical doc)
+
+**Outcomes & Tradeoffs**
+- **A**
+  - *Pros:* Zero work, preserves purity of current design
+  - *Cons:* Boundary system remains legible only to insiders; epistemic intent is invisible to most users
+- **B**
+  - *Pros:* Minimal intervention, clarifies semantics at entry point
+  - *Cons:* Implicitly admits that inline markers alone are insufficient
+- **C**
+  - *Pros:* Maximum clarity; creates a canonical reference for future artifacts
+  - *Cons:* Becomes a system artifact itself; higher maintenance burden
+
+**Core question:** Is epistemic transparency a *first-class user concern*, or an internal guardrail?
+
+---
+
+### DP-2: Is Footer Inconsistency Acceptable Right Now?
+
+**Choices**
+- **A. Accept as tech debt**
+- **B. Block further imports until standardized**
+
+**Outcomes & Tradeoffs**
+- **A**
+  - *Pros:* Momentum preserved; no forced standardization
+  - *Cons:* Each new artifact compounds inconsistency and later cleanup cost
+- **B**
+  - *Pros:* Forces coherence; stops entropy
+  - *Cons:* Slows visible progress; requires you to define "what a footer means"
+
+**Core question:** Do you want standards to *emerge* or to be *declared*?
+
+---
+
+### DP-3: Are Diagram Gaps a Real Problem Yet?
+
+**Choices**
+- **A. Defer until specific failures are identified**
+- **B. Treat as blocking and require explicit wiring articulation**
+
+**Outcomes & Tradeoffs**
+- **A**
+  - *Pros:* Avoids premature formalization
+  - *Cons:* Risk that diagrams mislead without you noticing
+- **B**
+  - *Pros:* Forces the system to explain itself end-to-end
+  - *Cons:* High cognitive and documentation cost; may slow everything else
+
+**Core question:** Are diagrams explanatory aids, or epistemic commitments?
+
+---
+
+### DP-4: Do You Treat the SkillForge Responsive Issue as Blocking?
+
+**Choices**
+- **A. Non-blocking until reproducible**
+- **B. Blocking — require reproduction before proceeding**
+
+**Outcomes & Tradeoffs**
+- **A**
+  - *Pros:* Avoids chasing ghosts
+  - *Cons:* Known UX debt remains unresolved
+- **B**
+  - *Pros:* Enforces quality floor for system demos
+  - *Cons:* Requires concrete repro steps you may not yet have
+
+**Core question:** Is this site a *demo of ideas* or a *reference implementation*?
+
+---
+
+### DP-5: Do You Architecturally Separate "Governed" vs "Marketing" Surfaces?
+
+**Choices**
+- **A. Single surface, differentiated only by boundary markers** (current)
+- **B. Same repo, separate routes**
+- **C. Separate deployments entirely**
+
+**Outcomes & Tradeoffs**
+- **A**
+  - *Pros:* Elegant, minimal, philosophically bold
+  - *Cons:* Relies heavily on users understanding boundary semantics
+- **B**
+  - *Pros:* Clearer audience targeting; shared infrastructure
+  - *Cons:* Introduces routing and narrative complexity
+- **C**
+  - *Pros:* Absolute clarity of intent
+  - *Cons:* Duplicated effort; risk of epistemic drift between surfaces
+
+**Core question:** Should epistemic discipline be *embedded* or *segregated*?
+
+---
+
+### DP-6: Do You Proceed with the Pending Artifact Import Now?
+
+**Choices**
+- **A. Yes, proceed immediately**
+- **B. Defer until standards/legend decisions are made**
+- **C. Explicitly retire or redefine the pending artifact**
+
+**Outcomes & Tradeoffs**
+- **A**
+  - *Pros:* Keeps momentum; tests current system under load
+  - *Cons:* Locks in ambiguities you may soon want to fix
+- **B**
+  - *Pros:* Lets standards shape future work
+  - *Cons:* Delays visible progress
+- **C**
+  - *Pros:* Reduces cognitive surface area
+  - *Cons:* Admits that not all ideas deserve instantiation
+
+**Core question:** Is the next artifact a *probe* or a *commitment*?
+
+---
+
+## Turn 4: HO Decisions Recorded
+
+**From:** Ed O'Connell (HO)
+**Date:** 2026-01-07
+
+| DP | Decision | Selection |
+|----|----------|-----------|
+| DP-1 | **(B)** | Lightweight legend — collapsible section on landing page |
+| DP-2 | **(B)** | Block further imports until footer standardized |
+| DP-3 | **(B)** | Blocking — require explicit wiring articulation |
+| DP-4 | **(B)** | Blocking — require reproduction before proceeding |
+| DP-5 | **(C)** | Separate deployments entirely |
+| DP-6 | **Deferred** | No decision on pending artifact until standards resolved |
+
+**Implications of these decisions:**
+
+1. **Standards-first orientation:** DP-2(B) and DP-3(B) mandate that coherence precedes accretion.
+2. **Quality floor enforcement:** DP-4(B) treats the portfolio as a reference implementation, not just a demo.
+3. **Architectural separation:** DP-5(C) requires governed and marketing surfaces to be separate deployments.
+4. **Legend required:** DP-1(B) acknowledges epistemic transparency as a first-class user concern.
+5. **Artifact import blocked:** DP-6 deferred means no new artifacts until standards exist.
+
+These decisions collectively authorize a **system-level artifact cycle** to produce standards before further work proceeds.
+
+---
+
+## Turn 5: GA Response to IA AG Proposal
+
+**From:** Claude Code (GA)
+**Date:** 2026-01-07
+
+HO decisions are now documented in this dialogue. I evaluate IA's remediation approach against these decisions.
+
+---
+
+### Alignment Check
+
+| IA Proposed Output | HO Decision Satisfied |
+|--------------------|----------------------|
+| Boundary Legend (Canonical) | DP-1(B) ✓ |
+| Footer Standard | DP-2(B) ✓ |
+| System Wiring Diagram + Legend | DP-3(B) ✓ |
+| Surface Qualification Rules | DP-5(C) ✓ |
+| Responsive QA Acceptance Criteria | DP-4(B) ✓ |
+
+All 5 proposed outputs directly address HO's blocking decisions.
+
+---
+
+### GA Commitments for AG Closure
+
+Per IA's AG acceptance criteria, GA commits to:
+
+1. **Producing only the listed outputs:**
+   - Boundary Legend (canonical, collapsible on landing page)
+   - Footer Standard (single required schema)
+   - System Wiring Diagram + Legend (end-to-end articulation)
+   - Surface Qualification Rules (governed vs marketing criteria)
+   - Responsive QA Acceptance Criteria (viewport classes, reproduction protocol)
+
+2. **No implementation without new authorization:**
+   - This cycle produces standards documents, not code
+   - Execution Authorization remains NOT GRANTED
+   - A separate Skill Forge cycle will be required for implementation
+
+3. **Evidence protocol:**
+   - Canonical markdown documents committed to repo
+   - Diagrams as source + rendered form
+   - All outputs inspectable by IA
+
+---
+
+### Concerns / Clarifications
+
+**DP-5(C) scope question:**
+
+HO selected "Separate deployments entirely." IA's proposed output is "Surface Qualification Rules" — criteria for what qualifies as governed vs marketing content.
+
+**Clarification needed:** Does DP-5(C) require this standards cycle to also produce:
+- (a) Architectural specification for the separate deployment, or
+- (b) Just the qualification criteria (with architecture deferred to implementation)?
+
+I recommend (b): this cycle produces the *criteria*, and a subsequent cycle produces the *architecture*. This preserves single-artifact-per-cycle discipline.
+
+**DP-4(B) reproduction requirement:**
+
+IA's output "Responsive QA Acceptance Criteria" defines what *should* be tested. But DP-4(B) requires reproduction of the reported SkillForge issue *before proceeding*.
+
+**Question for HO:** Is DP-4(B) blocking this standards cycle, or blocking subsequent implementation cycles? If blocking now, GA needs reproduction steps before AG can close.
+
+---
+
+### GA Position on AG
+
+**Conditional approval:** GA is ready to close AG contingent on:
+
+1. HO clarifies DP-5(C) scope (criteria only vs architecture spec)
+2. HO clarifies DP-4(B) timing (blocking now vs blocking implementation)
+
+If HO resolves these as:
+- DP-5(C) → criteria only (architecture deferred)
+- DP-4(B) → blocking implementation, not standards
+
+Then AG can close and the standards cycle can proceed.
+
+---
+
+*Awaiting HO clarification on scope questions.*
 
