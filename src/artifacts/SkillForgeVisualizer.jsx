@@ -350,10 +350,13 @@ const i18n = {
     featuredSize: 'Size',
     featuredTurns: 'Turns',
     featuredGateStatus: 'Gate Status',
-    featuredSkillExtraction: 'Skill Extraction Intent',
-    featuredSkill1: 'Distributed compute orchestration (VRAM management)',
-    featuredSkill2: 'Source separation architectures (MDX-Net, VR Centrifuge)',
-    featuredSkill3: 'Success evaluation matrices with unit tests',
+    featuredDeliberationSnippet: 'Deliberation Excerpt',
+    featuredHOLabel: 'HO',
+    featuredIALabel: 'IA',
+    featuredHOTurn: 'It\'s all one sound source, so there is really no way to isolate anything natively. It was recorded on an iPhone in the audience.',
+    featuredIATurn: 'That changes the strategy significantly. Since it\'s a single-source iPhone recording from the audience, the "sidechain ducking" suggestion won\'t work as advertised—the compressor will duck every time the crowd gets loud, not just when you rap. You\'ll need Voice Isolation on Track B before using it as a trigger.',
+    featuredHOTurn2: 'The crowd response builds as this goes along... it\'s a crowd recognizing what is happening in real time.',
+    featuredIATurn2: 'Because the "story" of the video is the crowd\'s growing realization, we can\'t duck the crowd too much. If we do, the video will lose its emotional impact. We need to find the "sweet spot" where your words are intelligible, but the energy of the room still feels massive.',
     featuredViewDialogue: 'View Full Dialogue',
     featuredViewSpec: 'View Technical Spec',
 
@@ -1308,19 +1311,53 @@ const FeaturedExample = ({ lang, expanded, onToggle, links }) => {
         }}
         aria-expanded={expanded}
       >
-        <span style={{ fontStyle: 'italic' }}>{t(lang, 'featuredSkillExtraction')}</span>
+        <span style={{ fontStyle: 'italic' }}>{t(lang, 'featuredDeliberationSnippet')}</span>
         {expanded ? <ChevronDown style={{ width: 16, height: 16 }} /> : <ChevronRight style={{ width: 16, height: 16 }} />}
       </button>
 
       {expanded && (
         <div style={{ padding: 16, background: '#fff', borderTop: '1px solid #e5e5e5' }}>
-          <ul style={{ margin: 0, paddingLeft: 20, color: '#333', lineHeight: 1.7, fontSize: 14 }}>
-            <li>{t(lang, 'featuredSkill1')}</li>
-            <li>{t(lang, 'featuredSkill2')}</li>
-            <li>{t(lang, 'featuredSkill3')}</li>
-          </ul>
+          {/* Deliberation turns showing HO/IA back-and-forth */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            {/* Turn 1: HO */}
+            <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+              <span style={{ flexShrink: 0, padding: '2px 8px', borderRadius: 4, fontSize: 11, fontWeight: 600, background: '#fff5f5', color: '#a00000', border: '1px solid rgba(160,0,0,0.25)' }}>
+                {t(lang, 'featuredHOLabel')}
+              </span>
+              <p style={{ margin: 0, fontSize: 14, lineHeight: 1.6, color: '#333', fontStyle: 'italic' }}>
+                "{t(lang, 'featuredHOTurn')}"
+              </p>
+            </div>
+            {/* Turn 2: IA */}
+            <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+              <span style={{ flexShrink: 0, padding: '2px 8px', borderRadius: 4, fontSize: 11, fontWeight: 600, background: '#f5fff5', color: '#2d5a3d', border: '1px solid rgba(45,90,61,0.25)' }}>
+                {t(lang, 'featuredIALabel')}
+              </span>
+              <p style={{ margin: 0, fontSize: 14, lineHeight: 1.6, color: '#333' }}>
+                {t(lang, 'featuredIATurn')}
+              </p>
+            </div>
+            {/* Turn 3: HO */}
+            <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+              <span style={{ flexShrink: 0, padding: '2px 8px', borderRadius: 4, fontSize: 11, fontWeight: 600, background: '#fff5f5', color: '#a00000', border: '1px solid rgba(160,0,0,0.25)' }}>
+                {t(lang, 'featuredHOLabel')}
+              </span>
+              <p style={{ margin: 0, fontSize: 14, lineHeight: 1.6, color: '#333', fontStyle: 'italic' }}>
+                "{t(lang, 'featuredHOTurn2')}"
+              </p>
+            </div>
+            {/* Turn 4: IA */}
+            <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+              <span style={{ flexShrink: 0, padding: '2px 8px', borderRadius: 4, fontSize: 11, fontWeight: 600, background: '#f5fff5', color: '#2d5a3d', border: '1px solid rgba(45,90,61,0.25)' }}>
+                {t(lang, 'featuredIALabel')}
+              </span>
+              <p style={{ margin: 0, fontSize: 14, lineHeight: 1.6, color: '#333' }}>
+                {t(lang, 'featuredIATurn2')}
+              </p>
+            </div>
+          </div>
           {(links?.forensicDialogue || links?.forensicSpec) && (
-            <div style={{ display: 'flex', gap: 12, marginTop: 16 }}>
+            <div style={{ display: 'flex', gap: 12, marginTop: 16, paddingTop: 16, borderTop: '1px solid #e5e5e5' }}>
               {links?.forensicDialogue && (
                 <a href={links.forensicDialogue} style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: 13, color: '#1d4ed8' }}>
                   {t(lang, 'featuredViewDialogue')} <ExternalLink style={{ width: 14, height: 14 }} />
@@ -1427,9 +1464,22 @@ const RelatedExamples = ({ lang, expanded, onToggle, links }) => (
 // MAIN COMPONENT
 // =============================================================================
 
-export default function SkillForgeVisualizer({ lang = 'en', links = {} }) {
-  const validLang = ['en', 'es', 'zh'].includes(lang) ? lang : 'en';
-  
+export default function SkillForgeVisualizer({ lang: initialLang = 'en', links = {} }) {
+  const [lang, setLang] = useState(['en', 'es', 'zh'].includes(initialLang) ? initialLang : 'en');
+  const validLang = lang;
+
+  // Language button style (matches ContextSageDemo/MementoDemo pattern)
+  const langBtn = (l) => ({
+    padding: '4px 12px',
+    border: lang === l ? '1px solid #111' : '1px solid #ccc',
+    background: lang === l ? '#111' : 'transparent',
+    color: lang === l ? '#fffff8' : '#111',
+    cursor: 'pointer',
+    fontFamily: 'inherit',
+    fontSize: 13,
+    borderRadius: 2,
+  });
+
   const [view, setView] = useState('process');
   const [processStep, setProcessStep] = useState(0);
   const [deliberationCost, setDeliberationCost] = useState(100);
@@ -1490,8 +1540,19 @@ export default function SkillForgeVisualizer({ lang = 'en', links = {} }) {
       <SkipLink lang={validLang} />
       
       <header style={{ background: '#fff', borderBottom: '1px solid #ccc', padding: '16px 24px' }}>
-        <h1 style={{ fontSize: 28, fontWeight: 400, fontStyle: 'italic', margin: 0, color: '#111' }}>{t(validLang, 'title')}</h1>
-        <p style={{ color: '#555', marginTop: 4, fontSize: 16 }}>{t(validLang, 'subtitle')}</p>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 12 }}>
+          <div>
+            <h1 style={{ fontSize: 28, fontWeight: 400, fontStyle: 'italic', margin: 0, color: '#111' }}>{t(validLang, 'title')}</h1>
+            <p style={{ color: '#555', marginTop: 4, fontSize: 16 }}>{t(validLang, 'subtitle')}</p>
+          </div>
+          <div style={{ display: 'flex', gap: 4 }} role="group" aria-label="Language selection">
+            {['en', 'es', 'zh'].map(l => (
+              <button key={l} style={langBtn(l)} onClick={() => setLang(l)} data-testid={`lang-${l}`} aria-pressed={lang === l}>
+                {l.toUpperCase()}
+              </button>
+            ))}
+          </div>
+        </div>
       </header>
 
       <nav style={{ background: '#fff', borderBottom: '1px solid #ccc', padding: '0 24px' }} aria-label={t(validLang, 'selectView')}>
