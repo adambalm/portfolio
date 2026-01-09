@@ -634,6 +634,8 @@ Memento ──(detected themes)──> Basic Memory (proposed research interests
   {/* ========== SECTION: About ========== */}
   const renderAbout = () => (
     <section data-section="about">
+      <p style={{ ...baseStyles.lead, marginBottom: '0.5em' }}>{t.about.subtitle}</p>
+
       <h3 style={baseStyles.h3}>{t.about.personTitle}</h3>
       {t.about.personBio.map((p, i) => <p key={i} style={{ marginBottom: '0.75em' }}>{p}</p>)}
 
