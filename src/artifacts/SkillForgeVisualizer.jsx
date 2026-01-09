@@ -350,13 +350,23 @@ const i18n = {
     featuredSize: 'Size',
     featuredTurns: 'Turns',
     featuredGateStatus: 'Gate Status',
-    featuredDeliberationSnippet: 'Deliberation Excerpt',
+    featuredDeliberationFlow: 'Gate Flow',
     featuredHOLabel: 'HO',
     featuredIALabel: 'IA',
-    featuredHOTurn: 'It\'s all one sound source, so there is really no way to isolate anything natively. It was recorded on an iPhone in the audience.',
-    featuredIATurn: 'That changes the strategy significantly. Since it\'s a single-source iPhone recording from the audience, the "sidechain ducking" suggestion won\'t work as advertised—the compressor will duck every time the crowd gets loud, not just when you rap. You\'ll need Voice Isolation on Track B before using it as a trigger.',
-    featuredHOTurn2: 'The crowd response builds as this goes along... it\'s a crowd recognizing what is happening in real time.',
-    featuredIATurn2: 'Because the "story" of the video is the crowd\'s growing realization, we can\'t duck the crowd too much. If we do, the video will lose its emotional impact. We need to find the "sweet spot" where your words are intelligible, but the energy of the room still feels massive.',
+    // Understanding Gate
+    featuredUGTitle: 'Understanding Gate',
+    featuredUGProblem: 'Problem: Recover intelligible vocals from a single-source iPhone recording of a spontaneous rap performance in a gymnasium.',
+    featuredUGHO: 'It\'s all one sound source—no way to isolate anything natively. Recorded on an iPhone in the audience.',
+    featuredUGIA: 'Understood. Single-source means standard sidechain ducking won\'t work—the compressor will trigger on crowd noise, not just vocals. We need Voice Isolation before any ducking strategy.',
+    featuredUGPass: 'UG Passed — Constraint acknowledged',
+    // Agreement Gate
+    featuredAGTitle: 'Agreement Gate',
+    featuredAGHO: 'The crowd response builds as they recognize what\'s happening in real time. That energy is part of the story.',
+    featuredAGIA: 'Agreed. We can\'t duck the crowd too aggressively or we lose emotional impact. Proposed approach: Voice Isolation on clarity track, then gentle sidechain with slow release to preserve the room\'s energy.',
+    featuredAGPass: 'AG Passed — Approach agreed',
+    // Decision
+    featuredDecisionTitle: 'Decision',
+    featuredDecision: 'Implement MDX-Net source separation with VR Centrifuge pattern. Success metric: consonant sharpness + rhythmic cadence preservation, not sterile isolation.',
     featuredViewDialogue: 'View Full Dialogue',
     featuredViewSpec: 'View Technical Spec',
 
@@ -1311,53 +1321,71 @@ const FeaturedExample = ({ lang, expanded, onToggle, links }) => {
         }}
         aria-expanded={expanded}
       >
-        <span style={{ fontStyle: 'italic' }}>{t(lang, 'featuredDeliberationSnippet')}</span>
+        <span style={{ fontStyle: 'italic' }}>{t(lang, 'featuredDeliberationFlow')}</span>
         {expanded ? <ChevronDown style={{ width: 16, height: 16 }} /> : <ChevronRight style={{ width: 16, height: 16 }} />}
       </button>
 
       {expanded && (
-        <div style={{ padding: 16, background: '#fff', borderTop: '1px solid #e5e5e5' }}>
-          {/* Deliberation turns showing HO/IA back-and-forth */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            {/* Turn 1: HO */}
-            <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
-              <span style={{ flexShrink: 0, padding: '2px 8px', borderRadius: 4, fontSize: 11, fontWeight: 600, background: '#fff5f5', color: '#a00000', border: '1px solid rgba(160,0,0,0.25)' }}>
-                {t(lang, 'featuredHOLabel')}
-              </span>
-              <p style={{ margin: 0, fontSize: 14, lineHeight: 1.6, color: '#333', fontStyle: 'italic' }}>
-                "{t(lang, 'featuredHOTurn')}"
-              </p>
+        <div style={{ padding: 0, background: '#fff', borderTop: '1px solid #e5e5e5' }}>
+          {/* Problem Statement */}
+          <div style={{ padding: '12px 16px', background: '#f9fafb', borderBottom: '1px solid #e5e5e5' }}>
+            <p style={{ margin: 0, fontSize: 13, color: '#555', fontStyle: 'italic' }}>{t(lang, 'featuredUGProblem')}</p>
+          </div>
+
+          {/* Understanding Gate */}
+          <div style={{ padding: 16, borderBottom: '1px solid #e5e5e5' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+              <span style={{ fontSize: 12, fontWeight: 600, color: '#1e40af' }}>{t(lang, 'featuredUGTitle')}</span>
             </div>
-            {/* Turn 2: IA */}
-            <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
-              <span style={{ flexShrink: 0, padding: '2px 8px', borderRadius: 4, fontSize: 11, fontWeight: 600, background: '#f5fff5', color: '#2d5a3d', border: '1px solid rgba(45,90,61,0.25)' }}>
-                {t(lang, 'featuredIALabel')}
-              </span>
-              <p style={{ margin: 0, fontSize: 14, lineHeight: 1.6, color: '#333' }}>
-                {t(lang, 'featuredIATurn')}
-              </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <div style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+                <span style={{ flexShrink: 0, padding: '2px 8px', borderRadius: 4, fontSize: 11, fontWeight: 600, background: '#fff5f5', color: '#a00000', border: '1px solid rgba(160,0,0,0.25)' }}>{t(lang, 'featuredHOLabel')}</span>
+                <p style={{ margin: 0, fontSize: 13, lineHeight: 1.5, color: '#333', fontStyle: 'italic' }}>"{t(lang, 'featuredUGHO')}"</p>
+              </div>
+              <div style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+                <span style={{ flexShrink: 0, padding: '2px 8px', borderRadius: 4, fontSize: 11, fontWeight: 600, background: '#f5fff5', color: '#2d5a3d', border: '1px solid rgba(45,90,61,0.25)' }}>{t(lang, 'featuredIALabel')}</span>
+                <p style={{ margin: 0, fontSize: 13, lineHeight: 1.5, color: '#333' }}>{t(lang, 'featuredUGIA')}</p>
+              </div>
             </div>
-            {/* Turn 3: HO */}
-            <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
-              <span style={{ flexShrink: 0, padding: '2px 8px', borderRadius: 4, fontSize: 11, fontWeight: 600, background: '#fff5f5', color: '#a00000', border: '1px solid rgba(160,0,0,0.25)' }}>
-                {t(lang, 'featuredHOLabel')}
-              </span>
-              <p style={{ margin: 0, fontSize: 14, lineHeight: 1.6, color: '#333', fontStyle: 'italic' }}>
-                "{t(lang, 'featuredHOTurn2')}"
-              </p>
-            </div>
-            {/* Turn 4: IA */}
-            <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
-              <span style={{ flexShrink: 0, padding: '2px 8px', borderRadius: 4, fontSize: 11, fontWeight: 600, background: '#f5fff5', color: '#2d5a3d', border: '1px solid rgba(45,90,61,0.25)' }}>
-                {t(lang, 'featuredIALabel')}
-              </span>
-              <p style={{ margin: 0, fontSize: 14, lineHeight: 1.6, color: '#333' }}>
-                {t(lang, 'featuredIATurn2')}
-              </p>
+            <div style={{ marginTop: 12, padding: '6px 12px', background: '#f0fdf4', border: '1px solid #166534', borderRadius: 4, display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+              <Check style={{ width: 14, height: 14, color: '#166534' }} aria-hidden="true" />
+              <span style={{ fontSize: 12, fontWeight: 500, color: '#166534' }}>{t(lang, 'featuredUGPass')}</span>
             </div>
           </div>
+
+          {/* Agreement Gate */}
+          <div style={{ padding: 16, borderBottom: '1px solid #e5e5e5' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+              <span style={{ fontSize: 12, fontWeight: 600, color: '#1e40af' }}>{t(lang, 'featuredAGTitle')}</span>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <div style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+                <span style={{ flexShrink: 0, padding: '2px 8px', borderRadius: 4, fontSize: 11, fontWeight: 600, background: '#fff5f5', color: '#a00000', border: '1px solid rgba(160,0,0,0.25)' }}>{t(lang, 'featuredHOLabel')}</span>
+                <p style={{ margin: 0, fontSize: 13, lineHeight: 1.5, color: '#333', fontStyle: 'italic' }}>"{t(lang, 'featuredAGHO')}"</p>
+              </div>
+              <div style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+                <span style={{ flexShrink: 0, padding: '2px 8px', borderRadius: 4, fontSize: 11, fontWeight: 600, background: '#f5fff5', color: '#2d5a3d', border: '1px solid rgba(45,90,61,0.25)' }}>{t(lang, 'featuredIALabel')}</span>
+                <p style={{ margin: 0, fontSize: 13, lineHeight: 1.5, color: '#333' }}>{t(lang, 'featuredAGIA')}</p>
+              </div>
+            </div>
+            <div style={{ marginTop: 12, padding: '6px 12px', background: '#f0fdf4', border: '1px solid #166534', borderRadius: 4, display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+              <Check style={{ width: 14, height: 14, color: '#166534' }} aria-hidden="true" />
+              <span style={{ fontSize: 12, fontWeight: 500, color: '#166534' }}>{t(lang, 'featuredAGPass')}</span>
+            </div>
+          </div>
+
+          {/* Decision */}
+          <div style={{ padding: 16 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+              <span style={{ fontSize: 12, fontWeight: 600, color: '#166534' }}>{t(lang, 'featuredDecisionTitle')}</span>
+            </div>
+            <p style={{ margin: 0, fontSize: 13, lineHeight: 1.5, color: '#333', background: '#f0fdf4', padding: 12, borderRadius: 4, border: '1px solid #166534' }}>
+              {t(lang, 'featuredDecision')}
+            </p>
+          </div>
+
           {(links?.forensicDialogue || links?.forensicSpec) && (
-            <div style={{ display: 'flex', gap: 12, marginTop: 16, paddingTop: 16, borderTop: '1px solid #e5e5e5' }}>
+            <div style={{ display: 'flex', gap: 12, padding: '12px 16px', borderTop: '1px solid #e5e5e5', background: '#f9fafb' }}>
               {links?.forensicDialogue && (
                 <a href={links.forensicDialogue} style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: 13, color: '#1d4ed8' }}>
                   {t(lang, 'featuredViewDialogue')} <ExternalLink style={{ width: 14, height: 14 }} />
