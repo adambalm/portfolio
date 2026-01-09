@@ -334,7 +334,7 @@ const i18n = {
     rewordGateApproved: 'Decision Approved',
     rewordGateApprovedDetail: 'You have demonstrated understanding. The skill may now compile.',
     rewordGateOptional: 'Optional: demonstrate your understanding',
-    rewordGateExpand: 'I want to articulate',
+    rewordGateExpand: 'Qualify my understanding',
     rewordGateCollapse: 'Collapse',
 
     // Featured Example Section (v3.0.0)
