@@ -65,39 +65,6 @@ Gemini
 
 Video Audio Analysis Workflow Discussion
 
-My Stuff
-
-![Image of](https://lh3.googleusercontent.com/gg/AIJ2gl_e1_ULIOIX_G8DEdafxxAqiwyvlDVRO1qfr6ZDSlUwP5niVg5mlyGrncHDBLwjdekIrSQzKK42wnj3w_6RS0rhSVwp1aSYvnrugdQp8vG_QTp34GmCz7l4n3STWAcNzdqqpI7gFLgbD46em75PH-9OdAAtpcm_TmR9skRYS6HFyYNSF5bsfQFEinukkHUyUyVfMfLpxqDf1DC0C33js_kfPawyVIkDlhd-nxihhUUUYvDxpuCuebe6DMvOSuSYqsGNin1cVJX_x2FVyf6FdPk-6fHINSkNlhyWYVvDrI-acF2rRuVDvaxMuk67fkqJyJFFZAoOHvlGCGrYPqt54nA=w200-h200-n-v1-rj)
-
-![Image of](https://lh3.googleusercontent.com/gg/AIJ2gl_7KN6Z3zZfBHMCTdiYZX60gH7crEscYJfGu68ISaiPNRKRI9z3wod6ec5pGXgsIE7QABzUwl_7jgEL3gPRxbCK52PjWJEnWtIEkTbobcmM2FjPp1rMrbebI5MIyMxeidZlr5InDkhLYb5wiJNeovGMf-9NM43bOOZcIVvRbQ527sYPPXm6CyCIISelwcMs_QVpsbAbQNhEKMel7pAO6Snn9LYsoGcbXSv_j03OoFmUIv7kqyJ25_5HvLXehMRTMyQBDUCve28-tszRbu0iaWWVNoRnc7bk3x_hdRUScytUN8oFBUX5S7FbeMXHG1XsatEzHjgxcRjaCjUvrHclQ7ZI=w200-h200-n-v1-rj)
-
-![Image of](https://lh3.googleusercontent.com/gg/AIJ2gl-pj5RR4y2Ar8cATPXUXesk79lWvmmRM3y658D6y6Ryj2gDsmRor0a3pkt8hWMZzpIEY8dBPsepvalGukmlfAFwvkuZdrDb6RNY3Smd0eALVLgffrkCbIZaVuPzttst8fVsqjhAagvC5ZVTKyjSBiBL1v69g2lIZk5DrrMBT9yj1FbFaPqGgYsGGLRJqEXFhXTK2Wf9STjnzZp5OG9zph-WkaIYS8TGvEYfaIYvjPVPpaK0HA3OEnqM-VB05VKEU0bXaqmwhhIOmOlYzzu7Fdz9ZWRHvYjeEMyHNmBdMQNujf5z6M8okfFRpsOjIZ2B7CW9QGmvNSGHbiNq5giJrF4=w200-h200-n-v1-rj)
-
-Video Audio Analysis Workflow Discussion
-
-Large Context Window Capabilities
-
-Sending Large Files From iPhone Via SMS
-
-Clarification Needed for "What Happened?"
-
-The Gyre Diagram: AI's Return
-
-Analyzing a Digital Second Brain
-
-PDF Sharing for Summarization
-
-Flax Linen Sheet Recommendations
-
-AI Knowledge Graph Analysis
-
-Zero-Budget School Marketing Plan
-
-Google Workspace Gemini Upgrade Options
-
-Kahoot Quiz Creation From Dialog
-
-NBA Stats: Leading Scorers December 2025
 
 # Conversation with Gemini
 
