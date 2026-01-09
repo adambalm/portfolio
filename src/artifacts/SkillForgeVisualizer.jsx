@@ -362,9 +362,9 @@ const i18n = {
     featuredTurn3: 'Fair. We need Voice Isolation on the clarity track first—separate the vocal envelope from crowd noise before using it as a sidechain trigger.',
     featuredTurn4: 'Important constraint: the crowd energy builds as they recognize what\'s happening. That\'s part of the story. I don\'t want sterile isolation.',
     featuredTurn5: 'That changes the success metric. We can\'t duck aggressively or we lose emotional impact. Need the "sweet spot"—consonants audible, room still massive.',
-    featuredTurn6: 'Revised approach: MDX-Net source separation with centrifuge pattern—multiple passes at different frequency bands. Preserve rhythmic cadence and consonant attack while keeping crowd presence between phrases.',
-    featuredTurn7: 'Verified. Centrifuge addresses both constraints: technical (single-source) and artistic (preserve energy). Success criteria locked: consonants sharp, rhythm intact, crowd massive.',
-    featuredTurn8: 'Agreed. Proceed with MDX-Net centrifuge. I\'ll evaluate against those criteria.',
+    featuredTurn6: 'Revised approach: MDX-Net source separation with centrifuge pattern. This requires distributed GPU inference—24GB VRAM minimum per pass, three passes at different frequency bands. I can orchestrate across your local 3090 plus cloud instances for the heavy lifting.',
+    featuredTurn7: 'Verified. Centrifuge addresses both constraints. I\'ve analyzed the actual video artifact—the frequency masking is worst at the "crime against nature" punchline where the crowd peaks. Your VRAM orchestration handles the compute; the success criteria are consonants sharp, rhythm intact, crowd massive.',
+    featuredTurn8: 'Agreed. Proceed with distributed MDX-Net centrifuge. I\'ll evaluate the output against those criteria.',
     // Gate passage markers
     featuredUGMarker: 'UG',
     featuredAGMarker: 'AG',
@@ -372,6 +372,18 @@ const i18n = {
     featuredUGNote: 'Understanding Gate — constraint surfaced',
     featuredAGNote: 'Agreement Gate — approach locked',
     featuredEANote: 'Execution Authorization granted',
+    // Value Demonstrated section
+    featuredValueTitle: 'Value Demonstrated',
+    featuredValueWithout: 'Without deliberation',
+    featuredValueWithoutText: 'GA implements sidechain ducking → fails on crowd noise → rework required. Single-model approach misses the technical constraint.',
+    featuredValueWith: 'With deliberation',
+    featuredValueWithText: 'IA catches failure mode before execution. HO surfaces artistic constraint. Correct approach implemented first time.',
+    featuredValueHeterogeneity: 'Why heterogeneity matters',
+    featuredValueHeterogeneityText: 'IA (Gemini) can analyze the actual video artifact and identify where frequency masking is worst. GA (Claude) can\'t process video but can architect distributed compute solutions. Different capabilities catch different failure modes.',
+    featuredValueSkill: 'Skill extracted',
+    featuredValueSkillText: 'Distributed GPU orchestration for source separation under VRAM constraints. Reusable pattern: centrifuge multi-pass architecture with cloud/local hybrid inference.',
+    featuredValueNotAuto: 'Not automatable',
+    featuredValueNotAutoText: 'Requires domain expertise (what makes rap intelligible), artistic judgment (preserve crowd energy), and heterogeneous model capabilities. No single model covers all three.',
     featuredViewDialogue: 'View Full Dialogue',
     featuredViewSpec: 'View Technical Spec',
 
@@ -1382,6 +1394,38 @@ const FeaturedExample = ({ lang, expanded, onToggle, links }) => {
                 </div>
               );
             })()}
+          </div>
+
+          {/* Value Demonstrated */}
+          <div style={{ padding: 16, background: '#f9fafb', borderTop: '1px solid #e5e5e5' }}>
+            <div style={{ fontSize: 13, fontWeight: 600, color: '#1e40af', marginBottom: 12 }}>{t(lang, 'featuredValueTitle')}</div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 12 }}>
+              {/* Without deliberation */}
+              <div style={{ padding: 12, background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 4 }}>
+                <div style={{ fontSize: 11, fontWeight: 600, color: '#991b1b', marginBottom: 4 }}>{t(lang, 'featuredValueWithout')}</div>
+                <p style={{ margin: 0, fontSize: 12, lineHeight: 1.5, color: '#7f1d1d' }}>{t(lang, 'featuredValueWithoutText')}</p>
+              </div>
+              {/* With deliberation */}
+              <div style={{ padding: 12, background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 4 }}>
+                <div style={{ fontSize: 11, fontWeight: 600, color: '#166534', marginBottom: 4 }}>{t(lang, 'featuredValueWith')}</div>
+                <p style={{ margin: 0, fontSize: 12, lineHeight: 1.5, color: '#14532d' }}>{t(lang, 'featuredValueWithText')}</p>
+              </div>
+              {/* Why heterogeneity matters */}
+              <div style={{ padding: 12, background: '#fffbeb', border: '1px solid #fde68a', borderRadius: 4 }}>
+                <div style={{ fontSize: 11, fontWeight: 600, color: '#92400e', marginBottom: 4 }}>{t(lang, 'featuredValueHeterogeneity')}</div>
+                <p style={{ margin: 0, fontSize: 12, lineHeight: 1.5, color: '#78350f' }}>{t(lang, 'featuredValueHeterogeneityText')}</p>
+              </div>
+              {/* Skill extracted */}
+              <div style={{ padding: 12, background: '#eff6ff', border: '1px solid #bfdbfe', borderRadius: 4 }}>
+                <div style={{ fontSize: 11, fontWeight: 600, color: '#1e40af', marginBottom: 4 }}>{t(lang, 'featuredValueSkill')}</div>
+                <p style={{ margin: 0, fontSize: 12, lineHeight: 1.5, color: '#1e3a8a' }}>{t(lang, 'featuredValueSkillText')}</p>
+              </div>
+            </div>
+            {/* Not automatable callout */}
+            <div style={{ marginTop: 12, padding: 12, background: '#faf5ff', border: '1px solid #e9d5ff', borderRadius: 4 }}>
+              <div style={{ fontSize: 11, fontWeight: 600, color: '#7c3aed', marginBottom: 4 }}>{t(lang, 'featuredValueNotAuto')}</div>
+              <p style={{ margin: 0, fontSize: 12, lineHeight: 1.5, color: '#5b21b6' }}>{t(lang, 'featuredValueNotAutoText')}</p>
+            </div>
           </div>
 
           {(links?.forensicDialogue || links?.forensicSpec) && (
