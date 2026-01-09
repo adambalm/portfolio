@@ -36,6 +36,7 @@ CANARY: MEMENTO-DEMO-2026-01-05-VITE-READY
 */
 
 import React, { useState } from 'react';
+import StandardFooter from '../components/StandardFooter';
 
 /* ========== DATA: Trilingual Content ========== */
 const content = {
@@ -423,10 +424,11 @@ export default function MementoDemo() {
         {renderSection()}
       </main>
 
-      <footer style={baseStyles.footer}>
-        <div>{t.footer.copyright}</div>
-        <div style={{ marginTop: '1em', fontSize: '0.8em', color: '#6b6b6b' }}>MEMENTO-DEMO-2026-01-05-VITE-READY</div>
-      </footer>
+      <StandardFooter
+        canary="MEMENTO-DEMO-2026-01-05-VITE-READY"
+        version="1.0.0"
+        copyright={t.footer.copyright}
+      />
     </div>
   );
 }

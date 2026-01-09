@@ -66,12 +66,13 @@ CANARY: SKILLFORGE-V3.0.0-2026-01-08
 */}
 
 import React, { useState, useEffect, useRef } from 'react';
-import { 
-  Check, X, AlertCircle, User, 
+import {
+  Check, X, AlertCircle, User,
   Layers, TrendingUp, Clock, FileText, Target,
   GitBranch, ChevronRight, ChevronDown, ExternalLink,
   Database, Zap
 } from 'lucide-react';
+import StandardFooter from '../components/StandardFooter';
 
 // =============================================================================
 // i18n INFRASTRUCTURE
@@ -360,11 +361,11 @@ const i18n = {
     featuredTurn1: 'Standard approach: duplicate the track, process one for clarity with high-pass filter and compression, then sidechain duck the vibe track when vocals hit.',
     featuredTurn2: 'That won\'t work. Single-source iPhone means the compressor triggers on crowd noise, not just vocals. You\'ll get a "pumping" effect where everything ducks when the audience cheers.',
     featuredTurn3: 'Fair. We need Voice Isolation on the clarity track first—separate the vocal envelope from crowd noise before using it as a sidechain trigger.',
-    featuredTurn4: 'Important constraint: the crowd energy builds as they recognize what\'s happening. That\'s part of the story. I don\'t want sterile isolation.',
-    featuredTurn5: 'That changes the success metric. We can\'t duck aggressively or we lose emotional impact. Need the "sweet spot"—consonants audible, room still massive.',
-    featuredTurn6: 'Revised approach: MDX-Net source separation with centrifuge pattern. This requires distributed GPU inference—24GB VRAM minimum per pass, three passes at different frequency bands. I can orchestrate across your local 3090 plus cloud instances for the heavy lifting.',
-    featuredTurn7: 'Verified. Centrifuge addresses both constraints. I\'ve analyzed the actual video artifact—the frequency masking is worst at the "crime against nature" punchline where the crowd peaks. Your VRAM orchestration handles the compute; the success criteria are consonants sharp, rhythm intact, crowd massive.',
-    featuredTurn8: 'Agreed. Proceed with distributed MDX-Net centrifuge. I\'ll evaluate the output against those criteria.',
+    featuredTurn4: 'The crowd response builds as this goes along—it\'s not just reaction to punchlines, it\'s them recognizing what\'s happening in real time. When it switches to "crime against nature" is when they start going nuts. Be on the lookout for that.',
+    featuredTurn5: 'That changes the success metric. We can\'t duck aggressively or we lose the build. Those soft vowel endings on "nature" and "overrate ya" are easy to lose when the crowd peaks.',
+    featuredTurn6: 'Revised approach: two-pass MDX-Net centrifuge. Pass 1 separates vocals from crowd, Pass 2 strips gym reverb. Headless GPU inference on Adambalm—16GB VRAM gives us full segment sizes without seams.',
+    featuredTurn7: 'Verified. I\'ve analyzed the artifact—frequency masking is worst at the "crime against nature" punchline. Success criteria: consonants sharp above 6kHz, no digital chirping in silent gaps, 6-12dB separation between voice and roar.',
+    featuredTurn8: 'Ok—write me the full spec. I want the reasoning laid out and a success matrix so we know which parts actually work.',
     // Gate passage markers
     featuredUGMarker: 'UG',
     featuredAGMarker: 'AG',
@@ -1981,26 +1982,12 @@ export default function SkillForgeVisualizer({ lang: initialLang = 'en', links =
         )}
       </main>
 
-      <footer style={{ borderTop: '1px solid #ccc', padding: '16px 24px', textAlign: 'center' }}>
-        <p style={{ fontSize: 14, color: '#555' }}>{t(validLang, 'footerTitle')}</p>
-        <p style={{ fontSize: 12, color: '#555', marginTop: 4 }}>{t(validLang, 'footerVersion')}</p>
-        <p style={{ fontSize: 12, color: '#555', marginTop: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16 }}>
-          <span>{t(validLang, 'footerAuthor')}</span>
-          <span style={{ color: '#ccc' }}>·</span>
-          <span>{t(validLang, 'footerPubDate')}</span>
-          <span style={{ color: '#ccc' }}>·</span>
-          <a href="https://www.linkedin.com/in/ed-o-connell-4b38483/" target="_blank" rel="noopener noreferrer" style={{ color: '#555', display: 'inline-flex', alignItems: 'center', gap: 4 }} aria-label="Ed O'Connell on LinkedIn">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-            <span>LinkedIn</span>
-          </a>
-          <span style={{ color: '#ccc' }}>·</span>
-          <a href="https://x.com/edoconnell" target="_blank" rel="noopener noreferrer" style={{ color: '#555', display: 'inline-flex', alignItems: 'center', gap: 4 }} aria-label="@edoconnell on X">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-            <span>@edoconnell</span>
-          </a>
-        </p>
-        <p style={{ fontSize: 10, color: '#666', marginTop: 8 }} data-testid="canary">{t(validLang, 'canary')}</p>
-      </footer>
+      <StandardFooter
+        canary={t(validLang, 'canary')}
+        version="3.0.0"
+        copyright={t(validLang, 'footerAuthor')}
+        citationStyle="APA 7th Edition"
+      />
     </div>
   );
 }

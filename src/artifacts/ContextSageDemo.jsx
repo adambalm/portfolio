@@ -37,6 +37,7 @@ CANARY: CONTEXT-SAGE-DEMO-2026-01-05-VITE-READY
 */}
 
 import React, { useState } from 'react';
+import StandardFooter from '../components/StandardFooter';
 
 {/* ========== DATA: Trilingual Content ========== */}
 const content = {
@@ -229,8 +230,7 @@ const content = {
       subtitle: 'Who built this and why',
       personTitle: 'Ed O\'Connell',
       personBio: [
-        'Director of Digital Strategy & AI Enablement at Springfield Commonwealth Academy. Twenty years in higher education technology—University of Massachusetts system, Western New England University, now a private prep school serving local families and international students.',
-        'MFA in Poetry from UMass Amherst. The technical work and the writing are not separate interests; they are the same interest expressed differently.'
+        'Director of Digital Strategy & AI Enablement at Springfield Commonwealth Academy. Twenty years in higher education technology—University of Massachusetts system, Western New England University, now a private prep school serving local families and international students.'
       ],
       whyTitle: 'Why This Exists',
       why: [
@@ -335,7 +335,7 @@ const content = {
       title: '关于',
       subtitle: '谁构建了这个以及为什么',
       personTitle: 'Ed O\'Connell',
-      personBio: ['Springfield Commonwealth Academy数字战略与AI赋能总监。高等教育技术20年经验。', 'UMass Amherst诗歌MFA。技术工作和写作是同一兴趣的不同表达。'],
+      personBio: ['Springfield Commonwealth Academy数字战略与AI赋能总监。高等教育技术20年经验。'],
       whyTitle: '为什么存在',
       why: ['问题不是AI能力。问题是治理。', '大多数AI工具假设单用户单会话。', '这系统是不同尝试：人类监督下的多代理协作。'],
       notTitle: '这不是什么',
@@ -431,7 +431,7 @@ const content = {
       title: 'Acerca de',
       subtitle: 'Quién construyó esto y por qué',
       personTitle: 'Ed O\'Connell',
-      personBio: ['Director de Estrategia Digital y Habilitación de IA en Springfield Commonwealth Academy. Veinte años en tecnología de educación superior.', 'MFA en Poesía de UMass Amherst. El trabajo técnico y la escritura son el mismo interés expresado diferentemente.'],
+      personBio: ['Director de Estrategia Digital y Habilitación de IA en Springfield Commonwealth Academy. Veinte años en tecnología de educación superior.'],
       whyTitle: 'Por Qué Existe',
       why: ['El problema no es capacidad de IA. El problema es gobernanza.', 'La mayoría de herramientas de IA asumen flujos de usuario único, sesión única.', 'Este sistema es un intento diferente: colaboración multi-agente bajo supervisión humana.'],
       notTitle: 'Lo Que No Es',
@@ -683,10 +683,11 @@ Memento ──(detected themes)──> Basic Memory (proposed research interests
         {renderSection()}
       </main>
 
-      <footer style={baseStyles.footer}>
-        <div>{t.footer.copyright}</div>
-        <div style={{ marginTop: '1em', fontSize: '0.8em', color: '#6b6b6b' }}>CONTEXT-SAGE-DEMO-2026-01-05-VITE-READY</div>
-      </footer>
+      <StandardFooter
+        canary="CONTEXT-SAGE-DEMO-2026-01-05-VITE-READY"
+        version="1.0.0"
+        copyright={t.footer.copyright}
+      />
     </div>
   );
 }
