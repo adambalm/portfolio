@@ -24,17 +24,33 @@ export default function Layout() {
         }}>
           Portfolio
         </h1>
-        {/* === HUMAN INTRO PLACEHOLDER === */}
-        {/* Replace this paragraph with your human-authored intro (1-2 sentences) */}
-        <p style={{
+        {/* Human-authored intro with provenance */}
+        <blockquote style={{
           color: '#475569',
-          margin: '0 0 12px 0',
+          margin: '0 0 8px 0',
+          padding: '0',
           fontSize: '14px',
-          lineHeight: '1.5',
+          lineHeight: '1.6',
+          fontStyle: 'italic',
+          borderLeft: 'none',
         }}>
-          [YOUR INTRO HERE: A brief human-authored statement about who you are and what this portfolio demonstrates.]
+          Before we hand over the keys to the Ferrari, don't you think we should check if the person stepping on the gas actually knows how to steer? That is what we are building here. It is an attempt to wire human intent back into the machine, turning high-velocity debt into a governed asset. If that kind of problem interests you,{' '}
+          <a
+            href="https://www.linkedin.com/in/ed-o-connell-4b38483/"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: '#1d4ed8', textDecoration: 'underline', fontStyle: 'normal' }}
+          >
+            let's talk
+          </a>.
+        </blockquote>
+        <p style={{
+          fontSize: '11px',
+          color: '#64748b',
+          margin: '0 0 12px 0',
+        }}>
+          — Ed O'Connell <span style={{ color: '#94a3b8' }}>|</span> Human-authored
         </p>
-        {/* === END PLACEHOLDER === */}
         <p style={{
           color: '#64748b',
           margin: 0,

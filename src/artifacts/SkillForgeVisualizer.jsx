@@ -1993,6 +1993,11 @@ export default function SkillForgeVisualizer({ lang: initialLang = 'en', links =
         version="3.0.0"
         copyright={t(validLang, 'footerAuthor')}
         citationStyle="APA 7th Edition"
+        contact={{
+          name: 'Ed O\'Connell',
+          linkedin: 'https://www.linkedin.com/in/ed-o-connell-4b38483/',
+          x: '@edoconnell'
+        }}
       />
     </div>
   );

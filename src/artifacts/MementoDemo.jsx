@@ -428,6 +428,11 @@ export default function MementoDemo() {
         canary="MEMENTO-DEMO-2026-01-05-VITE-READY"
         version="1.0.0"
         copyright={t.footer.copyright}
+        contact={{
+          name: 'Ed O\'Connell',
+          linkedin: 'https://www.linkedin.com/in/ed-o-connell-4b38483/',
+          x: '@edoconnell'
+        }}
       />
     </div>
   );
