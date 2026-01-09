@@ -73,7 +73,10 @@ const content = {
     architecture: {
       title: 'Architecture',
       subtitle: 'How the system works—components, protocols, information flow',
-      componentsTitle: 'Components',
+      deliberationTitle: 'Skill Forge Deliberation',
+      deliberationIntro: 'The system\'s core innovation: heterogeneous AI deliberation with explicit gates. Two AI models challenge each other under human authority.',
+      deliberationNote: 'Gates are control points, not rubber stamps. UG closes when GA has responded to all flags. AG closes when models reach qualified agreement. EA requires explicit human articulation before implementation proceeds.',
+      componentsTitle: 'Infrastructure Components',
       componentDesc: {
         memento: 'Memento captures browser state—what tabs are open, what you were working on. It classifies sessions via local LLM and writes structured records.',
         basicMemory: 'Basic Memory is the knowledge base. Markdown files with governed frontmatter, Git-versioned, accessible via MCP protocol. The single source of truth.',
@@ -268,7 +271,10 @@ const content = {
     architecture: {
       title: '架构',
       subtitle: '系统如何工作——组件、协议、信息流',
-      componentsTitle: '组件',
+      deliberationTitle: 'Skill Forge 审议',
+      deliberationIntro: '系统核心创新：异构AI审议与显式门控。两个AI模型在人类权威下相互挑战。',
+      deliberationNote: '门控是控制点，不是橡皮图章。UG在GA响应所有标记后关闭。AG在模型达成限定协议后关闭。EA需要人类明确表达后实施才能进行。',
+      componentsTitle: '基础设施组件',
       componentDesc: { memento: 'Memento 捕获浏览器状态。通过本地LLM分类会话。', basicMemory: 'Basic Memory 是知识库。Markdown文件，Git版本控制，MCP协议访问。', claude: 'Claude Desktop 桥接组件，读取上下文，路由多代理对话。' },
       protocolsTitle: '协议',
       protocolsIntro: '三个协议治理系统：',
@@ -364,7 +370,10 @@ const content = {
     architecture: {
       title: 'Arquitectura',
       subtitle: 'Cómo funciona el sistema—componentes, protocolos, flujo de información',
-      componentsTitle: 'Componentes',
+      deliberationTitle: 'Deliberación Skill Forge',
+      deliberationIntro: 'La innovación central del sistema: deliberación heterogénea de IA con puertas explícitas. Dos modelos de IA se desafían mutuamente bajo autoridad humana.',
+      deliberationNote: 'Las puertas son puntos de control, no sellos de goma. UG cierra cuando GA ha respondido a todas las banderas. AG cierra cuando los modelos alcanzan acuerdo calificado. EA requiere articulación humana explícita antes de proceder con implementación.',
+      componentsTitle: 'Componentes de Infraestructura',
       componentDesc: { memento: 'Memento captura estado del navegador. Clasifica sesiones vía LLM local.', basicMemory: 'Basic Memory es la base de conocimiento. Archivos Markdown, versionados con Git, accesibles vía MCP.', claude: 'Claude Desktop conecta componentes, lee contexto, enruta diálogos multi-agente.' },
       protocolsTitle: 'Los Protocolos',
       protocolsIntro: 'Tres protocolos gobiernan el sistema:',
@@ -513,15 +522,80 @@ export default function ContextSageDemo() {
   {/* ========== SECTION: Architecture ========== */}
   const renderArchitecture = () => (
     <section data-section="architecture">
+      {/* Deliberation Flow - the core innovation */}
+      <h3 style={baseStyles.h3}>{t.architecture.deliberationTitle}</h3>
+      <p style={{ marginBottom: '1em' }}>{t.architecture.deliberationIntro}</p>
+
+      {/* Agent legend */}
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1em', marginBottom: '1em', padding: '0.75em', background: '#f9f9f5', borderRadius: '4px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5em' }}>
+          <span style={{ padding: '0.25em 0.5em', background: '#1e40af', color: '#fff', borderRadius: '4px', fontSize: '0.8em', fontWeight: 500 }}>HO</span>
+          <span style={{ fontSize: '0.9em' }}>Human Orchestrator</span>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5em' }}>
+          <span style={{ padding: '0.25em 0.5em', background: '#b8860b', color: '#fff', borderRadius: '4px', fontSize: '0.8em', fontWeight: 500 }}>GA</span>
+          <span style={{ fontSize: '0.9em' }}>Generalizing AI (Claude)</span>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5em' }}>
+          <span style={{ padding: '0.25em 0.5em', background: '#2d5a3d', color: '#fff', borderRadius: '4px', fontSize: '0.8em', fontWeight: 500 }}>IA</span>
+          <span style={{ fontSize: '0.9em' }}>Inspecting AI (ChatGPT)</span>
+        </div>
+      </div>
+
+      {/* Swimlane ASCII diagram */}
+      <DiagramBox>{`         HO          GA          IA
+         │           │           │
+         │     1     │           │
+         ├──────────►│           │  Problem arrives
+         │           │     2     │
+         │           ├──────────►│  GA proposes
+         │           │     3     │
+         │           │◄──────────┤  IA verifies + flags
+         │           │           │
+═════════╪═══════════╪═══════════╪═════════════════════
+         │    [UG] UNDERSTANDING GATE
+         │    GA must respond to ALL flags
+═════════╪═══════════╪═══════════╪═════════════════════
+         │           │     4     │
+         │           ├──────────►│  GA responds
+         │           │     5     │
+         │           │◄──────────┤  IA critiques
+         │           │           │
+═════════╪═══════════╪═══════════╪═════════════════════
+         │    [AG] AGREEMENT GATE
+         │    Executable test or qualified agreement
+═════════╪═══════════╪═══════════╪═════════════════════
+         │     6     │           │
+         │◄──────────┤           │  HO articulates
+         │           │           │
+═════════════════════════════════════════════════════════
+    [EA] EXECUTION AUTHORIZATION
+    Implementation may proceed
+═════════════════════════════════════════════════════════
+         │           │     7     │
+         │◄──────────┤           │  GA produces artifact
+         │           │           │     8
+         │◄──────────────────────┤  IA reviews evidence
+         │     9     │           │
+         ●───────────────────────►  HO closes cycle`}</DiagramBox>
+
+      <p style={{ marginTop: '0.5em', marginBottom: '1.5em', color: '#454545', fontStyle: 'italic', fontSize: '0.9em' }}>
+        {t.architecture.deliberationNote}
+      </p>
+
+      {/* Infrastructure Components */}
       <h3 style={baseStyles.h3}>{t.architecture.componentsTitle}</h3>
-      <DiagramBox>{`┌─────────────────────────────────────────────────────────────────┐
-│                        CONTEXT SAGE                             │
-├─────────────────────────────────────────────────────────────────┤
-│  ┌──────────────┐    ┌──────────────┐    ┌──────────────────┐  │
-│  │   Memento    │    │    Claude    │    │   Basic Memory   │  │
-│  │   (Capture)  │◄───│   Desktop    │───►│   (Knowledge)    │  │
-│  └──────────────┘    └──────────────┘    └──────────────────┘  │
-└─────────────────────────────────────────────────────────────────┘`}</DiagramBox>
+      <DiagramBox>{`┌─────────────────────────────────────────────────┐
+│             INFRASTRUCTURE LAYER                │
+├─────────────────────────────────────────────────┤
+│  ┌──────────┐   ┌──────────┐   ┌────────────┐  │
+│  │ Memento  │   │  Claude  │   │   Basic    │  │
+│  │(Capture) │◄──│ Desktop  │──►│  Memory    │  │
+│  └──────────┘   └──────────┘   └────────────┘  │
+│       ▲              │               │         │
+│       │         orchestrates         │         │
+│       └────── feedback loop ─────────┘         │
+└─────────────────────────────────────────────────┘`}</DiagramBox>
       <p><strong>Memento:</strong> {t.architecture.componentDesc.memento}</p>
       <p><strong>Basic Memory:</strong> {t.architecture.componentDesc.basicMemory}</p>
       <p style={{ marginBottom: '1.5em' }}><strong>Claude Desktop:</strong> {t.architecture.componentDesc.claude}</p>
@@ -536,21 +610,15 @@ export default function ContextSageDemo() {
         </div>
       ))}
 
-      <h3 style={baseStyles.h3}>{t.architecture.flowTitle}</h3>
-      {t.architecture.flowSteps.map((step, i) => (
-        <div key={i} style={baseStyles.flowStep}>
-          <div style={baseStyles.flowNum}>{step.num}</div>
-          <div><strong>{step.label}</strong> — {step.desc}</div>
-        </div>
-      ))}
-      <p style={{ marginTop: '1em', color: '#454545' }}>{t.architecture.flowNote}</p>
-
       <h3 style={baseStyles.h3}>{t.architecture.loopTitle}</h3>
       <DiagramBox>{`Direction 1: Context Push
-Basic Memory ──(projects, keywords)──> Memento classification
+Basic Memory ──(projects, keywords)──► Memento classification
 
 Direction 2: Feedback
-Memento ──(detected themes)──> Basic Memory (proposed research interests)`}</DiagramBox>
+Memento ──(detected themes)──► Basic Memory (proposed interests)
+                    │
+                    ▼
+              HO approves/rejects`}</DiagramBox>
       <p>{t.architecture.loopDesc}</p>
     </section>
   );
