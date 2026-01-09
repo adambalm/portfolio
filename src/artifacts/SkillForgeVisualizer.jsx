@@ -281,7 +281,7 @@ const i18n = {
     novel6Note: '— explicit cost model for recurring problems',
     
     // Example - Full Deliberation
-    exampleTitle: 'Example: Boundary Marker Components',
+    exampleTitle: 'Example: Forensic Audio Deliberation',
     exampleDesc: 'A complete Skill Forge deliberation for the portfolio site\'s epistemic boundary markers. Click each step to see the actual exchange.',
 
     exStep1Title: 'Step 1: Novel Problem Arrives',
@@ -1753,7 +1753,16 @@ export default function SkillForgeVisualizer({ lang: initialLang = 'en', links =
         {/* ========== SECTION: Verification ========== */}
         {view === 'paraphrase' && (
           <section id="panel-paraphrase" role="tabpanel" aria-labelledby="tab-paraphrase" tabIndex={0} data-section="verification">
-            <h2 style={{ fontSize: 22, fontWeight: 400, fontStyle: 'italic', marginBottom: 24 }}>{t(validLang, 'verificationTitle')}</h2>
+            <h2 style={{ fontSize: 22, fontWeight: 400, fontStyle: 'italic', marginBottom: 16 }}>{t(validLang, 'verificationTitle')}</h2>
+            {/* Hamlet epigraph - fits verification/paraphrase context */}
+            <blockquote style={{ margin: '0 0 24px 0', padding: '12px 16px', background: '#fafafa', borderLeft: '3px solid #a00000', borderRadius: 2 }}>
+              <p style={{ fontSize: 14, fontStyle: 'italic', color: '#555', margin: 0, lineHeight: 1.5 }}>
+                {t(validLang, 'rewordGateEpigraph')}
+              </p>
+              <cite style={{ display: 'block', marginTop: 6, fontSize: 12, color: '#777', fontStyle: 'normal' }}>
+                {t(validLang, 'rewordGateAttribution')}
+              </cite>
+            </blockquote>
             <div style={{ background: '#fff', border: '1px solid #ccc', borderRadius: 4, padding: 24, marginBottom: 24 }}>
               <h3 style={{ fontStyle: 'italic', fontWeight: 400, marginBottom: 16 }}>{t(validLang, 'swissCheeseSection')}</h3>
               <p style={{ fontSize: 14, color: '#555', marginBottom: 16, lineHeight: 1.6 }}>
@@ -1774,15 +1783,6 @@ export default function SkillForgeVisualizer({ lang: initialLang = 'en', links =
         {view === 'example' && (
           <section id="panel-example" role="tabpanel" aria-labelledby="tab-example" tabIndex={0} data-section="example">
             <h2 style={{ fontSize: 22, fontWeight: 400, fontStyle: 'italic', marginBottom: 16 }}>{t(validLang, 'exampleTitle')}</h2>
-            {/* Hamlet epigraph - decorative, sets tone for articulation */}
-            <blockquote style={{ margin: '0 0 24px 0', padding: '12px 16px', background: '#fafafa', borderLeft: '3px solid #a00000', borderRadius: 2 }}>
-              <p style={{ fontSize: 14, fontStyle: 'italic', color: '#555', margin: 0, lineHeight: 1.5 }}>
-                {t(validLang, 'rewordGateEpigraph')}
-              </p>
-              <cite style={{ display: 'block', marginTop: 6, fontSize: 12, color: '#777', fontStyle: 'normal' }}>
-                {t(validLang, 'rewordGateAttribution')}
-              </cite>
-            </blockquote>
             <p style={{ color: '#555', marginBottom: 24, lineHeight: 1.6 }}>{t(validLang, 'exampleDesc')}</p>
 
             {/* Featured Example - Forensic Audio (Live) */}

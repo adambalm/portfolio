@@ -15,18 +15,26 @@ const SKILL_FORGE_URL = '/#/skill-forge';
 
 test.describe('SkillForge v3.0.0 - RewordGate', () => {
 
-  test('should display RewordGate with Hamlet epigraph', async ({ page }) => {
+  test('should display RewordGate on Example page', async ({ page }) => {
     await page.goto(SKILL_FORGE_URL);
 
-    // Navigate to Example section (singular, not Examples)
+    // Navigate to Example section
     const exampleTab = page.locator('[data-testid="nav-example"]');
     await exampleTab.click();
 
     // Find the RewordGate component
     const rewordGate = page.locator('[data-testid="reword-gate"]');
     await expect(rewordGate).toBeVisible();
+  });
 
-    // Check for the Hamlet epigraph
+  test('should display Hamlet epigraph on Verification page', async ({ page }) => {
+    await page.goto(SKILL_FORGE_URL);
+
+    // Navigate to Verification section
+    const verificationTab = page.locator('[data-testid="nav-paraphrase"]');
+    await verificationTab.click();
+
+    // Check for the Hamlet epigraph (now on Verification page)
     const epigraph = page.locator('text=Bring me to the test');
     await expect(epigraph).toBeVisible();
 
