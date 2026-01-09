@@ -8,27 +8,30 @@ Generator: Claude (Opus 4.5) via Claude Code
 Protocol: SKILL-FORGE-V2.2.0-GOVERNANCE (Heterogeneous AI Deliberation)
 
 SECTIONS:
-- Process (~lines 1130-1230) [ENHANCED: Swimlane layout]
-- Verification (~lines 1235-1255)
-- Example (~lines 1255-1310) [ENHANCED: RewordGate]
-- Economics (~lines 1310-1360) [ENHANCED: Responsive SVG]
-- Accumulation (~lines 1360-1500)
-- References (~lines 1500-1600)
+- Process (~lines 1550-1640) [ENHANCED: Swimlane layout]
+- Verification (~lines 1600-1640)
+- Example (~lines 1640-1680) [ENHANCED: FeaturedExample, RelatedExamples, GateProgress]
+- Economics (~lines 1680-1750) [ENHANCED: Responsive SVG]
+- Accumulation (~lines 1750-1900)
+- References (~lines 1900-2000)
 
 SUBCOMPONENTS:
-- CitationLink (~lines 750-765) — APA 7th external links
-- SkipLink (~lines 765-775) — WCAG skip navigation
-- FlowStep (~lines 775-795) — Process step button
-- Gate (~lines 795-810) — UG/AG status indicator
-- SwissCheeseVisualization (~lines 810-825) — SVG diagram
-- Slider (~lines 825-835) — Accessible range input (44px touch target)
-- CostCurve (~lines 855-885) — Economics SVG chart (viewBox + preserveAspectRatio)
-- NavTab (~lines 885-900) — ARIA tab button
-- ExpandablePanel (~lines 900-920) — Accordion
-- RewordGate (~lines 920-990) — Human Articulation Gate (NEW v3.0.0)
-- SkillInventoryTable (~lines 1000-1030) — Thin skill inventory
-- LaTeX (~lines 650-700) — KaTeX with fallback
-- ConditionalLink (~lines 700-730) — Props-based linking
+- CitationLink (~lines 850-865) — APA 7th external links
+- SkipLink (~lines 865-875) — WCAG skip navigation
+- FlowStep (~lines 875-895) — Process step button
+- Gate (~lines 895-910) — UG/AG status indicator
+- SwissCheeseVisualization (~lines 910-925) — SVG diagram
+- Slider (~lines 925-935) — Accessible range input (44px touch target)
+- CostCurve (~lines 955-985) — Economics SVG chart (viewBox + preserveAspectRatio)
+- NavTab (~lines 985-1000) — ARIA tab button
+- ExpandablePanel (~lines 1000-1020) — Accordion
+- RewordGate (~lines 1005-1125) — Human Articulation Gate (v3.0.0)
+- SkillInventoryTable (~lines 1129-1167) — Thin skill inventory
+- GateProgress (~lines 1169-1207) — Gate status progress indicator (NEW v3.0.0)
+- FeaturedExample (~lines 1210-1339) — Hero card for primary example (NEW v3.0.0)
+- RelatedExamples (~lines 1349-1423) — Collapsible secondary examples (NEW v3.0.0)
+- LaTeX (~lines 750-800) — KaTeX with fallback
+- ConditionalLink (~lines 800-830) — Props-based linking
 
 DEPENDENCIES:
 - react (useState, useEffect, useRef)
@@ -333,6 +336,62 @@ const i18n = {
     rewordGateOptional: 'Optional: demonstrate your understanding',
     rewordGateExpand: 'I want to articulate',
     rewordGateCollapse: 'Collapse',
+
+    // Featured Example Section (v3.0.0)
+    featuredExampleLabel: 'Featured Example',
+    featuredExampleTitle: 'Forensic Audio Restoration Skill Forge',
+    featuredExampleDesc: 'Multimodal deliberation recovering hip-hop performance from gymnasium acoustics using distributed AI inference.',
+    featuredLiveBadge: 'Live',
+    featuredLiveTooltip: 'This deliberation is actively in progress. Gates remain open for review.',
+    featuredCompiledBadge: 'Compiled',
+    featuredCompiledTooltip: 'This skill has been ratified and is canonical.',
+    featuredModels: 'Models',
+    featuredModalities: 'Modalities',
+    featuredSize: 'Size',
+    featuredTurns: 'Turns',
+    featuredGateStatus: 'Gate Status',
+    featuredSkillExtraction: 'Skill Extraction Intent',
+    featuredSkill1: 'Distributed compute orchestration (VRAM management)',
+    featuredSkill2: 'Source separation architectures (MDX-Net, VR Centrifuge)',
+    featuredSkill3: 'Success evaluation matrices with unit tests',
+    featuredViewDialogue: 'View Full Dialogue',
+    featuredViewSpec: 'View Technical Spec',
+
+    // Gate Progress (reuses gateOpen/gateClosed from Process section)
+    gateUG: 'UG',
+    gateAG: 'AG',
+    gateEA: 'EA',
+    gateUGFull: 'Understanding Gate',
+    gateAGFull: 'Agreement Gate',
+    gateEAFull: 'Execution Authorization',
+    gateProgress: 'of gates closed',
+
+    // Related Examples
+    relatedExamplesTitle: 'Related Examples',
+    relatedCompiledSection: 'Compiled Skills',
+    relatedPatternsSection: 'Extracted Patterns',
+
+    // Related Example Items
+    relatedPortfolio: 'Portfolio Skill Forge Case Study',
+    relatedPortfolioMeta: 'v1.0.0 • 8 turns • Claude + ChatGPT',
+    relatedNuclearOption: 'Nuclear Option Memento Convergence',
+    relatedNuclearOptionMeta: '6 turns • MCP tool proposals',
+    relatedInfrastructure: 'Infrastructure Epistemic Gap',
+    relatedInfrastructureMeta: '5 turns • Black Flag Clause 4.1',
+    relatedMemento: 'Memento 4-Pass Classifier',
+    relatedMementoMeta: 'Technical architecture • 4-pass pipeline',
+
+    // Provenance Signals
+    provenanceModelDiversity: 'Multiple AI models participated',
+    provenanceTurnDepth: 'deliberation turns',
+    provenanceMultimodal: 'Multimodal analysis',
+    provenanceGates: 'gates closed',
+    provenanceRatified: 'Ratified',
+
+    // Modality Icons
+    modalityAudio: 'Audio',
+    modalityVideo: 'Video',
+    modalityText: 'Text',
 
     // Swimlane Layout (v3.0.0)
     swimlaneHO: 'Human Orchestrator',
@@ -1108,6 +1167,262 @@ const SkillInventoryTable = ({ lang, links }) => (
   </div>
 );
 
+// GateProgress - Shows deliberation gate status
+const GateProgress = ({ lang, gates = { ug: false, ag: false, ea: false } }) => {
+  const closedCount = Object.values(gates).filter(Boolean).length;
+  const total = Object.keys(gates).length;
+
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }} role="progressbar" aria-valuenow={closedCount} aria-valuemin={0} aria-valuemax={total} aria-label={`Gate progress: ${closedCount} of ${total} gates closed`}>
+      <div style={{ display: 'flex', gap: 4 }}>
+        {[
+          { key: 'ug', label: t(lang, 'gateUG'), full: t(lang, 'gateUGFull'), closed: gates.ug },
+          { key: 'ag', label: t(lang, 'gateAG'), full: t(lang, 'gateAGFull'), closed: gates.ag },
+          { key: 'ea', label: t(lang, 'gateEA'), full: t(lang, 'gateEAFull'), closed: gates.ea },
+        ].map(({ key, label, full, closed }) => (
+          <span
+            key={key}
+            title={`${full}: ${closed ? t(lang, 'gateClosed') : t(lang, 'gateOpen')}`}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 4,
+              padding: '2px 8px',
+              borderRadius: 4,
+              fontSize: 11,
+              fontWeight: 500,
+              background: closed ? '#f0fdf4' : '#fefce8',
+              color: closed ? '#166534' : '#92400e',
+              border: `1px solid ${closed ? '#166534' : '#d97706'}`,
+            }}
+          >
+            {closed ? <Check style={{ width: 12, height: 12 }} aria-hidden="true" /> : <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#d97706' }} />}
+            {label}
+          </span>
+        ))}
+      </div>
+      <span style={{ fontSize: 11, color: '#555' }}>
+        {closedCount}/{total} {t(lang, 'gateProgress')}
+      </span>
+    </div>
+  );
+};
+
+// FeaturedExample - Hero card for primary example
+const FeaturedExample = ({ lang, expanded, onToggle, links }) => {
+  const isLive = true; // Forensic Audio gates are still open
+
+  return (
+    <div
+      style={{
+        border: isLive ? '2px dashed #475569' : '2px solid #1e40af',
+        borderRadius: 8,
+        background: isLive ? '#fafafa' : '#eff6ff',
+        overflow: 'hidden',
+      }}
+      data-testid="featured-example"
+    >
+      {/* Header */}
+      <div style={{ padding: 16, borderBottom: '1px solid #e5e5e5' }}>
+        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
+          <div style={{ flex: 1, minWidth: 200 }}>
+            <div style={{ fontSize: 11, fontWeight: 600, color: '#555', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 4 }}>
+              {t(lang, 'featuredExampleLabel')}
+            </div>
+            <h3 style={{ fontSize: 18, fontWeight: 500, fontStyle: 'italic', margin: 0, color: '#111' }}>
+              {t(lang, 'featuredExampleTitle')}
+            </h3>
+          </div>
+          <span
+            role="status"
+            aria-live="polite"
+            aria-label={isLive ? t(lang, 'featuredLiveTooltip') : t(lang, 'featuredCompiledTooltip')}
+            title={isLive ? t(lang, 'featuredLiveTooltip') : t(lang, 'featuredCompiledTooltip')}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 6,
+              padding: '4px 12px',
+              borderRadius: 4,
+              fontSize: 12,
+              fontWeight: 600,
+              background: isLive ? '#fef3c7' : '#dbeafe',
+              color: isLive ? '#92400e' : '#1e40af',
+            }}
+          >
+            {isLive && <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#d97706', animation: 'pulse 2s ease-in-out infinite' }} />}
+            {isLive ? t(lang, 'featuredLiveBadge') : t(lang, 'featuredCompiledBadge')}
+          </span>
+        </div>
+        <p style={{ fontSize: 14, color: '#555', marginTop: 8, marginBottom: 0, lineHeight: 1.5 }}>
+          {t(lang, 'featuredExampleDesc')}
+        </p>
+      </div>
+
+      {/* At-a-glance metadata */}
+      <div style={{ padding: 16, background: '#fff', display: 'flex', flexWrap: 'wrap', gap: 16 }}>
+        <div style={{ minWidth: 100 }}>
+          <div style={{ fontSize: 11, color: '#777', marginBottom: 4 }}>{t(lang, 'featuredModels')}</div>
+          <div style={{ fontSize: 13, fontWeight: 500 }}>Claude + Gemini</div>
+        </div>
+        <div style={{ minWidth: 100 }}>
+          <div style={{ fontSize: 11, color: '#777', marginBottom: 4 }}>{t(lang, 'featuredModalities')}</div>
+          <div style={{ display: 'flex', gap: 4 }}>
+            <span title={t(lang, 'modalityAudio')} style={{ fontSize: 16 }}>🎵</span>
+            <span title={t(lang, 'modalityVideo')} style={{ fontSize: 16 }}>🎬</span>
+            <span title={t(lang, 'modalityText')} style={{ fontSize: 16 }}>📝</span>
+          </div>
+        </div>
+        <div style={{ minWidth: 80 }}>
+          <div style={{ fontSize: 11, color: '#777', marginBottom: 4 }}>{t(lang, 'featuredSize')}</div>
+          <div style={{ fontSize: 13, fontWeight: 500 }}>~200KB</div>
+        </div>
+        <div style={{ minWidth: 80 }}>
+          <div style={{ fontSize: 11, color: '#777', marginBottom: 4 }}>{t(lang, 'featuredTurns')}</div>
+          <div style={{ fontSize: 13, fontWeight: 500 }}>12+</div>
+        </div>
+      </div>
+
+      {/* Gate Progress */}
+      <div style={{ padding: '12px 16px', borderTop: '1px solid #e5e5e5', background: '#fff' }}>
+        <div style={{ fontSize: 11, color: '#777', marginBottom: 8 }}>{t(lang, 'featuredGateStatus')}</div>
+        <GateProgress lang={lang} gates={{ ug: true, ag: false, ea: false }} />
+      </div>
+
+      {/* Expandable detail */}
+      <button
+        onClick={onToggle}
+        style={{
+          width: '100%',
+          padding: '12px 16px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          background: '#f9fafb',
+          border: 'none',
+          borderTop: '1px solid #e5e5e5',
+          cursor: 'pointer',
+          fontFamily: 'Palatino, Georgia, serif',
+          fontSize: 13,
+          color: '#555',
+        }}
+        aria-expanded={expanded}
+      >
+        <span style={{ fontStyle: 'italic' }}>{t(lang, 'featuredSkillExtraction')}</span>
+        {expanded ? <ChevronDown style={{ width: 16, height: 16 }} /> : <ChevronRight style={{ width: 16, height: 16 }} />}
+      </button>
+
+      {expanded && (
+        <div style={{ padding: 16, background: '#fff', borderTop: '1px solid #e5e5e5' }}>
+          <ul style={{ margin: 0, paddingLeft: 20, color: '#333', lineHeight: 1.7, fontSize: 14 }}>
+            <li>{t(lang, 'featuredSkill1')}</li>
+            <li>{t(lang, 'featuredSkill2')}</li>
+            <li>{t(lang, 'featuredSkill3')}</li>
+          </ul>
+          {(links?.forensicDialogue || links?.forensicSpec) && (
+            <div style={{ display: 'flex', gap: 12, marginTop: 16 }}>
+              {links?.forensicDialogue && (
+                <a href={links.forensicDialogue} style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: 13, color: '#1d4ed8' }}>
+                  {t(lang, 'featuredViewDialogue')} <ExternalLink style={{ width: 14, height: 14 }} />
+                </a>
+              )}
+              {links?.forensicSpec && (
+                <a href={links.forensicSpec} style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: 13, color: '#1d4ed8' }}>
+                  {t(lang, 'featuredViewSpec')} <ExternalLink style={{ width: 14, height: 14 }} />
+                </a>
+              )}
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
+
+// Related Example data
+const RELATED_EXAMPLES = [
+  { id: 'portfolio', titleKey: 'relatedPortfolio', metaKey: 'relatedPortfolioMeta', status: 'compiled', version: 'v1.0.0' },
+  { id: 'nuclear', titleKey: 'relatedNuclearOption', metaKey: 'relatedNuclearOptionMeta', status: 'compiled' },
+  { id: 'infrastructure', titleKey: 'relatedInfrastructure', metaKey: 'relatedInfrastructureMeta', status: 'compiled' },
+  { id: 'memento', titleKey: 'relatedMemento', metaKey: 'relatedMementoMeta', status: 'pattern' },
+];
+
+// RelatedExamples - Collapsible section for secondary examples
+const RelatedExamples = ({ lang, expanded, onToggle, links }) => (
+  <div style={{ marginTop: 24 }} data-testid="related-examples">
+    <button
+      onClick={onToggle}
+      style={{
+        width: '100%',
+        padding: '12px 16px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        background: '#f5f5f5',
+        border: '1px solid #ccc',
+        borderRadius: expanded ? '4px 4px 0 0' : 4,
+        cursor: 'pointer',
+        fontFamily: 'Palatino, Georgia, serif',
+      }}
+      aria-expanded={expanded}
+    >
+      <span style={{ fontWeight: 500, fontSize: 14 }}>
+        {t(lang, 'relatedExamplesTitle')} ({RELATED_EXAMPLES.length})
+      </span>
+      {expanded ? <ChevronDown style={{ width: 18, height: 18, color: '#555' }} /> : <ChevronRight style={{ width: 18, height: 18, color: '#555' }} />}
+    </button>
+
+    {expanded && (
+      <div style={{ border: '1px solid #ccc', borderTop: 'none', borderRadius: '0 0 4px 4px', background: '#fff' }}>
+        {/* Compiled Skills */}
+        <div style={{ padding: '12px 16px', borderBottom: '1px solid #e5e5e5' }}>
+          <div style={{ fontSize: 11, fontWeight: 600, color: '#555', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 12 }}>
+            {t(lang, 'relatedCompiledSection')}
+          </div>
+          {RELATED_EXAMPLES.filter(e => e.status === 'compiled').map((example) => (
+            <div key={example.id} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 0', borderBottom: '1px solid #f0f0f0' }}>
+              <Check style={{ width: 16, height: 16, color: '#166534', flexShrink: 0 }} aria-hidden="true" />
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: 14, fontWeight: 500, color: '#111' }}>
+                  {links?.[example.id] ? (
+                    <a href={links[example.id]} style={{ color: '#111', textDecoration: 'underline' }}>{t(lang, example.titleKey)}</a>
+                  ) : t(lang, example.titleKey)}
+                  {example.version && (
+                    <span style={{ marginLeft: 8, padding: '1px 6px', background: '#dbeafe', color: '#1e40af', borderRadius: 3, fontSize: 11, fontWeight: 600 }}>
+                      {example.version}
+                    </span>
+                  )}
+                </div>
+                <div style={{ fontSize: 12, color: '#555' }}>{t(lang, example.metaKey)}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Extracted Patterns */}
+        <div style={{ padding: '12px 16px' }}>
+          <div style={{ fontSize: 11, fontWeight: 600, color: '#555', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 12 }}>
+            {t(lang, 'relatedPatternsSection')}
+          </div>
+          {RELATED_EXAMPLES.filter(e => e.status === 'pattern').map((example) => (
+            <div key={example.id} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 0' }}>
+              <span style={{ width: 16, height: 16, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', color: '#777', flexShrink: 0 }}>○</span>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: 14, fontWeight: 500, color: '#111' }}>
+                  {links?.[example.id] ? (
+                    <a href={links[example.id]} style={{ color: '#111', textDecoration: 'underline' }}>{t(lang, example.titleKey)}</a>
+                  ) : t(lang, example.titleKey)}
+                </div>
+                <div style={{ fontSize: 12, color: '#555' }}>{t(lang, example.metaKey)}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    )}
+  </div>
+);
+
 // =============================================================================
 // MAIN COMPONENT
 // =============================================================================
@@ -1125,6 +1440,8 @@ export default function SkillForgeVisualizer({ lang = 'en', links = {} }) {
   const [expandedExample, setExpandedExample] = useState(null);
   const [rewordApproved, setRewordApproved] = useState(false);
   const [processLayout, setProcessLayout] = useState('classic'); // 'classic' | 'swimlane'
+  const [featuredExpanded, setFeaturedExpanded] = useState(false);
+  const [relatedExpanded, setRelatedExpanded] = useState(false);
 
   // Example deliberation step metadata
   const exampleSteps = [
@@ -1334,46 +1651,27 @@ export default function SkillForgeVisualizer({ lang = 'en', links = {} }) {
               </cite>
             </blockquote>
             <p style={{ color: '#555', marginBottom: 24, lineHeight: 1.6 }}>{t(validLang, 'exampleDesc')}</p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              {exampleSteps.map(({ step, speaker, color, borderColor }) => (
-                <div key={step} style={{ background: '#fff', border: '1px solid #ccc', borderRadius: 4, overflow: 'hidden' }}>
-                  <button
-                    onClick={() => setExpandedExample(expandedExample === step ? null : step)}
-                    style={{ width: '100%', padding: 16, display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'transparent', border: 'none', cursor: 'pointer', fontFamily: 'Palatino, Georgia, serif', textAlign: 'left' }}
-                    aria-expanded={expandedExample === step}
-                  >
-                    <div style={{ flex: 1 }}>
-                      <div style={{ fontWeight: 500, color: '#111', marginBottom: 4 }}>{t(validLang, `exStep${step}Title`)}</div>
-                      <div style={{ fontSize: 14, color: '#555' }}>{t(validLang, `exStep${step}Summary`)}</div>
-                    </div>
-                    {expandedExample === step ? <ChevronDown style={{ width: 20, height: 20, color: '#555', flexShrink: 0 }} /> : <ChevronRight style={{ width: 20, height: 20, color: '#555', flexShrink: 0 }} />}
-                  </button>
-                  {expandedExample === step && (
-                    <div style={{ padding: '0 16px 16px', borderTop: '1px solid #ccc' }}>
-                      <div style={{ marginTop: 12, padding: 16, background: color, borderLeft: `4px solid ${borderColor}`, borderRadius: 2 }}>
-                        <div style={{ fontSize: 11, fontWeight: 600, color: borderColor, marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                          {speaker === 'context' && t(validLang, 'exSpeakerContext')}
-                          {speaker === 'claude' && t(validLang, 'exSpeakerClaude')}
-                          {speaker === 'gpt' && t(validLang, 'exSpeakerGPT')}
-                          {speaker === 'human' && t(validLang, 'exSpeakerHuman')}
-                          {speaker === 'outcome' && t(validLang, 'exSpeakerOutcome')}
-                        </div>
-                        <div style={{ fontSize: 14, lineHeight: 1.7, color: '#333', whiteSpace: 'pre-line' }}>
-                          {t(validLang, `exStep${step}Content`).split('**').map((part, i) =>
-                            i % 2 === 1 ? <strong key={i}>{part}</strong> : part
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-            
+
+            {/* Featured Example - Forensic Audio (Live) */}
+            <FeaturedExample
+              lang={validLang}
+              expanded={featuredExpanded}
+              onToggle={() => setFeaturedExpanded(!featuredExpanded)}
+              links={links}
+            />
+
+            {/* Related Examples - Collapsed by default */}
+            <RelatedExamples
+              lang={validLang}
+              expanded={relatedExpanded}
+              onToggle={() => setRelatedExpanded(!relatedExpanded)}
+              links={links}
+            />
+
             {/* Reword Gate - Human Articulation Gate (v3.0.0) */}
             <div style={{ marginTop: 32 }}>
-              <RewordGate 
-                lang={validLang} 
+              <RewordGate
+                lang={validLang}
                 onApprove={(articulation) => {
                   setRewordApproved(true);
                   console.log('Decision articulated:', articulation);
