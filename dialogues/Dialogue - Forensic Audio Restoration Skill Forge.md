@@ -389,7 +389,7 @@ Remember who’s the student
 
 Remember who’s the teacher
 
-I will beat you on instinct and professional rhymes and I move so fast that the clock on the all unwinds
+I will beat you on instinct and professional rhymes and I move so fast that the clock on the wall unwinds
 
   
 
