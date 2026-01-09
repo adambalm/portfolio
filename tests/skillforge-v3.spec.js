@@ -42,6 +42,10 @@ test.describe('SkillForge v3.0.0 - RewordGate', () => {
     const exampleTab = page.locator('[data-testid="nav-example"]');
     await exampleTab.click();
 
+    // Expand the opt-in articulation gate
+    const expandButton = page.locator('[data-testid="expand-articulation"]');
+    await expandButton.click();
+
     const input = page.locator('[data-testid="reword-input"]');
     const button = page.locator('[data-testid="approve-button"]');
 
@@ -59,6 +63,10 @@ test.describe('SkillForge v3.0.0 - RewordGate', () => {
     // Navigate to Example section
     const exampleTab = page.locator('[data-testid="nav-example"]');
     await exampleTab.click();
+
+    // Expand the opt-in articulation gate
+    const expandButton = page.locator('[data-testid="expand-articulation"]');
+    await expandButton.click();
 
     const input = page.locator('[data-testid="reword-input"]');
     const button = page.locator('[data-testid="approve-button"]');
@@ -78,6 +86,10 @@ test.describe('SkillForge v3.0.0 - RewordGate', () => {
     const exampleTab = page.locator('[data-testid="nav-example"]');
     await exampleTab.click();
 
+    // Expand the opt-in articulation gate
+    const expandButton = page.locator('[data-testid="expand-articulation"]');
+    await expandButton.click();
+
     const input = page.locator('[data-testid="reword-input"]');
 
     // Type some text
@@ -94,6 +106,10 @@ test.describe('SkillForge v3.0.0 - RewordGate', () => {
     // Navigate to Example section
     const exampleTab = page.locator('[data-testid="nav-example"]');
     await exampleTab.click();
+
+    // Expand the opt-in articulation gate
+    const expandButton = page.locator('[data-testid="expand-articulation"]');
+    await expandButton.click();
 
     const input = page.locator('[data-testid="reword-input"]');
     const button = page.locator('[data-testid="approve-button"]');
@@ -119,6 +135,10 @@ test.describe('SkillForge v3.0.0 - RewordGate', () => {
     const exampleTab = page.locator('[data-testid="nav-example"]');
     await exampleTab.click();
 
+    // Expand the opt-in articulation gate
+    const expandButton = page.locator('[data-testid="expand-articulation"]');
+    await expandButton.click();
+
     const input = page.locator('[data-testid="reword-input"]');
     const ariaLabel = await input.getAttribute('aria-label');
 
@@ -131,6 +151,10 @@ test.describe('SkillForge v3.0.0 - RewordGate', () => {
     // Navigate to Example section
     const exampleTab = page.locator('[data-testid="nav-example"]');
     await exampleTab.click();
+
+    // Expand the opt-in articulation gate
+    const expandButton = page.locator('[data-testid="expand-articulation"]');
+    await expandButton.click();
 
     const button = page.locator('[data-testid="approve-button"]');
     const box = await button.boundingBox();
@@ -512,6 +536,10 @@ test.describe('SkillForge v3.0.0 - Accessibility', () => {
     const exampleTab = page.locator('[data-testid="nav-example"]');
     await exampleTab.click();
 
+    // Expand the opt-in articulation gate
+    const expandButton = page.locator('[data-testid="expand-articulation"]');
+    await expandButton.click();
+
     // Check textarea has aria-label
     const textarea = page.locator('[data-testid="reword-input"]');
     await expect(textarea).toHaveAttribute('aria-label');
@@ -553,6 +581,10 @@ test.describe('SkillForge v3.0.0 - Accessibility', () => {
     // Navigate to Example section
     const exampleTab = page.locator('[data-testid="nav-example"]');
     await exampleTab.click();
+
+    // Expand the opt-in articulation gate
+    const expandButton = page.locator('[data-testid="expand-articulation"]');
+    await expandButton.click();
 
     const button = page.locator('[data-testid="approve-button"]');
 

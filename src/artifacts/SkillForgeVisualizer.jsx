@@ -184,9 +184,13 @@ const i18n = {
     
     skillLibrary: 'Skill Library',
     skillLibraryDesc: 'Each forged skill becomes available for future problems. More skills = more domain coverage = fewer full deliberations needed.',
+    skillLibraryCount: 'skills forged',
+    skillName: 'Skill',
+    skillDomain: 'Domain',
+    skillStatus: 'Status',
     
     humanExpertise: 'Human Expertise',
-    humanExpertiseDesc: 'The human\'s ability to articulate outcomes improves. Pattern recognition develops. Executive capacity compounds.',
+    humanExpertiseDesc: 'The human\'s ability to articulate outcomes improves. Pattern recognition develops. Executive capacity compounds. Skills can accumulate in an institution (organizational knowledge base) or travel with the practitioner (personal skill library)—the infrastructure supports both.',
     
     provenanceRecord: 'Provenance Record',
     provenanceDesc: 'Not all decisions have equal weight. Well-contested decisions with clear rationale score higher than quick judgments.',
@@ -234,6 +238,16 @@ const i18n = {
     skillTriagePurpose: 'Surface open work at session start',
     skillArtifactBuilder: 'Artifact Builder',
     skillArtifactBuilderPurpose: 'Generate React artifacts with manifests',
+    skillArtifactIntegration: 'Artifact Integration',
+    skillArtifactIntegrationPurpose: 'Deploy artifacts to portfolio site',
+    skillSkillForge: 'Skill Forge',
+    skillSkillForgePurpose: 'Multi-model deliberation for complex decisions',
+    skillContextSageDemo: 'Context Sage Demo',
+    skillContextSageDemoPurpose: 'Generate knowledge graph visualization',
+    skillMementoDemo: 'Memento Demo',
+    skillMementoDemoPurpose: 'Generate memory persistence demo',
+    skillChromeExtension: 'Chrome Extension Builder',
+    skillChromeExtensionPurpose: 'Build browser extensions with manifest',
     skillGovernanceDashboard: 'Governance Dashboard',
     skillGovernanceDashboardPurpose: 'Visualize KB health metrics',
     skillBasicMemoryDemo: 'Basic Memory Demo',
@@ -316,6 +330,9 @@ const i18n = {
     rewordGateButtonUnlocked: 'Approve Decision',
     rewordGateApproved: 'Decision Approved',
     rewordGateApprovedDetail: 'You have demonstrated understanding. The skill may now compile.',
+    rewordGateOptional: 'Optional: demonstrate your understanding',
+    rewordGateExpand: 'I want to articulate',
+    rewordGateCollapse: 'Collapse',
 
     // Swimlane Layout (v3.0.0)
     swimlaneHO: 'Human Orchestrator',
@@ -692,10 +709,15 @@ const REFERENCES = {
 // =============================================================================
 
 const SKILL_INVENTORY = [
-  { id: 'triage', nameKey: 'skillTriage', purposeKey: 'skillTriagePurpose', status: 'draft', lastVerified: '2025-12-30' },
   { id: 'artifact-builder', nameKey: 'skillArtifactBuilder', purposeKey: 'skillArtifactBuilderPurpose', status: 'canonical', lastVerified: '2025-12-10' },
-  { id: 'governance-dashboard', nameKey: 'skillGovernanceDashboard', purposeKey: 'skillGovernanceDashboardPurpose', status: 'draft', lastVerified: '2025-12-16' },
-  { id: 'basic-memory-demo', nameKey: 'skillBasicMemoryDemo', purposeKey: 'skillBasicMemoryDemoPurpose', status: 'draft', lastVerified: '2025-12-13' },
+  { id: 'artifact-integration', nameKey: 'skillArtifactIntegration', purposeKey: 'skillArtifactIntegrationPurpose', status: 'canonical', lastVerified: '2026-01-08' },
+  { id: 'skill-forge', nameKey: 'skillSkillForge', purposeKey: 'skillSkillForgePurpose', status: 'canonical', lastVerified: '2026-01-08' },
+  { id: 'context-sage-demo', nameKey: 'skillContextSageDemo', purposeKey: 'skillContextSageDemoPurpose', status: 'canonical', lastVerified: '2026-01-08' },
+  { id: 'memento-demo', nameKey: 'skillMementoDemo', purposeKey: 'skillMementoDemoPurpose', status: 'canonical', lastVerified: '2026-01-05' },
+  { id: 'basic-memory-demo', nameKey: 'skillBasicMemoryDemo', purposeKey: 'skillBasicMemoryDemoPurpose', status: 'draft', lastVerified: '2025-12-17' },
+  { id: 'governance-dashboard', nameKey: 'skillGovernanceDashboard', purposeKey: 'skillGovernanceDashboardPurpose', status: 'draft', lastVerified: '2025-12-17' },
+  { id: 'chrome-extension-builder', nameKey: 'skillChromeExtension', purposeKey: 'skillChromeExtensionPurpose', status: 'draft', lastVerified: '2025-12-18' },
+  { id: 'triage', nameKey: 'skillTriage', purposeKey: 'skillTriagePurpose', status: 'draft', lastVerified: '2025-12-30' },
 ];
 
 // =============================================================================
@@ -925,6 +947,7 @@ const ExpandablePanel = ({ id, icon: Icon, title, expanded, onToggle, children }
 const RewordGate = ({ lang, onApprove, minChars = 50 }) => {
   const [text, setText] = React.useState('');
   const [approved, setApproved] = React.useState(false);
+  const [expanded, setExpanded] = React.useState(false);
   const isUnlocked = text.length >= minChars;
 
   const handleApprove = () => {
@@ -946,17 +969,51 @@ const RewordGate = ({ lang, onApprove, minChars = 50 }) => {
     );
   }
 
+  // Collapsed state - opt-in button
+  if (!expanded) {
+    return (
+      <div data-testid="reword-gate" style={{ background: '#fafafa', border: '1px solid #ddd', borderRadius: 4, padding: 20 }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
+          <div>
+            <h3 style={{ fontSize: 16, fontStyle: 'italic', fontWeight: 400, margin: 0, color: '#555' }}>{t(lang, 'rewordGateTitle')}</h3>
+            <p style={{ fontSize: 13, color: '#777', margin: '4px 0 0 0' }}>{t(lang, 'rewordGateOptional')}</p>
+          </div>
+          <button
+            data-testid="expand-articulation"
+            onClick={() => setExpanded(true)}
+            style={{
+              padding: '10px 20px',
+              border: '1px solid #a00000',
+              borderRadius: 4,
+              background: 'transparent',
+              color: '#a00000',
+              fontFamily: 'Palatino, Georgia, serif',
+              fontSize: 14,
+              cursor: 'pointer',
+              minHeight: 44,
+              transition: 'all 0.2s'
+            }}
+          >
+            {t(lang, 'rewordGateExpand')}
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // Expanded state - full articulation form
   return (
     <div data-testid="reword-gate" style={{ background: '#fff5f5', border: '1px solid rgba(160,0,0,0.25)', borderRadius: 4, padding: 24 }}>
-      <h3 style={{ fontSize: 18, fontStyle: 'italic', fontWeight: 400, marginBottom: 16, color: '#111' }}>{t(lang, 'rewordGateTitle')}</h3>
-      <blockquote style={{ margin: '0 0 20px 0', padding: '16px 20px', background: '#fafafa', borderLeft: '4px solid #a00000', borderRadius: 2 }}>
-        <p style={{ fontSize: 15, fontStyle: 'italic', color: '#333', margin: 0, lineHeight: 1.6 }}>
-          {t(lang, 'rewordGateEpigraph')}
-        </p>
-        <cite style={{ display: 'block', marginTop: 8, fontSize: 13, color: '#555', fontStyle: 'normal' }}>
-          {t(lang, 'rewordGateAttribution')}
-        </cite>
-      </blockquote>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
+        <h3 style={{ fontSize: 18, fontStyle: 'italic', fontWeight: 400, margin: 0, color: '#111' }}>{t(lang, 'rewordGateTitle')}</h3>
+        <button
+          onClick={() => setExpanded(false)}
+          style={{ background: 'none', border: 'none', color: '#777', cursor: 'pointer', fontSize: 13 }}
+          aria-label="Collapse"
+        >
+          {t(lang, 'rewordGateCollapse')}
+        </button>
+      </div>
       <div style={{ marginBottom: 16 }}>
         <textarea
           data-testid="reword-input"
@@ -1067,7 +1124,7 @@ export default function SkillForgeVisualizer({ lang = 'en', links = {} }) {
   const [expandedPhase, setExpandedPhase] = useState(null);
   const [expandedExample, setExpandedExample] = useState(null);
   const [rewordApproved, setRewordApproved] = useState(false);
-  const [processLayout, setProcessLayout] = useState('swimlane'); // 'swimlane' | 'classic'
+  const [processLayout, setProcessLayout] = useState('classic'); // 'classic' | 'swimlane'
 
   // Example deliberation step metadata
   const exampleSteps = [
@@ -1266,7 +1323,16 @@ export default function SkillForgeVisualizer({ lang = 'en', links = {} }) {
         {/* ========== SECTION: Example ========== */}
         {view === 'example' && (
           <section id="panel-example" role="tabpanel" aria-labelledby="tab-example" tabIndex={0} data-section="example">
-            <h2 style={{ fontSize: 22, fontWeight: 400, fontStyle: 'italic', marginBottom: 24 }}>{t(validLang, 'exampleTitle')}</h2>
+            <h2 style={{ fontSize: 22, fontWeight: 400, fontStyle: 'italic', marginBottom: 16 }}>{t(validLang, 'exampleTitle')}</h2>
+            {/* Hamlet epigraph - decorative, sets tone for articulation */}
+            <blockquote style={{ margin: '0 0 24px 0', padding: '12px 16px', background: '#fafafa', borderLeft: '3px solid #a00000', borderRadius: 2 }}>
+              <p style={{ fontSize: 14, fontStyle: 'italic', color: '#555', margin: 0, lineHeight: 1.5 }}>
+                {t(validLang, 'rewordGateEpigraph')}
+              </p>
+              <cite style={{ display: 'block', marginTop: 6, fontSize: 12, color: '#777', fontStyle: 'normal' }}>
+                {t(validLang, 'rewordGateAttribution')}
+              </cite>
+            </blockquote>
             <p style={{ color: '#555', marginBottom: 24, lineHeight: 1.6 }}>{t(validLang, 'exampleDesc')}</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               {exampleSteps.map(({ step, speaker, color, borderColor }) => (
@@ -1375,8 +1441,9 @@ export default function SkillForgeVisualizer({ lang = 'en', links = {} }) {
             <p style={{ color: '#555', marginBottom: 24, lineHeight: 1.6 }}>{t(validLang, 'accumulationDesc')}</p>
             
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 32 }}>
-              <ExpandablePanel id="skills" icon={FileText} title={t(validLang, 'skillLibrary')} expanded={expandedPhase === 'skills'} onToggle={() => setExpandedPhase(expandedPhase === 'skills' ? null : 'skills')}>
-                <p style={{ fontSize: 14, color: '#555', lineHeight: 1.6 }}>{t(validLang, 'skillLibraryDesc')}</p>
+              <ExpandablePanel id="skills" icon={FileText} title={`${t(validLang, 'skillLibrary')} (${SKILL_INVENTORY.length} ${t(validLang, 'skillLibraryCount')})`} expanded={expandedPhase === 'skills'} onToggle={() => setExpandedPhase(expandedPhase === 'skills' ? null : 'skills')}>
+                <p style={{ fontSize: 14, color: '#555', lineHeight: 1.6, marginBottom: 16 }}>{t(validLang, 'skillLibraryDesc')}</p>
+                <SkillInventoryTable lang={validLang} links={links} />
               </ExpandablePanel>
               <ExpandablePanel id="human" icon={User} title={t(validLang, 'humanExpertise')} expanded={expandedPhase === 'human'} onToggle={() => setExpandedPhase(expandedPhase === 'human' ? null : 'human')}>
                 <p style={{ fontSize: 14, color: '#555', lineHeight: 1.6 }}>{t(validLang, 'humanExpertiseDesc')}</p>
