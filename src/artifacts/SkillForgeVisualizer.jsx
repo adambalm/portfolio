@@ -350,23 +350,28 @@ const i18n = {
     featuredSize: 'Size',
     featuredTurns: 'Turns',
     featuredGateStatus: 'Gate Status',
-    featuredDeliberationFlow: 'Gate Flow',
+    featuredDeliberationFlow: 'Full Deliberation',
     featuredHOLabel: 'HO',
+    featuredGALabel: 'GA',
     featuredIALabel: 'IA',
-    // Understanding Gate
-    featuredUGTitle: 'Understanding Gate',
-    featuredUGProblem: 'Problem: Recover intelligible vocals from a single-source iPhone recording of a spontaneous rap performance in a gymnasium.',
-    featuredUGHO: 'It\'s all one sound source—no way to isolate anything natively. Recorded on an iPhone in the audience.',
-    featuredUGIA: 'Understood. Single-source means standard sidechain ducking won\'t work—the compressor will trigger on crowd noise, not just vocals. We need Voice Isolation before any ducking strategy.',
-    featuredUGPass: 'UG Passed — Constraint acknowledged',
-    // Agreement Gate
-    featuredAGTitle: 'Agreement Gate',
-    featuredAGHO: 'The crowd response builds as they recognize what\'s happening in real time. That energy is part of the story.',
-    featuredAGIA: 'Agreed. We can\'t duck the crowd too aggressively or we lose emotional impact. Proposed approach: Voice Isolation on clarity track, then gentle sidechain with slow release to preserve the room\'s energy.',
-    featuredAGPass: 'AG Passed — Approach agreed',
-    // Decision
-    featuredDecisionTitle: 'Decision',
-    featuredDecision: 'Implement MDX-Net source separation with VR Centrifuge pattern. Success metric: consonant sharpness + rhythmic cadence preservation, not sterile isolation.',
+    // Problem statement
+    featuredProblem: 'Recover intelligible vocals from a single-source iPhone recording of a spontaneous rap performance in a gymnasium.',
+    // 8-turn deliberation showing real pushback
+    featuredTurn1: 'Standard approach: duplicate the track, process one for clarity with high-pass filter and compression, then sidechain duck the vibe track when vocals hit.',
+    featuredTurn2: 'That won\'t work. Single-source iPhone means the compressor triggers on crowd noise, not just vocals. You\'ll get a "pumping" effect where everything ducks when the audience cheers.',
+    featuredTurn3: 'Fair. We need Voice Isolation on the clarity track first—separate the vocal envelope from crowd noise before using it as a sidechain trigger.',
+    featuredTurn4: 'Important constraint: the crowd energy builds as they recognize what\'s happening. That\'s part of the story. I don\'t want sterile isolation.',
+    featuredTurn5: 'That changes the success metric. We can\'t duck aggressively or we lose emotional impact. Need the "sweet spot"—consonants audible, room still massive.',
+    featuredTurn6: 'Revised approach: MDX-Net source separation with centrifuge pattern—multiple passes at different frequency bands. Preserve rhythmic cadence and consonant attack while keeping crowd presence between phrases.',
+    featuredTurn7: 'Verified. Centrifuge addresses both constraints: technical (single-source) and artistic (preserve energy). Success criteria locked: consonants sharp, rhythm intact, crowd massive.',
+    featuredTurn8: 'Agreed. Proceed with MDX-Net centrifuge. I\'ll evaluate against those criteria.',
+    // Gate passage markers
+    featuredUGMarker: 'UG',
+    featuredAGMarker: 'AG',
+    featuredEAMarker: 'EA',
+    featuredUGNote: 'Understanding Gate — constraint surfaced',
+    featuredAGNote: 'Agreement Gate — approach locked',
+    featuredEANote: 'Execution Authorization granted',
     featuredViewDialogue: 'View Full Dialogue',
     featuredViewSpec: 'View Technical Spec',
 
@@ -1329,59 +1334,54 @@ const FeaturedExample = ({ lang, expanded, onToggle, links }) => {
         <div style={{ padding: 0, background: '#fff', borderTop: '1px solid #e5e5e5' }}>
           {/* Problem Statement */}
           <div style={{ padding: '12px 16px', background: '#f9fafb', borderBottom: '1px solid #e5e5e5' }}>
-            <p style={{ margin: 0, fontSize: 13, color: '#555', fontStyle: 'italic' }}>{t(lang, 'featuredUGProblem')}</p>
+            <p style={{ margin: 0, fontSize: 13, color: '#555' }}><strong>Problem:</strong> {t(lang, 'featuredProblem')}</p>
           </div>
 
-          {/* Understanding Gate */}
-          <div style={{ padding: 16, borderBottom: '1px solid #e5e5e5' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
-              <span style={{ fontSize: 12, fontWeight: 600, color: '#1e40af' }}>{t(lang, 'featuredUGTitle')}</span>
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              <div style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
-                <span style={{ flexShrink: 0, padding: '2px 8px', borderRadius: 4, fontSize: 11, fontWeight: 600, background: '#fff5f5', color: '#a00000', border: '1px solid rgba(160,0,0,0.25)' }}>{t(lang, 'featuredHOLabel')}</span>
-                <p style={{ margin: 0, fontSize: 13, lineHeight: 1.5, color: '#333', fontStyle: 'italic' }}>"{t(lang, 'featuredUGHO')}"</p>
-              </div>
-              <div style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
-                <span style={{ flexShrink: 0, padding: '2px 8px', borderRadius: 4, fontSize: 11, fontWeight: 600, background: '#f5fff5', color: '#2d5a3d', border: '1px solid rgba(45,90,61,0.25)' }}>{t(lang, 'featuredIALabel')}</span>
-                <p style={{ margin: 0, fontSize: 13, lineHeight: 1.5, color: '#333' }}>{t(lang, 'featuredUGIA')}</p>
-              </div>
-            </div>
-            <div style={{ marginTop: 12, padding: '6px 12px', background: '#f0fdf4', border: '1px solid #166534', borderRadius: 4, display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-              <Check style={{ width: 14, height: 14, color: '#166534' }} aria-hidden="true" />
-              <span style={{ fontSize: 12, fontWeight: 500, color: '#166534' }}>{t(lang, 'featuredUGPass')}</span>
-            </div>
-          </div>
-
-          {/* Agreement Gate */}
-          <div style={{ padding: 16, borderBottom: '1px solid #e5e5e5' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
-              <span style={{ fontSize: 12, fontWeight: 600, color: '#1e40af' }}>{t(lang, 'featuredAGTitle')}</span>
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              <div style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
-                <span style={{ flexShrink: 0, padding: '2px 8px', borderRadius: 4, fontSize: 11, fontWeight: 600, background: '#fff5f5', color: '#a00000', border: '1px solid rgba(160,0,0,0.25)' }}>{t(lang, 'featuredHOLabel')}</span>
-                <p style={{ margin: 0, fontSize: 13, lineHeight: 1.5, color: '#333', fontStyle: 'italic' }}>"{t(lang, 'featuredAGHO')}"</p>
-              </div>
-              <div style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
-                <span style={{ flexShrink: 0, padding: '2px 8px', borderRadius: 4, fontSize: 11, fontWeight: 600, background: '#f5fff5', color: '#2d5a3d', border: '1px solid rgba(45,90,61,0.25)' }}>{t(lang, 'featuredIALabel')}</span>
-                <p style={{ margin: 0, fontSize: 13, lineHeight: 1.5, color: '#333' }}>{t(lang, 'featuredAGIA')}</p>
-              </div>
-            </div>
-            <div style={{ marginTop: 12, padding: '6px 12px', background: '#f0fdf4', border: '1px solid #166534', borderRadius: 4, display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-              <Check style={{ width: 14, height: 14, color: '#166534' }} aria-hidden="true" />
-              <span style={{ fontSize: 12, fontWeight: 500, color: '#166534' }}>{t(lang, 'featuredAGPass')}</span>
-            </div>
-          </div>
-
-          {/* Decision */}
+          {/* 8-Turn Deliberation */}
           <div style={{ padding: 16 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
-              <span style={{ fontSize: 12, fontWeight: 600, color: '#166534' }}>{t(lang, 'featuredDecisionTitle')}</span>
-            </div>
-            <p style={{ margin: 0, fontSize: 13, lineHeight: 1.5, color: '#333', background: '#f0fdf4', padding: 12, borderRadius: 4, border: '1px solid #166534' }}>
-              {t(lang, 'featuredDecision')}
-            </p>
+            {/* Role styles */}
+            {(() => {
+              const roleStyle = (role) => ({
+                flexShrink: 0, padding: '2px 8px', borderRadius: 4, fontSize: 11, fontWeight: 600, minWidth: 28, textAlign: 'center',
+                ...(role === 'GA' ? { background: '#fffaf0', color: '#8b6914', border: '1px solid #b8860b' } :
+                   role === 'IA' ? { background: '#f5fff5', color: '#2d5a3d', border: '1px solid rgba(45,90,61,0.25)' } :
+                   { background: '#fff5f5', color: '#a00000', border: '1px solid rgba(160,0,0,0.25)' })
+              });
+              const gateStyle = { margin: '8px 0', padding: '6px 12px', background: '#f0fdf4', border: '1px solid #166534', borderRadius: 4, display: 'inline-flex', alignItems: 'center', gap: 6 };
+              const turns = [
+                { num: 1, role: 'GA', key: 'featuredTurn1' },
+                { num: 2, role: 'IA', key: 'featuredTurn2' },
+                { num: 3, role: 'GA', key: 'featuredTurn3', gate: 'UG' },
+                { num: 4, role: 'HO', key: 'featuredTurn4' },
+                { num: 5, role: 'IA', key: 'featuredTurn5' },
+                { num: 6, role: 'GA', key: 'featuredTurn6' },
+                { num: 7, role: 'IA', key: 'featuredTurn7', gate: 'AG' },
+                { num: 8, role: 'HO', key: 'featuredTurn8', gate: 'EA' },
+              ];
+              return (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                  {turns.map(({ num, role, key, gate }) => (
+                    <div key={num}>
+                      <div style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+                        <span style={{ fontSize: 11, color: '#999', minWidth: 16, textAlign: 'right', paddingTop: 2 }}>{num}</span>
+                        <span style={roleStyle(role)}>{t(lang, `featured${role}Label`)}</span>
+                        <p style={{ margin: 0, fontSize: 13, lineHeight: 1.5, color: '#333', ...(role === 'HO' ? { fontStyle: 'italic' } : {}) }}>
+                          {role === 'HO' ? `"${t(lang, key)}"` : t(lang, key)}
+                        </p>
+                      </div>
+                      {gate && (
+                        <div style={{ marginLeft: 26, marginTop: 8 }}>
+                          <span style={gateStyle}>
+                            <Check style={{ width: 14, height: 14, color: '#166534' }} aria-hidden="true" />
+                            <span style={{ fontSize: 12, fontWeight: 500, color: '#166534' }}>{t(lang, `featured${gate}Note`)}</span>
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              );
+            })()}
           </div>
 
           {(links?.forensicDialogue || links?.forensicSpec) && (
@@ -1583,7 +1583,7 @@ export default function SkillForgeVisualizer({ lang: initialLang = 'en', links =
         </div>
       </header>
 
-      <nav style={{ background: '#fff', borderBottom: '1px solid #ccc', padding: '0 24px' }} aria-label={t(validLang, 'selectView')}>
+      <nav style={{ background: '#fff', borderBottom: '1px solid #ccc', padding: '0 24px', position: 'sticky', top: 0, zIndex: 100 }} aria-label={t(validLang, 'selectView')}>
         <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }} role="tablist">
           {views.map((v, index) => (
             <div key={v.id} onKeyDown={(e) => handleTabKeyDown(e, index)}>
