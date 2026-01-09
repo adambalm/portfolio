@@ -110,6 +110,8 @@ const i18n = {
     // Process
     processTitle: 'Single Problem Flow Through the Forge',
     processDesc: 'Unlike role-specialized approaches (A-HMAD\'s researcher/critic/synthesizer), models here aren\'t assigned roles—they\'re chosen for genuinely different priors. The value comes from different training, not from prompting one model to act as critic.',
+    processRefImpl: 'See the full Portfolio Integration deliberation for a reference implementation of this flow.',
+    processRefImplLink: 'View reference deliberation',
     step1Title: 'Novel Problem Arrives',
     step1Desc: 'Existing skills don\'t apply or have failed',
     step2Title: 'Model A Proposes',
@@ -281,9 +283,9 @@ const i18n = {
     novel6: 'Amortization economics',
     novel6Note: '— explicit cost model for recurring problems',
     
-    // Example - Full Deliberation
-    exampleTitle: 'Example: Forensic Audio Deliberation',
-    exampleDesc: 'A complete Skill Forge deliberation for the portfolio site\'s epistemic boundary markers. Click each step to see the actual exchange.',
+    // Example - Forensic Audio Deliberation
+    exampleTitle: 'Example: Forensic Audio Restoration',
+    exampleDesc: 'A real Skill Forge deliberation recovering vocals from a gymnasium recording. Explore how heterogeneous models surface constraints a single model would miss.',
 
     exStep1Title: 'Step 1: Novel Problem Arrives',
     exStep1Summary: 'Portfolio needs clear visual distinction for AI-generated artifacts',
@@ -476,6 +478,8 @@ const i18n = {
     introFinalClause: '), nada entra a la biblioteca de habilidades sin un humano que demostró comprensión.',
     processTitle: 'Flujo de un Problema Individual a Través de la Forja',
     processDesc: 'A diferencia de enfoques con roles especializados, aquí los modelos no tienen roles asignados—se eligen por sus priors genuinamente diferentes.',
+    processRefImpl: 'Vea la deliberación completa de Integración del Portafolio como implementación de referencia.',
+    processRefImplLink: 'Ver deliberación de referencia',
     step1Title: 'Llega Problema Nuevo',
     step1Desc: 'Las habilidades existentes no aplican o han fallado',
     step2Title: 'Modelo A Propone',
@@ -600,8 +604,8 @@ const i18n = {
     novel5Note: '— división clara de labor',
     novel6: 'Economía de amortización',
     novel6Note: '— modelo de costos explícito',
-    exampleTitle: 'Ejemplo: Flujo de Artefacto Demo',
-    exampleDesc: 'Un ejemplo concreto de Skill Forge.',
+    exampleTitle: 'Ejemplo: Restauración de Audio Forense',
+    exampleDesc: 'Una deliberación real de Skill Forge recuperando voces de una grabación en gimnasio. Explore cómo modelos heterogéneos revelan restricciones que un solo modelo pasaría por alto.',
     examplePlaceholder: 'Ver ejemplo completo en documento de especificación.',
     skipToMain: 'Saltar al contenido principal',
     selectView: 'Seleccionar una vista',
@@ -639,6 +643,8 @@ const i18n = {
     introFinalClause: ')不同，没有证明理解的人类，任何内容都不会进入技能库。',
     processTitle: '单一问题通过锻造的流程',
     processDesc: '这里的模型没有分配角色——它们因真正不同的先验而被选择。',
+    processRefImpl: '请查看完整的组合集成审议作为此流程的参考实现。',
+    processRefImplLink: '查看参考审议',
     step1Title: '新问题到达',
     step1Desc: '现有技能不适用或已失败',
     step2Title: '模型A提议',
@@ -763,8 +769,8 @@ const i18n = {
     novel5Note: '——明确的劳动分工',
     novel6: '摊销经济学',
     novel6Note: '——针对重复问题的显式成本模型',
-    exampleTitle: '示例：演示工件工作流',
-    exampleDesc: '技能锻造的具体示例。',
+    exampleTitle: '示例：法医音频恢复',
+    exampleDesc: '一个从体育馆录音中恢复人声的真实技能锻造审议。探索异构模型如何揭示单一模型会遗漏的约束。',
     examplePlaceholder: '完整示例见规格文档。',
     skipToMain: '跳至主要内容',
     selectView: '选择视图',
@@ -1348,6 +1354,13 @@ const FeaturedExample = ({ lang, expanded, onToggle, links }) => {
           {/* Problem Statement */}
           <div style={{ padding: '12px 16px', background: '#f9fafb', borderBottom: '1px solid #e5e5e5' }}>
             <p style={{ margin: 0, fontSize: 13, color: '#555' }}><strong>Problem:</strong> {t(lang, 'featuredProblem')}</p>
+            {links?.forensicDialogue && (
+              <p style={{ margin: '8px 0 0 0' }}>
+                <a href={links.forensicDialogue} style={{ color: '#1d4ed8', textDecoration: 'underline', fontSize: 13 }}>
+                  {t(lang, 'featuredViewDialogue')} →
+                </a>
+              </p>
+            )}
           </div>
 
           {/* 8-Turn Deliberation */}
@@ -1429,20 +1442,6 @@ const FeaturedExample = ({ lang, expanded, onToggle, links }) => {
             </div>
           </div>
 
-          {(links?.forensicDialogue || links?.forensicSpec) && (
-            <div style={{ display: 'flex', gap: 12, padding: '12px 16px', borderTop: '1px solid #e5e5e5', background: '#f9fafb' }}>
-              {links?.forensicDialogue && (
-                <a href={links.forensicDialogue} style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: 13, color: '#1d4ed8' }}>
-                  {t(lang, 'featuredViewDialogue')} <ExternalLink style={{ width: 14, height: 14 }} />
-                </a>
-              )}
-              {links?.forensicSpec && (
-                <a href={links.forensicSpec} style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: 13, color: '#1d4ed8' }}>
-                  {t(lang, 'featuredViewSpec')} <ExternalLink style={{ width: 14, height: 14 }} />
-                </a>
-              )}
-            </div>
-          )}
         </div>
       )}
     </div>
@@ -1658,6 +1657,13 @@ export default function SkillForgeVisualizer({ lang: initialLang = 'en', links =
               <div>
                 <h2 style={{ fontSize: 22, fontWeight: 400, fontStyle: 'italic', margin: 0 }}>{t(validLang, 'processTitle')}</h2>
                 <p style={{ color: '#555', marginTop: 8, lineHeight: 1.6 }}>{t(validLang, 'processDesc')}</p>
+                {links?.portfolioDialogue && (
+                  <p style={{ marginTop: 8 }}>
+                    <a href={links.portfolioDialogue} style={{ color: '#1d4ed8', textDecoration: 'underline', fontSize: 14 }}>
+                      {t(validLang, 'processRefImplLink')} →
+                    </a>
+                  </p>
+                )}
               </div>
               <button
                 onClick={() => setProcessLayout(processLayout === 'swimlane' ? 'classic' : 'swimlane')}

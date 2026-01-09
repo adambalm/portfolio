@@ -15,7 +15,7 @@ export default function SkillForgePage() {
 
       <ProvenanceHeader
         agent="Claude (Opus 4.5)"
-        date="2025-01-05"
+        date="2026-01-05"
         context="Skill Forge pattern educational visualization"
         sourceUrl="https://github.com/adambalm/portfolio/blob/main/src/artifacts/SkillForgeVisualizer.jsx"
       />
@@ -28,7 +28,15 @@ export default function SkillForgePage() {
       />
 
       <DemoContainer title="Interactive Skill Forge Pattern">
-        <SkillForgeVisualizer />
+        <SkillForgeVisualizer
+          links={{
+            // Portfolio dialogue for Process tab and Related Examples
+            portfolio: 'https://github.com/adambalm/portfolio/blob/main/dialogues/Dialogue%20-%20Portfolio%20Umbrella%20Site%20Integration.md',
+            portfolioDialogue: 'https://github.com/adambalm/portfolio/blob/main/dialogues/Dialogue%20-%20Portfolio%20Umbrella%20Site%20Integration.md',
+            // Forensic Audio dialogue for Example tab
+            forensicDialogue: 'https://github.com/adambalm/portfolio/blob/main/dialogues/Dialogue%20-%20Forensic%20Audio%20Restoration%20Skill%20Forge.md',
+          }}
+        />
       </DemoContainer>
     </section>
   );
