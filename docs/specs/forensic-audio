@@ -1,0 +1,309 @@
+# FORENSIC EDMOND: Complete Technical Specification
+
+*Extracted from `Dialogue - Forensic Audio Restoration Skill Forge.md`*
+
+---
+
+## 1. Problem Statement
+
+**Objective:** Recover intelligibility of a technically precise vocal performance (Rakim-style meter, 95 BPM) from a single-source `.mov` artifact recorded in a high-school gymnasium.
+
+**Primary Blockers:**
+- Extreme room acoustics (reverb "bloom")
+- "Mic drift" (loss of high-frequency transients at 01:38)
+- Non-stationary noise floor (unpredictable crowd roar)
+
+**Target:** 25%–40% improvement in Word Error Rate (WER) while maintaining emotional "vibe"
+
+---
+
+## 2. Hardware Architecture
+
+| Node | Specs | Role |
+|------|-------|------|
+| **Suphouse** (Client) | Windows 11 / i7-1255U / 16GB RAM / Iris Xe GPU | Extraction, NLE (Resolve), Final Mastering |
+| **Adambalm** (Compute) | Ubuntu 24.04 / RTX 5060 Ti (16GB VRAM) | GPU-accelerated AI inference |
+| **Network** | Tailscale mesh | Secure file transfer |
+
+---
+
+## 3. Software Requirements
+
+### On Suphouse (Client):
+
+| Software | Purpose | Install |
+|----------|---------|---------|
+| FFmpeg | Lossless audio extraction | `winget install ffmpeg` or download from ffmpeg.org |
+| DaVinci Resolve | NLE for final mix | Free from blackmagicdesign.com |
+| Tailscale | Mesh networking | tailscale.com |
+
+### On Adambalm (Compute):
+
+| Software | Purpose | Install |
+|----------|---------|---------|
+| Python 3.10+ | Runtime | Pre-installed on Ubuntu 24.04 |
+| audio-separator[gpu] | AI source separation | `pip install "audio-separator[gpu]"` |
+| CUDA Toolkit | GPU acceleration | Should be installed with drivers |
+| Tailscale | Mesh networking | `curl -fsSL https://tailscale.com/install.sh \| sh` |
+
+### AI Models (auto-downloaded by audio-separator):
+
+| Model | Architecture | VRAM | Purpose |
+|-------|--------------|------|---------|
+| `UVR-MDX-NET-Voc_FT` | MDX-Net | ~8-12 GB | Vocal isolation from crowd |
+| `UVR-De-Echo-De-Reverb` | VR Architecture | ~2-4 GB | Remove room reverb |
+
+---
+
+## 4. Complete Execution Plan
+
+### STAGE 0: Prerequisites Verification
+
+**On Adambalm (via SSH):**
+
+    # Verify GPU is visible
+    nvidia-smi
+    
+    # Expected output should show:
+    # - RTX 5060 Ti
+    # - 16GB VRAM
+    # - Driver version 5XX.XX+
+    
+    # Check VRAM availability (kill competing processes if needed)
+    # If Ollama/ComfyUI running, stop them:
+    sudo systemctl stop ollama  # or docker stop <container>
+
+**On Suphouse:**
+
+    # Verify FFmpeg installed
+    ffmpeg -version
+    
+    # Verify Tailscale connected
+    tailscale status
+    
+    # Should show adambalm in the peer list
+
+---
+
+### STAGE 1: Environment Setup (Adambalm)
+
+    # SSH into Adambalm from Suphouse
+    ssh adambalm
+    
+    # Create dedicated directory and Python environment
+    mkdir -p ~/forensic-audio && cd ~/forensic-audio
+    python3 -m venv venv
+    source venv/bin/activate
+    
+    # Install GPU-accelerated audio-separator
+    pip install "audio-separator[gpu]"
+    
+    # Verify GPU acceleration works
+    python -c "import torch; print(f'CUDA available: {torch.cuda.is_available()}')"
+    # Expected: CUDA available: True
+    
+    # Verify audio-separator installed
+    audio-separator --help
+
+---
+
+### STAGE 2: Source Extraction (Suphouse)
+
+    # ON SUPHOUSE (where IMG_7118.mov is located)
+    
+    # Navigate to directory with source video
+    cd /path/to/video/
+    
+    # Extract 24-bit WAV (lossless, optimal for AI inference)
+    ffmpeg -i IMG_7118.mov -vn -acodec pcm_s24le -ar 44100 Edmond_Forensic_Source.wav
+    
+    # Verify extraction
+    # File should be ~30-50MB for 3 minutes of 24-bit audio
+    ls -lh Edmond_Forensic_Source.wav
+    
+    # Generate hash for integrity verification
+    sha256sum Edmond_Forensic_Source.wav > source.sha256
+    cat source.sha256
+
+---
+
+### STAGE 3: Transfer to Compute Node
+
+    # ON SUPHOUSE
+    
+    # Transfer via Tailscale (use Tailscale IP or hostname)
+    scp Edmond_Forensic_Source.wav adambalm:~/forensic-audio/
+    scp source.sha256 adambalm:~/forensic-audio/
+    
+    # ON ADAMBALM
+    cd ~/forensic-audio
+    
+    # Verify transfer integrity
+    sha256sum -c source.sha256
+    # Expected: Edmond_Forensic_Source.wav: OK
+
+---
+
+### STAGE 4: Pass 1 - Vocal Isolation (MDX-Net)
+
+    # ON ADAMBALM
+    cd ~/forensic-audio
+    source venv/bin/activate
+    
+    # Clear VRAM before inference
+    nvidia-smi  # Verify <2GB in use
+    
+    # Run Pass 1: Isolate vocals from crowd noise
+    audio-separator Edmond_Forensic_Source.wav \
+      --model_filename UVR-MDX-NET-Voc_FT \
+      --output_dir ./pass1
+    
+    # Expected outputs in ./pass1/:
+    # - Vocals_Edmond_Forensic_Source.wav  (vocals WITH reverb still attached)
+    # - Instrumental_Edmond_Forensic_Source.wav  (crowd noise)
+    
+    ls -lh ./pass1/
+
+**What to check:** Listen to `Vocals_*.wav`. Crowd should be reduced but voice will still have "gym echo" attached.
+
+---
+
+### STAGE 5: Pass 2 - De-Reverb (VR Architecture)
+
+    # ON ADAMBALM
+    # Run Pass 2: Strip room reverb from isolated vocals
+    audio-separator ./pass1/Vocals_Edmond_Forensic_Source.wav \
+      --model_filename UVR-De-Echo-De-Reverb \
+      --output_dir ./pass2
+    
+    # Expected outputs in ./pass2/:
+    # - (Dry vocal - the "clean" output we want)
+    # - (Reverb component - the stripped echo)
+    
+    ls -lh ./pass2/
+
+**What to check:** Listen to the dry vocal output. Should sound like recording was made in a smaller room. "E-D-M-O-N-D" consonants should be crisp.
+
+---
+
+### STAGE 6: Transfer Results Back
+
+    # ON ADAMBALM
+    # Generate hashes for output files
+    cd ~/forensic-audio
+    sha256sum ./pass2/*.wav > output.sha256
+    
+    # ON SUPHOUSE
+    # Pull the results
+    scp adambalm:~/forensic-audio/pass2/*.wav ./
+    scp adambalm:~/forensic-audio/output.sha256 ./
+    
+    # Verify integrity
+    sha256sum -c output.sha256
+
+---
+
+### STAGE 7: Parallel Mix (DaVinci Resolve on Suphouse)
+
+#### 7.1 Import Media
+
+1. Open DaVinci Resolve
+2. Create new project: "Forensic Edmond"
+3. Import:
+   - `IMG_7118.mov` (original video)
+   - AI-cleaned vocal WAV from pass2
+
+#### 7.2 Timeline Setup
+
+    Video Track 1:  [IMG_7118.mov - video only]
+    Audio Track 1:  [Original audio from MOV - 30% volume] ← "Vibe" track
+    Audio Track 2:  [AI-cleaned vocal - 70% volume] ← "Clarity" track
+
+#### 7.3 Phase Alignment (CRITICAL)
+
+1. Switch to **Fairlight** tab
+2. Zoom to sample level at **01:39** (E-D-M-O-N-D section)
+3. Find the peak of the "E" consonant in both tracks
+4. Nudge AI track until peaks align exactly
+5. **Unit Test:** Invert phase of AI track. If aligned, vocals should nearly cancel, leaving only crowd noise.
+
+#### 7.4 Blend Settings
+
+- Original audio: -10dB (30% contribution)
+- AI-cleaned: -3dB (70% contribution)
+- Apply gentle **Expander/Gate** to AI track to eliminate "digital chirping" in quiet sections
+
+#### 7.5 Mastering Fixes
+
+| Timestamp | Issue | Fix |
+|-----------|-------|-----|
+| 01:38-01:42 | Mic drift, lost sibilance | Add +4dB high-shelf EQ at 6kHz on AI track |
+| 01:56-01:59 | False start/repeat | Edit: Jump-cut from 01:56 to 01:59 (2 frames crossfade) |
+| 02:09-02:11 | Distant walk-off | +4dB high-shelf at 6kHz to recover "Practice" consonants |
+
+#### 7.6 Export
+
+- Format: H.264 MP4
+- Audio: AAC 320kbps (or PCM for archival)
+- Resolution: Match source (1080p)
+
+---
+
+## 5. Success Evaluation Matrix
+
+| Metric | Method | Success Threshold |
+|--------|--------|-------------------|
+| **Spectral Integrity** | Spectrogram of consonants | Energy >6kHz visible during mic drift sections |
+| **WER (Intelligibility)** | Whisper transcription of "nature/overrate ya" | 90% accuracy vs. lyrical transcript |
+| **Artifact Ceiling** | Listen for chirping/ghosting | No audible "warble" in silent gaps |
+| **Dynamic Range** | RMS metering | 6-12dB separation between voice and crowd |
+
+---
+
+## 6. Unit Testing Checklist
+
+| Test | When | Command/Action | Expected Result |
+|------|------|----------------|-----------------|
+| **TEST-01** | Before inference | `nvidia-smi` | VRAM <2GB in use |
+| **TEST-02** | After transfer | `sha256sum -c` | All files: OK |
+| **TEST-03** | After Pass 1 | Listen to Vocals output | Crowd reduced, reverb remains |
+| **TEST-04** | After Pass 2 | Listen to Dry output | Reverb reduced, consonants crisp |
+| **TEST-05** | During alignment | Phase invert AI track | Vocals cancel, crowd remains |
+| **TEST-06** | Final export | Whisper transcription | WER improved vs. original |
+
+---
+
+## 7. Known Gotchas & Mitigations
+
+| Gotcha | Symptom | Fix |
+|--------|---------|-----|
+| **Phase smearing** | "Hollow" or "metallic tube" sound | Align at sample level, not frame level |
+| **Digital chirping** | Bird-like warbles in quiet sections | Use 70/30 blend + Expander/Gate |
+| **Sibilance loss** | Muffled S/T/K sounds at 01:38+ | High-shelf EQ or Exciter at 6kHz |
+| **Noise floor pumping** | Background "breathes" between words | Add constant "comfort noise" sampled from intro |
+| **VRAM exhaustion** | Inference fails or segments poorly | Kill Ollama/ComfyUI, verify <2GB base usage |
+
+---
+
+## 8. Total Estimated Time
+
+| Stage | Duration |
+|-------|----------|
+| Environment setup (one-time) | 15-20 min |
+| Source extraction | 2 min |
+| File transfer | 2-3 min |
+| Pass 1 inference | 5-10 min |
+| Pass 2 inference | 5-10 min |
+| Transfer results | 2 min |
+| Resolve alignment + mix | 30-60 min |
+| **Total first run** | ~60-90 min |
+| **Subsequent runs (skill amortized)** | ~30 min |
+
+---
+
+## 9. Deliverables
+
+1. **Restored video:** `Edmond_Forensic_Final.mp4`
+2. **Before/after comparison clip:** 30-second side-by-side
+3. **Skill artifact:** `skills/forensic-audio-recovery/INSTRUCTIONS.md`
+4. **Portfolio entry:** Case study with audio samples
