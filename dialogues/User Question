@@ -1,0 +1,24 @@
+so, for starters:
+
+“code gets executed”
+
+what code/language?
+this is to build an LLM, or to build something which is integrated into an LLM, or am I off-base with the line of questioning?
+
+“each turn saved to memory bank”
+
+where/whose is that memory bank (literal location, or general if cloud-based), and how is it saved?    
+
+“claude….can operate all machines on the network”
+
+meaning which machines? Servers at dan’s? your local laptop? both?
+
+“playwright”
+
+something you added to claude, or gave it access to, or have on one of the machines you mentioned?
+maybe not right away, but I would like to learn more about that, especially an understanding of “takes screenshots that vision models then analyzes”
+
+“Gemini” 
+“…claude asks….to use a specific prompt for Gemini”
+
+(same goes as above for Playwright)
